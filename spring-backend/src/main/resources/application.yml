@@ -1,0 +1,46 @@
+server:
+  port : 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${{secrets.CLIENT_ID}}
+            client-secret: ${{secrets.CLIENT_SECRET}}
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/  #mydatabase
+    username: #myuser
+    password: #mypassword
+    driver-class-name: org.postgresql.Driver
+  graphql:
+    graphiql:
+      enabled: true
+#    printer:
+#      enabled: true
+    cors:
+      allowed-origins: "http://localhost:3000"
+      allowed-methods: "GET,POST"
+      allowed-headers: "*"
+    schema:
+      locations: classpath:static/graphql/
+
+logging:
+  level:
+    org.springframework.graphql: DEBUG
+    org.hibernate.SQL: DEBUG
+    #org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    root: trace
+
+
+#datasource:
+#  url: jdbc:postgresql://host.docker.internal:5432/mydatabase

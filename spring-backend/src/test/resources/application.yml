@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem: #testdb  # 테스트용 H2 인메모리 데이터베이스
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop  # 테스트 실행 시 스키마 자동 생성 & 삭제
+    show-sql: true
+
+  graphql:
+    graphiql:
+      enabled: false  # 테스트 환경에서는 GraphiQL 비활성화
+
+logging:
+  level:
+    org.springframework.graphql: INFO
+    org.hibernate.SQL: INFO
