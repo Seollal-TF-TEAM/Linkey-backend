@@ -1,12 +1,12 @@
-type Query {
-    getAllCoffees: [Coffee!]!
-    getCoffeeById(id: Int!): Coffee
-}
-
 type Coffee {
     id: Int!
     name: String!
     size: Size!
+}
+
+type Query {
+    getAllCoffees: [Coffee!]!
+    getCoffeeById(id: Int!): Coffee
 }
 
 type Size {
