@@ -17,14 +17,17 @@ public class Sprint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sprintId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String sprintName;
 
     @Column(columnDefinition = "TEXT")
     private String sprintContents;
 
+    @Column(columnDefinition = "TEXT")
+    private String sprintImg;
+
     @ManyToOne
-    @JoinColumn(name = "projects_id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project; // FK (projects.project_id)
 
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")

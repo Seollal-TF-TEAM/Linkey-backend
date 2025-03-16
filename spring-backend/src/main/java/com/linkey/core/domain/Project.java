@@ -17,17 +17,20 @@ public class Project {
     @SequenceGenerator(name = "projects_seq", sequenceName = "projects_project_id_seq", allocationSize = 1)
     private Integer projectId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String projectName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String projectDesc;
+
+    @Column(columnDefinition = "TEXT")
+    private String projectImg;
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
     private TeamMember teamMember; // FK (team_members.team_id)
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String githubRepoUrl;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
