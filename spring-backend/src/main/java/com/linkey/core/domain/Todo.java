@@ -32,16 +32,22 @@ public class Todo {
     private TodoLevel todoLevel; // ENUM (L, M, H)
 
     @ManyToOne
-    @JoinColumn(name = "sprint_id", nullable = false)
+    @JoinColumn(name = "sprintId", nullable = false)
     private Sprint sprint; // FK (sprints.sprint_id)
 
     @ManyToOne
-    @JoinColumn(name = "created_user_id", nullable = false)
+    @JoinColumn(name = "createdUserId", nullable = false)
     private User createdUser; // FK (users.github_user_id)
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

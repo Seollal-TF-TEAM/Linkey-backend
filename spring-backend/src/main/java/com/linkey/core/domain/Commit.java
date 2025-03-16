@@ -29,12 +29,18 @@ public class Commit {
     private LocalDateTime githubCommitDate;
 
     @ManyToOne
-    @JoinColumn(name = "todo_id", nullable = false)
+    @JoinColumn(name = "todoId", nullable = false)
     private Todo todo; // FK (todos.todo_id)
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
