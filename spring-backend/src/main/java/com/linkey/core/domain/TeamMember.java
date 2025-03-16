@@ -20,7 +20,7 @@ public class TeamMember {
     private Integer memberId;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "teamId", nullable = false)
     private Team team;
 
     @Enumerated(EnumType.STRING)
@@ -28,13 +28,13 @@ public class TeamMember {
     private MemberRole memberRole;
 
     @ManyToOne
-    @JoinColumn(name = "github_user_id", nullable = false)
+    @JoinColumn(name = "githubUserId", nullable = false)
     private User user;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }
 

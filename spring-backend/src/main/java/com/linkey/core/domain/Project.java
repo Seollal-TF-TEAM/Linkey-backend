@@ -28,7 +28,7 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
-    private TeamMember teamMember; // FK (team_members.team_id)
+    private Team team; // FK (team_members.team_id)
 
     @Column(columnDefinition = "TEXT")
     private String githubRepoUrl;
@@ -36,6 +36,12 @@ public class Project {
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
