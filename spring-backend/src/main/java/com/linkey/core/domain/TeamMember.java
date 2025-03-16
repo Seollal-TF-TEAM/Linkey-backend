@@ -2,42 +2,39 @@ package com.linkey.core.domain;
 
 import com.linkey.core.domain.enums.MemberRole;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
 @Table(name = "team_members")
-@IdClass(TeamMemberId.class) // 복합 키 사용
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TeamMember {
 
     @Id
-    private Integer teamSeqId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_members_seq")
+    @SequenceGenerator(name = "team_members_seq", sequenceName = "team_members_seq_id", allocationSize = 1)
+    private Integer memberId;
 
-    @Id
-    private Integer teamId;
-
-    @Column(nullable = false)
-    private String teamName;
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MemberRole memberRole; // ENUM (member, owner)
+    @Column(nullable = false, length = 50)
+    private MemberRole memberRole;
 
     @ManyToOne
     @JoinColumn(name = "github_user_id", nullable = false)
-    private User user; // FK (users.github_user_id)
+    private User user;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
+

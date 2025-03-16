@@ -16,7 +16,7 @@ public class Commit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commitId;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 100)
     private String githubCommitSha;
 
     @Column(columnDefinition = "TEXT")

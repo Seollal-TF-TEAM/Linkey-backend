@@ -13,23 +13,24 @@ import java.time.LocalDateTime;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
+    @SequenceGenerator(name = "projects_seq", sequenceName = "projects_project_id_seq", allocationSize = 1)
     private Integer projectId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String projectName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String projectDesc;
 
+    @Column(columnDefinition = "TEXT")
+    private String projectImg;
+
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "teamId", referencedColumnName = "teamId", nullable = false),
-            @JoinColumn(name = "teamSeqId", referencedColumnName = "teamSeqId", nullable = false)
-    })
+    @JoinColumn(name = "teamId", nullable = false)
     private TeamMember teamMember; // FK (team_members.team_id)
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String githubRepoUrl;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
