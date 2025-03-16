@@ -1,13 +1,12 @@
 package com.linkey.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -18,15 +17,15 @@ import java.util.Objects;
 @Table(name = "users")
 public class User {
     @Id
-    private Long githubUserId;
+    private long githubUserId;
 
     @Column(nullable = false, length = 255)
     private String githubUserName;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, length = 255)
     private String githubUserEmail;
 
-    @Column(length = 255)
+    @Column(nullable = false, length = 255)
     private String githubReposUrl;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -37,4 +36,7 @@ public class User {
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;  // 가입 날짜
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TeamMember> projects = new ArrayList<>();
 }
