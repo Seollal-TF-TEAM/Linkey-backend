@@ -26,14 +26,16 @@ public class GitAuthController {
         if (accessToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to retrieve access token.");
         }
+        System.out.println("GitHub Access Token: " + accessToken);
+
 
         GitUser user = getGitUser(accessToken);
-
-        String jwtToken = generateJwtToken(user);
+        System.out.println("GitHub User Info: " + user);
 
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
-        response.put("token", jwtToken);
+
+        System.out.println("res :" + response);
 
         return ResponseEntity.ok(response);
     }
@@ -67,9 +69,5 @@ public class GitAuthController {
         ResponseEntity<GitUser> response = restTemplate.exchange(url, HttpMethod.GET, request, GitUser.class);
 
         return response.getBody();
-    }
-
-    private String generateJwtToken(GitUser user) {
-        return "dummy-jwt-token-" + user.getLogin(); // TODO: 실제 JWT 발급 로직 적용
     }
 }
