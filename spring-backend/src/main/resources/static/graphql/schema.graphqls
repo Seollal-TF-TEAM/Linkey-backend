@@ -1,13 +1,140 @@
+scalar Date
+scalar DateTime
+scalar Long
+
 type Post {
     id: ID
     title: String
     content: String
 }
 
-type Query {
-    posts: [Post]
-}
+#type Query {
+#    posts: [Post]
+#}
 
 type Mutation {
     createPost(title: String!, content: String!): Post
 }
+
+########################## Inputs for Query ##########################
+input SprintInput{
+    projectId: ID!
+}
+
+input TodoInput{
+    sprintId: ID!
+}
+
+input TeamMemberInput{
+    teamId: ID!
+}
+
+input CommitInput{
+    todoId: ID!
+}
+
+########################## Query ##########################
+type Query{
+    getUser(userID: ID!): User
+    getTeam(teamID: ID!): Team
+    getTeamMembers(input: TeamMemberInput!): [TeamMember]
+    getTodos(input: TodoInput!): [Todo]
+    getSprints(input: SprintInput!): [Sprint]
+    getCommits(input: CommitInput): [Commit]
+}
+
+
+########################## Mutation ##########################
+
+
+
+########################## Type ##########################
+type User {
+    githubUserID: ID
+    githubUserName: String!
+    githubUserEmail: String!
+    githubRepoUrl: String!
+    githubUpdatedAt: DateTime!
+    updatedAt: DateTime!
+    createdAt: DateTime!
+}
+
+type Team{
+    teamId: ID
+    teamName: String!
+    teamDesc: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+enum Role{
+    MEMBER, OWNER
+}
+
+type TeamMember{
+    memberId: ID
+    teamId: ID!
+    team: Team!
+    memberRole: Role!
+    user: User!
+    userId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+enum Level{
+    L,M,H
+}
+
+type Todo{
+    todoId: ID
+    todoContents: String!
+    todoDoneYn: String!
+    todoLevel: Level!
+    sprint: Sprint
+    sprintId: ID!
+    createdUser: User!
+    createdUserId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Sprint{
+    sprintId: ID
+    sprintName: String!
+    springContents: String!
+    sprintImg: String
+    project: Project
+    projectId: ID!
+    sprintStartAt: Date!
+    sprintEndAt: Date!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Project{
+    projectId: ID
+    projectName: String!
+    projectDesc: String!
+    projectImg: String
+    teamMember: [TeamMember!]
+    teamMemberID: [ID!]
+    githubRepoUrl: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Commit{
+    commitId: ID
+    githubCommitSha: String!
+    githubCommitMessage: String!
+    githubCommitUserId: Long!
+    githubCommitDate: DateTime!
+    todo: [Todo!]
+    todoId: [ID!]
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+
+########################## Fragment ##########################
