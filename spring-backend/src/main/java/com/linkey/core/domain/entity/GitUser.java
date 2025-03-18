@@ -1,13 +1,11 @@
-package com.linkey.core.domain;
+package com.linkey.core.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -15,14 +13,17 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class GitUser {
     @Id
     private long githubUserId;
 
     @Column(nullable = false, length = 255)
     private String githubUserName;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
+    private String githubProfileUrl;
+
+    @Column(nullable = true, length = 255)
     private String githubUserEmail;
 
     @Column(nullable = false, length = 255)

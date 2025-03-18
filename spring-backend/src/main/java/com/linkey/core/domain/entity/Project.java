@@ -1,4 +1,4 @@
-package com.linkey.core.domain;
+package com.linkey.core.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

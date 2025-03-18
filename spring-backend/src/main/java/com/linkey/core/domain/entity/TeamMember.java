@@ -1,4 +1,4 @@
-package com.linkey.core.domain;
+package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.enums.MemberRole;
 import jakarta.persistence.*;
@@ -29,7 +29,7 @@ public class TeamMember {
 
     @ManyToOne
     @JoinColumn(name = "githubUserId", nullable = false)
-    private User user;
+    private GitUser user;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;

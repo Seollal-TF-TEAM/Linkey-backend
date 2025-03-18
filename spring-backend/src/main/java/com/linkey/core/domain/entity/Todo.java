@@ -1,4 +1,4 @@
-package com.linkey.core.domain;
+package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.enums.TodoLevel;
 import jakarta.persistence.*;
@@ -37,7 +37,7 @@ public class Todo {
 
     @ManyToOne
     @JoinColumn(name = "createdUserId", nullable = false)
-    private User createdUser; // FK (users.github_user_id)
+    private GitUser createdUser; // FK (users.github_user_id)
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
