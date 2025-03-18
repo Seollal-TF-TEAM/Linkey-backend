@@ -20,14 +20,11 @@ public class GitUser {
     @Column(nullable = false, length = 255)
     private String githubUserName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String githubProfileUrl;
 
     @Column(nullable = true, length = 255)
     private String githubUserEmail;
-
-    @Column(nullable = false, length = 255)
-    private String gitProfileUrl;
 
     @Column(nullable = true, length = 255)
     private String githubReposUrl;

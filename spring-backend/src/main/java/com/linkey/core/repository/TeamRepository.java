@@ -1,9 +1,9 @@
 package com.linkey.core.repository;
 
-import com.linkey.core.domain.entity.Sprint;
+import com.linkey.core.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SprintRepository extends JpaRepository<Sprint, Integer> {
+public interface TeamRepository extends JpaRepository<Team, Integer> {
 }

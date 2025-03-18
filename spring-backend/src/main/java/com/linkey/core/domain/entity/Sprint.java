@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class Sprint {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sprint_seq")
+    @SequenceGenerator(name = "sprint_seq", sequenceName = "sprint_seq_id", allocationSize = 1)
     private Long sprintId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -22,9 +23,6 @@ public class Sprint {
 
     @Column(columnDefinition = "TEXT")
     private String sprintContents;
-
-    @Column(columnDefinition = "TEXT")
-    private String sprintImg;
 
     @ManyToOne
     @JoinColumn(name = "projectId", nullable = false)

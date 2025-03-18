@@ -18,7 +18,8 @@ import java.time.LocalDateTime;
 public class Todo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
+    @SequenceGenerator(name = "todo_seq", sequenceName = "todo_seq_id", allocationSize = 1)
     private Long todoId;
 
     @Column(columnDefinition = "TEXT")

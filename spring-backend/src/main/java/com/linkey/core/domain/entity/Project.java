@@ -14,7 +14,7 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
-    @SequenceGenerator(name = "projects_seq", sequenceName = "projects_project_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "projects_seq", sequenceName = "projects_id_seq", allocationSize = 1)
     private Integer projectId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -22,9 +22,6 @@ public class Project {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String projectDesc;
-
-    @Column(columnDefinition = "TEXT")
-    private String projectImg;
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
