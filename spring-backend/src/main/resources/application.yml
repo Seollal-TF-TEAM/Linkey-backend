@@ -12,15 +12,15 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/testdb  #mydatabase
-    username: linkey #myuser
-    password: linkey #mypassword
+    url: jdbc:postgresql://182.224.155.141:30300/linkey  #mydatabase
+    username: linkeyadmin #myuser
+    password: linkeyadmin12! #mypassword
     driver-class-name: org.postgresql.Driver
   graphql:
     graphiql:
