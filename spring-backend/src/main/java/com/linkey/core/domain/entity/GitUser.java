@@ -27,6 +27,9 @@ public class GitUser {
     private String githubUserEmail;
 
     @Column(nullable = false, length = 255)
+    private String gitProfileUrl;
+
+    @Column(nullable = true, length = 255)
     private String githubReposUrl;
 
     @Column(columnDefinition = "TIMESTAMP")
