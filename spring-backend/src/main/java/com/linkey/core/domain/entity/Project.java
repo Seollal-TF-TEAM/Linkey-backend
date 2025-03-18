@@ -17,16 +17,20 @@ public class Project {
     @SequenceGenerator(name = "projects_seq", sequenceName = "projects_id_seq", allocationSize = 1)
     private Integer projectId;
 
+    @NonNull
     @Column(nullable = false, columnDefinition = "TEXT")
     private String projectName;
 
+    @NonNull
     @Column(nullable = false, columnDefinition = "TEXT")
     private String projectDesc;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
     private Team team; // FK (team_members.team_id)
 
+    @NonNull
     @Column(columnDefinition = "TEXT")
     private String githubRepoUrl;
 
@@ -35,6 +39,7 @@ public class Project {
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
 
     @PreUpdate
     public void preUpdate() {
