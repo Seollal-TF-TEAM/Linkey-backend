@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +31,7 @@ class ProjectServiceImplTest {
 
     @Test
     @DisplayName("ProjcetServiceImpl.getUserProjects 기본 동작 test")
-    void testGetUserProjects() {
+    void testGetProjectsByGithubUserId() {
         // 더미데이터 생성
         Team team = new Team();
         List<Project> projects = List.of(
@@ -39,16 +39,48 @@ class ProjectServiceImplTest {
                         "test1",
                         "test1 project",
                         team,
-                        "https://test.repo"
+                        "https://test1.repo"
                 )
         );
-        when(projectRepository.findByProjectId(1)).thenReturn(projects);
+        when(projectRepository.findProjectsByGithubUserId(1L)).thenReturn(projects);
 
         // 테스트를 위해 메소드 실행
-        List<ProjectDTO> foundProject = projectService.getUserProjects(1);
+        List<ProjectDTO> foundProject = projectService.getProjectsByGithubUserId(1L);
 
         // 테스트 검증
         // 찾은 project List에 요소가 0개가 아닌지
         assertFalse(foundProject.isEmpty());
+    }
+
+    @Test
+    @DisplayName("ProjectServiceImpl.getProjectByProjectId 기본 동작 test")
+    void getProjectByProjectId() {
+        Team team = new Team();
+        Project project = new Project(
+                "test2",
+                "test2 project",
+                team,
+                "https://test2.repo"
+        );
+
+        when(projectRepository.findProjectByProjectId(1)).thenReturn(project);
+
+        ProjectDTO foundProject = projectService.getProjectByProjectId(1);
+
+        assert(project.getProjectId() == foundProject.getProjectId());
+        assert(project.getProjectName().equals(foundProject.getProjectName()));
+        assert(project.getProjectDesc().equals(foundProject.getProjectDesc()));
+    }
+
+    @Test
+    void createProject() {
+    }
+
+    @Test
+    void updateProject() {
+    }
+
+    @Test
+    void deleteProject() {
     }
 }
