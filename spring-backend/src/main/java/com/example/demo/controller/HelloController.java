@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class HelloController {
     @GetMapping("/hello")
     public String sayHello() {
-        return "Hello from Spring Boot!\n자동 배포 테스트 - backend\n자동 배포 테스트 - prune";
+        return "Hello from Spring Boot!\n자동 배포 테스트 - backend\n자동 배포 테스트 - prune\n자동 배포 테스트 - OutOfSync";
     }
 
     @GetMapping("")
