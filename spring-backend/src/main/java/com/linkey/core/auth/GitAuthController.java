@@ -2,7 +2,12 @@ package com.linkey.core.auth;
 
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.repository.GitUserRepository;
+import com.linkey.core.security.CustomAuthentication;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +31,7 @@ public class GitAuthController {
     }
 
     @GetMapping("/callback")
-    public ResponseEntity<?> githubCallback(@RequestParam("code") String code) {
+    public ResponseEntity<?> githubCallback(@RequestParam("code") String code, HttpSession session) {
         System.out.println("Received GitHub OAuth Code: " + code);
 
         String accessToken = getAccessToken(code);
@@ -42,10 +47,20 @@ public class GitAuthController {
         // 유저 정보 DB 저장 (기존 유저 확인 후 업데이트)
         saveOrUpdateGitUser(user);
 
+        // 세션 id, access token 저장
+        session.setAttribute("userId", user.getGithubUserId());
+        session.setAttribute("accessToken", accessToken);
+
+        System.out.println("[##SESSION] userId: " + session.getAttribute("userId"));
+        System.out.println("[##SESSION] accessToken: " + session.getAttribute("accessToken"));
+
+        UserDetails userDetails = User.withUsername(user.getGithubUserName()).password("").roles("USER").build();
+        SecurityContextHolder.getContext().setAuthentication(new CustomAuthentication(userDetails));
+
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
 
-        System.out.println("res :" + response);
+        //System.out.println("res :" + response);
         return ResponseEntity.ok(response);
     }
 
@@ -72,7 +87,7 @@ public class GitAuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
 
-        System.out.println("ACCESS_TOKEN : "+accessToken);
+        System.out.println("ACCESS_TOKEN : " + accessToken);
         HttpEntity<String> request = new HttpEntity<>(headers);
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, request, Map.class);
 
