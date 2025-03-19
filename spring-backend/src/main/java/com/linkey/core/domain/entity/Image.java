@@ -1,10 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "images")
 public class Image {
     @Id

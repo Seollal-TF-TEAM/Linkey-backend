@@ -1,11 +1,10 @@
 package com.linkey.core.service.project;
 
-import com.linkey.core.domain.dto.ProjectDTO;
+import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,11 +18,11 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public List<ProjectDTO> getUserProjects(Integer projectId) {
+    public List<ProjectDto> getUserProjects(Integer projectId) {
         List<Project> projects = repository.findByProjectId(projectId);
 
         return projects.stream()
-                    .map(ProjectDTO::toDTO)
+                    .map(ProjectDto::fromEntity)
                     .toList();
     }
 

@@ -1,6 +1,6 @@
 package com.linkey.core.service.project;
 
-import com.linkey.core.domain.dto.ProjectDTO;
+import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.ProjectRepositoryImpl;
@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +44,7 @@ class ProjectServiceImplTest {
         when(projectRepository.findByProjectId(1)).thenReturn(projects);
 
         // 테스트를 위해 메소드 실행
-        List<ProjectDTO> foundProject = projectService.getUserProjects(1);
+        List<ProjectDto> foundProject = projectService.getUserProjects(1);
 
         // 테스트 검증
         // 찾은 project List에 요소가 0개가 아닌지

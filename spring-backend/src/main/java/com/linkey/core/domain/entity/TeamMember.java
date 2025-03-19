@@ -1,17 +1,20 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.entity.GitUser;
+import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.enums.MemberRole;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "team_members")
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
+@Builder
 @AllArgsConstructor
+@Table(name = "team_members")
 public class TeamMember {
 
     @Id
@@ -37,4 +40,3 @@ public class TeamMember {
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }
-

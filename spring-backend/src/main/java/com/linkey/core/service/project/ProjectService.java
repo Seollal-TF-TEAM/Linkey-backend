@@ -1,12 +1,12 @@
 package com.linkey.core.service.project;
 
-import com.linkey.core.domain.dto.ProjectDTO;
+import com.linkey.core.domain.dto.ProjectDto;
 
 import java.util.List;
 
 public interface ProjectService {
 
-    public List<ProjectDTO> getUserProjects(Integer githubUserId);
+    public List<ProjectDto> getUserProjects(Integer githubUserId);
 
 //    public
 }

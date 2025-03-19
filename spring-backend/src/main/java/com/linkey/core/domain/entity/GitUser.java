@@ -12,6 +12,8 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "users")
 public class GitUser {
     @Id
