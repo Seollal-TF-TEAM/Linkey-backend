@@ -1,5 +1,6 @@
 package com.linkey.core.service.project;
 
+import com.linkey.core.domain.dto.ProjectDTO;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public List<Project> getUserProjects(Integer projectId) {
+    public List<ProjectDTO> getUserProjects(Integer projectId) {
         List<Project> projects = repository.findByProjectId(projectId);
 
-        return projects;
+        return projects.stream()
+                    .map(ProjectDTO::toDTO)
+                    .toList();
     }
 
 
