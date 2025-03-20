@@ -1,6 +1,6 @@
 package com.linkey.core.service.project;
 
-import com.linkey.core.domain.dto.ProjectDTO;
+import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.ProjectRepositoryImpl;
@@ -12,9 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,10 +43,11 @@ class ProjectServiceImplTest {
                         "https://test1.repo"
                 )
         );
-        when(projectRepository.findProjectsByGithubUserId(1L)).thenReturn(projects);
+//        when(projectRepository.findProjectsByGithubUserId(1L)).thenReturn(projects);
+        when(projectRepository.findByUserId(1L)).thenReturn(projects);
 
         // 테스트를 위해 메소드 실행
-        List<ProjectDTO> foundProject = projectService.getProjectsByGithubUserId(1L);
+        List<ProjectDto> foundProject = projectService.getProjectsByGithubUserId(1L);
 
         // 테스트 검증
         // 찾은 project List에 요소가 0개가 아닌지
@@ -63,9 +65,9 @@ class ProjectServiceImplTest {
                 "https://test2.repo"
         );
 
-        when(projectRepository.findProjectByProjectId(1)).thenReturn(project);
+        when(projectRepository.findById(1)).thenReturn(Optional.of(project));
 
-        ProjectDTO foundProject = projectService.getProjectByProjectId(1);
+        ProjectDto foundProject = projectService.getProjectByProjectId(1);
 
         assert(project.getProjectId() == foundProject.getProjectId());
         assert(project.getProjectName().equals(foundProject.getProjectName()));
@@ -73,7 +75,30 @@ class ProjectServiceImplTest {
     }
 
     @Test
+    @DisplayName("ProjectServiceImpl.createProject 기본 동작 test")
     void createProject() {
+        Team team = new Team();
+
+        Project project = new Project(
+                "test3",
+                "test3 project",
+                team,
+                "https://test3.repo"
+        );
+        project.setProjectId(1);
+
+        when(projectRepository.save(any(Project.class))).thenReturn(project);
+
+        Integer result = projectService.createProject(
+                ProjectDto.builder()
+                        .projectName("test3")
+                        .projectDesc("test3 project")
+                        .team(team)
+                        .githubRepoUrl("https://test3.repo")
+                        .build()
+        );
+
+        assertEquals(1, result);
     }
 
     @Test
