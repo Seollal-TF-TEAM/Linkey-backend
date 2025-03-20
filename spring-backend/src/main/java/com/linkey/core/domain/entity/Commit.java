@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "commits")
 public class Commit {
 

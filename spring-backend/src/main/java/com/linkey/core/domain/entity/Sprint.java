@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "sprints")
 public class Sprint {
 

@@ -2,10 +2,7 @@ package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.enums.TodoLevel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,8 @@ import java.time.LocalDateTime;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "todos")
 public class Todo {
 

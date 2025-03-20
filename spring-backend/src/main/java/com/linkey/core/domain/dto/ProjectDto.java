@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class ProjectDTO{
+public class ProjectDto {
     private Integer projectId;
     private String projectName;
     private String projectDesc;
@@ -21,8 +21,8 @@ public class ProjectDTO{
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static ProjectDTO toDTO(Project project) {
-        return ProjectDTO.builder()
+    public static ProjectDto fromEntity(Project project) {
+        return ProjectDto.builder()
                 .projectId(project.getProjectId())
                 .projectName(project.getProjectName())
                 .projectDesc(project.getProjectDesc())
