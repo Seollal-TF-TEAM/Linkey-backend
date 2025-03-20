@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface ProjectService {
 
-    public List<ProjectDto> getUserProjects(Integer githubUserId);
+    public ProjectDto getUserProject(Integer projectId);
 
-    public void createProject(ProjectDto projectDto);
+    public List<ProjectDto> getAllProjects(Long githubUserId);
+
+    public boolean createProject(ProjectDto projectDto);
 //    public
 }

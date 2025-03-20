@@ -1,11 +1,12 @@
 package com.linkey.core.repository.team;
 
+import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
-
+    Boolean save(Team team);
+    TeamDto findByTeamId(Integer name);
+    void deleteByTeamId(Integer id);
 }
