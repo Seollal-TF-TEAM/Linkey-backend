@@ -3,7 +3,7 @@ package com.linkey.core.service.project;
 import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
-import com.linkey.core.repository.ProjectRepositoryImpl;
+import com.linkey.core.repository.project.custom.ProjectRepositoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

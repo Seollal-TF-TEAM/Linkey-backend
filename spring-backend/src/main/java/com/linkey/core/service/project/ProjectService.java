@@ -8,5 +8,6 @@ public interface ProjectService {
 
     public List<ProjectDto> getUserProjects(Integer githubUserId);
 
+    public void createProject(ProjectDto projectDto);
 //    public
 }

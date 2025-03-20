@@ -1,4 +1,4 @@
-package com.linkey.core.repository;
+package com.linkey.core.repository.user;
 
 import com.linkey.core.domain.entity.GitUser;
 import org.springframework.data.jpa.repository.JpaRepository;
