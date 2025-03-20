@@ -1,19 +1,19 @@
 package com.linkey.core.service.project;
 
-import com.linkey.core.domain.dto.ProjectDTO;
+import com.linkey.core.domain.dto.ProjectDto;
 
 import java.util.List;
 
 public interface ProjectService {
 
-    public List<ProjectDTO> getProjectsByGithubUserId(Long githubUserId);
+    public List<ProjectDto> getProjectsByGithubUserId(Long githubUserId);
 
-    public ProjectDTO getProjectByProjectId(Integer projectId);
+    public ProjectDto getProjectByProjectId(Integer projectId);
 
-    public Integer createProject(ProjectDTO projectDTO);
+    public Integer createProject(ProjectDto projectDTO);
 
-    public Integer updateProject(ProjectDTO projectDTO);
+    public Integer updateProject(ProjectDto projectDTO);
 
-    public Integer deleteProject(ProjectDTO projectDTO);
+    public Integer deleteProject(ProjectDto projectDTO);
 
 }
