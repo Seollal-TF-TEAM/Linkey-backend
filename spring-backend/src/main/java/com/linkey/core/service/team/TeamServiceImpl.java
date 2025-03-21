@@ -28,10 +28,11 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public Boolean addTeam(Team team) {
-        Team saveTeam = Optional.ofNullable(teamRepo.save(team))
-                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
-
+    public Boolean addTeam(TeamDto team) {
+//        Team teamEntity = team.fromEntity();
+//        Team saveTeam = Optional.ofNullable(teamRepo.save(team))
+//                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
+//
 
         return true;
     }
@@ -40,9 +41,9 @@ public class TeamServiceImpl implements TeamService {
     public Boolean deleteTeam(Integer id) {
         Optional<TeamDto> teamDtoOptional = Optional.ofNullable(teamRepo.findByTeamId(id));
 
-        TeamDto teamDto = teamDtoOptional.orElseThrow(() ->
-                new EntityNotFoundException("Team not found with id: " + id)
-        );
+//        TeamDto teamDto = teamDtoOptional.orElseThrow(() ->
+//                new EntityNotFoundException("Team not found with id: " + id)
+//        );
 
         teamRepo.deleteById(id);
         return true;

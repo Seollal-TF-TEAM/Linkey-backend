@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.ProjectDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "projects")
 public class Project {
+
+    public Project(Integer projectId) {
+        this.projectId = projectId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
@@ -47,6 +52,19 @@ public class Project {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+
+    public static Project toEntity(ProjectDto dto) {
+        return Project.builder()
+                .projectId(dto.getProjectId())
+                .projectName(dto.getProjectName())
+                .projectDesc(dto.getProjectDesc())
+                .team(new Team(dto.getTeamId()))
+                .githubRepoUrl(dto.getGithubRepoUrl())
+                .createdAt(dto.getCreatedAt())
+                .updatedAt( dto.getUpdatedAt())
+                .build();
     }
 
 }

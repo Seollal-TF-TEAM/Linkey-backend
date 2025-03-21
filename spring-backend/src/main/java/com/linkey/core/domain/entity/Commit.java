@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.CommitDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -15,7 +16,8 @@ import java.time.LocalDateTime;
 public class Commit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "img_seq")
+    @SequenceGenerator(name = "img_seq", sequenceName = "img_seq_id", allocationSize = 1)
     private Integer commitId;
 
     @Column(nullable = false, length = 100)
@@ -43,6 +45,18 @@ public class Commit {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static Commit toEntity(CommitDto dto) {
+        return Commit.builder()
+                .githubCommitSha(dto.getGithubCommitSha())
+                .githubCommitMessage(dto.getGithubCommitMessage())
+                .githubCommitUserId(dto.getGithubCommitUserId())
+                .githubCommitDate(dto.getGithubCommitDate())
+                .todo(new Todo(dto.getTodoId()))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
 
 }

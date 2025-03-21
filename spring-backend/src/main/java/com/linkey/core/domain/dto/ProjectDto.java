@@ -16,7 +16,7 @@ public class ProjectDto {
     private Integer projectId;
     private String projectName;
     private String projectDesc;
-    private Team team; // FK (team_members.team_id)
+    private Integer teamId; // FK (team_members.team_id)
     private String githubRepoUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,7 +26,7 @@ public class ProjectDto {
                 .projectId(project.getProjectId())
                 .projectName(project.getProjectName())
                 .projectDesc(project.getProjectDesc())
-                .team(project.getTeam())
+                .teamId(project.getTeam().getTeamId())
                 .githubRepoUrl(project.getGithubRepoUrl())
                 .createdAt(project.getCreatedAt())
                 .updatedAt(project.getUpdatedAt())

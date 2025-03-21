@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.TodoDto;
 import com.linkey.core.domain.enums.TodoLevel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,6 +16,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "todos")
 public class Todo {
+
+    public Todo(Long todoId) {
+        this.todoId = todoId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
@@ -48,6 +53,19 @@ public class Todo {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static Todo toEntity(TodoDto dto) {
+        return Todo.builder()
+                .todoId(dto.getTodoId())
+                .todoContents(dto.getTodoContents())
+                .todoDoneYn(dto.getTodoDoneYn())
+                .todoLevel(dto.getTodoLevel())
+                .sprint(dto.getSprintId() != null ? new Sprint(dto.getSprintId()) : null)
+                .createdUser(dto.getCreatedUserId() != null ? new GitUser(dto.getCreatedUserId()) : null)
+                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
+                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .build();
     }
 
 }

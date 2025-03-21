@@ -8,7 +8,7 @@ import com.linkey.core.domain.entity.TeamMember;
 import java.util.List;
 
 public interface TeamService {
-    public Boolean addTeam(Team team);
+    public Boolean addTeam(TeamDto team);
 
     public Boolean deleteTeam(Integer id);
 

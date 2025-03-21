@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.SprintDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -14,6 +15,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "sprints")
 public class Sprint {
+
+    public Sprint(Long sprintId) {
+        this.sprintId = sprintId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sprint_seq")
@@ -45,6 +50,19 @@ public class Sprint {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static Sprint toEntity(SprintDto dto) {
+        return Sprint.builder()
+                .sprintId(dto.getSprintId())
+                .sprintName(dto.getSprintName())
+                .sprintContents(dto.getSprintContents())
+                .project(dto.getProjectId() != null ? new Project(dto.getProjectId()) : null)
+                .sprintStartAt(dto.getSprintStartAt())
+                .sprintEndAt(dto.getSprintEndAt())
+                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
+                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .build();
     }
 
 }

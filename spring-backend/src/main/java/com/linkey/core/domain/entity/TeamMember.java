@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.enums.MemberRole;
@@ -39,4 +40,16 @@ public class TeamMember {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    public static TeamMember toEntity(TeamMemberDto dto) {
+        return TeamMember.builder()
+                .memberId(dto.getMemberId())
+                .team(dto.getTeamId() != null ? new Team(dto.getTeamId()) : null)
+                .user(dto.getGithubUserId() != null ? new GitUser(dto.getGithubUserId()) : null)
+                .memberRole(dto.getMemberRole())
+                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
+                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .build();
+    }
+
 }
