@@ -12,7 +12,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, Proj
 
     ProjectDto findByProjectId(Integer projectId);
 
-    Boolean save(ProjectDto projectDto);
+    Project save(ProjectDto projectDto);
 //    @Query("select p from Project p "
 //        + "join p.team t "
 //        + "join t.teamMembers tm ON t.teamId = tm.team.teamId"

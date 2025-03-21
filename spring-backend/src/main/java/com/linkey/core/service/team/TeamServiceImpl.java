@@ -29,9 +29,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Boolean addTeam(Team team) {
-        Boolean teamSaveResult = teamRepo.save(team);
+        Team saveTeam = Optional.ofNullable(teamRepo.save(team))
+                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
 
-        return teamSaveResult;
+
+        return true;
     }
 
     @Override

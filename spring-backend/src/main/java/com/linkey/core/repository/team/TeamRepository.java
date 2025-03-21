@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
-    Boolean save(Team team);
+    Team save(Team team);
     TeamDto findByTeamId(Integer name);
     void deleteByTeamId(Integer id);
 }

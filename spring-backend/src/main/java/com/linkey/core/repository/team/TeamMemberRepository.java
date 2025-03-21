@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Integer> {
     List<TeamMemberDto> findByTeamId(Integer teamId);
-    Boolean save(TeamMemberDto teamMember);
+    TeamMember save(TeamMemberDto teamMember);
 
 }
