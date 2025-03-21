@@ -61,10 +61,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamMemberDto> getTeamMembers(Integer teamId) {
-        List<TeamMemberDto> teamMembers = teamMemberRepo.findByTeamId(teamId);
+    public List<TeamMember> getTeamMembers(Integer teamId) {
+//        List<TeamMember> teamMembers = teamMemberRepo.findByTeamId(teamId);
 
-        return teamMembers;
+//        return teamMembers;
+        return null;
     }
 
     @Override
