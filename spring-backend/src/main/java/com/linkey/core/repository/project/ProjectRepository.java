@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Integer>, ProjectRepositoryCustom {
 
-    ProjectDto findByProjectId(Integer projectId);
+    Project findByProjectId(Integer projectId);
 
-    Project save(ProjectDto projectDto);
+    Project save(Project project);
 //    @Query("select p from Project p "
 //        + "join p.team t "
 //        + "join t.teamMembers tm ON t.teamId = tm.team.teamId"

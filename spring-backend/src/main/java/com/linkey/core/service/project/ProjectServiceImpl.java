@@ -21,18 +21,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto getUserProject(Integer projectId) {
-        ProjectDto projectDto = repository.findByProjectId(projectId);
+        Project project = repository.findByProjectId(projectId);
 
-//        return project.stream()
-//                    .map(ProjectDto::fromEntity)
-//                    .toList();
-
-        return projectDto;
+        return ProjectDto.fromEntity(project);
     }
 
     @Override
     public List<ProjectDto> getAllProjects(Long githubUserId) {
-        List<ProjectDto> projects = repository.findProectByGithubUserId(githubUserId);
+        List<Project> projects = repository.findProectByGithubUserId(githubUserId);
 
         return List.of();
     }
