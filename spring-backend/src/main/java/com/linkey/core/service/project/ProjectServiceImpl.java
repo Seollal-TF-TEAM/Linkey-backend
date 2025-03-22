@@ -2,6 +2,7 @@ package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
+import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getProjectsByGithubUserId(Long githubUserId) {
-        List<Project> projects = repository.findByUserId(githubUserId);
+        List<Project> projects = repository.findProectsByGithubUserId(githubUserId);
 
         return projects.stream()
                     .map(ProjectDto::fromEntity)
@@ -39,12 +40,13 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public Integer createProject(ProjectDto projectDTO) {
+    public Integer createProject(ProjectDto projectDto) {
+
         Project project = new Project(
-                projectDTO.getProjectName(),
-                projectDTO.getProjectDesc(),
-                projectDTO.getTeam(),
-                projectDTO.getGithubRepoUrl()
+                projectDto.getProjectName(),
+                projectDto.getProjectDesc(),
+                new Team(projectDto.getTeamId()),
+                projectDto.getGithubRepoUrl()
         );
         Project result = repository.save(project);
         return result.getProjectId();

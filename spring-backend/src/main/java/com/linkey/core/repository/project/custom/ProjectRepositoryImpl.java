@@ -29,7 +29,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 //    }
 //
     @Override
-    public List<ProjectDto> findProectByGithubUserId(Long githubUserId) {
+    public List<Project> findProectsByGithubUserId(Long githubUserId) {
 //        QProject project = QProject.project;
 //        QTeam team = QTeam.team;
 //        QTeamMember teamMember = QTeamMember.teamMember;
