@@ -1,5 +1,6 @@
 package com.linkey.core.domain.entity;
 
+import com.linkey.core.domain.dto.TeamDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team {
+
+    public Team(Integer teamId) {
+        this.teamId = teamId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_seq")
@@ -37,4 +42,15 @@ public class Team {
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamMember> teamMembers = new ArrayList<>();
+
+    public static Team toEntity(TeamDto dto) {
+        return Team.builder()
+                .teamId(dto.getTeamId())
+                .teamName(dto.getTeamName())
+                .teamDesc(dto.getTeamDesc())
+                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
+                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .build();
+    }
+
 }

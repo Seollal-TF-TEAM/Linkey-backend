@@ -1,7 +1,7 @@
 package com.linkey.core.auth;
 
 import com.linkey.core.domain.entity.GitUser;
-import com.linkey.core.repository.GitUserRepository;
+import com.linkey.core.repository.user.GitUserRepository;
 import com.linkey.core.security.CustomAuthentication;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.*;
@@ -32,17 +32,17 @@ public class GitAuthController {
 
     @GetMapping("/callback")
     public ResponseEntity<?> githubCallback(@RequestParam("code") String code, HttpSession session) {
-        System.out.println("Received GitHub OAuth Code: " + code);
+//        System.out.println("Received GitHub OAuth Code: " + code);
 
         String accessToken = getAccessToken(code);
         if (accessToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to retrieve access token.");
         }
-        System.out.println("GitHub Access Token: " + accessToken);
+//        System.out.println("GitHub Access Token: " + accessToken);
 
         // GitHub 사용자 정보 가져오기
         GitUser user = getGitUser(accessToken);
-        System.out.println("GitHub User Info: " + user);
+//        System.out.println("GitHub User Info: " + user);
 
         // 유저 정보 DB 저장 (기존 유저 확인 후 업데이트)
         saveOrUpdateGitUser(user);
@@ -51,8 +51,8 @@ public class GitAuthController {
         session.setAttribute("userId", user.getGithubUserId());
         session.setAttribute("accessToken", accessToken);
 
-        System.out.println("[##SESSION] userId: " + session.getAttribute("userId"));
-        System.out.println("[##SESSION] accessToken: " + session.getAttribute("accessToken"));
+//        System.out.println("[##SESSION] userId: " + session.getAttribute("userId"));
+//        System.out.println("[##SESSION] accessToken: " + session.getAttribute("accessToken"));
 
         UserDetails userDetails = User.withUsername(user.getGithubUserName()).password("").roles("USER").build();
         SecurityContextHolder.getContext().setAuthentication(new CustomAuthentication(userDetails));

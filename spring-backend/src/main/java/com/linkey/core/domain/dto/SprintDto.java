@@ -15,7 +15,7 @@ public class SprintDto {
     private Long sprintId;
     private String sprintName;
     private String sprintContents;
-    private Long projectId;
+    private Integer projectId;
     private LocalDate sprintStartAt;
     private LocalDate sprintEndAt;
     private LocalDateTime createdAt;
@@ -26,7 +26,7 @@ public class SprintDto {
                 .sprintId(sprint.getSprintId())
                 .sprintName(sprint.getSprintName())
                 .sprintContents(sprint.getSprintContents())
-                .projectId(sprint.getProject() != null ? Long.valueOf(sprint.getProject().getProjectId()) : null)
+                .projectId(sprint.getProject() != null ? Integer.valueOf(sprint.getProject().getProjectId()) : null)
                 .sprintStartAt(sprint.getSprintStartAt())
                 .sprintEndAt(sprint.getSprintEndAt())
                 .createdAt(sprint.getCreatedAt())

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TeamMemberDto {
     private Integer memberId;
-    private Long teamId;
+    private Integer teamId;
     private Long githubUserId;
     private String githubUserName;
     private MemberRole memberRole;
@@ -23,7 +23,7 @@ public class TeamMemberDto {
     public static TeamMemberDto fromEntity(TeamMember teamMember) {
         return TeamMemberDto.builder()
                 .memberId(teamMember.getMemberId())
-                .teamId(teamMember.getTeam() != null ? teamMember.getTeam().getTeamId().longValue() : null)
+                .teamId(teamMember.getTeam() != null ? teamMember.getTeam().getTeamId() : null)
                 .githubUserId(teamMember.getUser() != null ? teamMember.getUser().getGithubUserId() : null)
                 .githubUserName(teamMember.getUser() != null ? teamMember.getUser().getGithubUserName() : null)
                 .memberRole(teamMember.getMemberRole())

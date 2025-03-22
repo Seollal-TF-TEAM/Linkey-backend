@@ -17,7 +17,7 @@ public class ImageDto {
     private Long fileSize;
     private String fileType;
     private LocalDateTime createdAt;
-    private Long projectId;
+    private Integer projectId;
     private Long sprintId;
 
     public static ImageDto fromEntity(Image image) {
@@ -28,7 +28,7 @@ public class ImageDto {
                 .fileSize(image.getFileSize())
                 .fileType(image.getFileType())
                 .createdAt(image.getCreatedAt())
-                .projectId(image.getProject() != null ? Long.valueOf(image.getProject().getProjectId()) : null)
+                .projectId(image.getProject() != null ? Integer.valueOf(image.getProject().getProjectId()) : null)
                 .sprintId(image.getSprint() != null ? image.getSprint().getSprintId() : null)
                 .build();
     }
