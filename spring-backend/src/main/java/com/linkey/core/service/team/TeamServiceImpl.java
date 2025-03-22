@@ -7,9 +7,11 @@ import com.linkey.core.domain.entity.TeamMember;
 import com.linkey.core.repository.team.TeamMemberRepository;
 import com.linkey.core.repository.team.TeamRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +52,17 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional
     public Boolean updateTeam(TeamDto team) {
-        return null;
+        Team teamEntity = teamRepo.findByTeamId(team.getTeamId());
+        if (teamEntity== null) throw new EntityNotFoundException("Team not found");
+
+        if (team.getTeamDesc() != null) teamEntity.setTeamDesc(team.getTeamDesc());
+        if (team.getTeamName() != null) teamEntity.setTeamName(team.getTeamName());
+
+        teamEntity.setUpdatedAt(LocalDateTime.now());
+
+        return true;
     }
 
     @Override
@@ -70,7 +81,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean addTeamMember(TeamMemberDto teamMember) {
         TeamMember teamMemberEntity = TeamMember.toEntity(teamMember);
-        TeamMember saveTeamMember = Optional.of(teamMemberRepo.save(teamMemberEntity))
+        TeamMember saveTeamMember = Optional.ofNullable(teamMemberRepo.save(teamMemberEntity))
                 .orElseThrow(() -> new EntityNotFoundException("can not add member to team member"));
 
 

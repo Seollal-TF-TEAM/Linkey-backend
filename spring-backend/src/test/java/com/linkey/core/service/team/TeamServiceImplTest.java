@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -109,9 +110,8 @@ public class TeamServiceImplTest {
         TeamMember teamMemberEntity = TeamMember.toEntity(teamMemberDto);
 
         when(teamRepo.save(any(Team.class))).thenReturn(teamEntity);
-        when(teamRepo.findByTeamId(1)).thenReturn(teamEntity);
-//        when(teamMemberRepo.save(any(TeamMember.class))).thenReturn(teamMemberEntity);
-//        when(teamMemberRepo.findTeamMembersByTeam_TeamId(1)).thenReturn((List.of(teamMemberEntity)));
+        lenient().when(teamRepo.findByTeamId(1)).thenReturn(teamEntity);
+        when(teamMemberRepo.save(any(TeamMember.class))).thenReturn(teamMemberEntity);
 
         //when
 //        gitUserRepo.save(gitUser);

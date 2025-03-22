@@ -4,9 +4,11 @@ import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.project.ProjectRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +35,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto getProjectByProjectId(Integer projectId) {
-        Optional<Project> project = repository.findById(projectId);
+        Optional<Project> project = Optional.ofNullable(repository.findProjectByProjectId(projectId));
+        Project projectEntity = project.orElseThrow(()-> new EntityNotFoundException("반환된 프로젝트 없음"));
 
-        return ProjectDto.fromEntity(project.get());
+        return ProjectDto.fromEntity(projectEntity);
     }
+
+
+    @Override
+    public List<ProjectDto> getProjectsByTeamId(Integer teamId) {
+        Optional<List<Project>> projects= Optional.ofNullable((repository.findProjectsByTeam_TeamId(teamId)));
+
+        List<Project> projectEntities = projects.orElseThrow(() -> new EntityNotFoundException("반환된 프로젝트 없음"));
+
+        return projectEntities.stream().map(ProjectDto::fromEntity).toList();
+    }
+
 
 
     @Override

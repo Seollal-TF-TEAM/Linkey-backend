@@ -16,4 +16,6 @@ public interface ProjectService {
 
     public Integer deleteProject(ProjectDto projectDTO);
 
+    public List<ProjectDto> getProjectsByTeamId(Integer teamId);
+
 }
