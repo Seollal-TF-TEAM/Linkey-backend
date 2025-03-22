@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -20,25 +21,43 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public ProjectDto getUserProject(Integer projectId) {
-        Project project = repository.findProjectByProjectId(projectId);
+    public List<ProjectDto> getProjectsByGithubUserId(Long githubUserId) {
+        List<Project> projects = repository.findByUserId(githubUserId);
 
-        return ProjectDto.fromEntity(project);
-    }
-
-    @Override
-    public List<ProjectDto> getAllProjects(Long githubUserId) {
-        List<ProjectDto> projects = repository.findProectByGithubUserId(githubUserId);
-
-        return List.of();
+        return projects.stream()
+                    .map(ProjectDto::fromEntity)
+                    .toList();
     }
 
 
     @Override
-    public boolean createProject(ProjectDto projectDto){
+    public ProjectDto getProjectByProjectId(Integer projectId) {
+        Optional<Project> project = repository.findById(projectId);
+
+        return ProjectDto.fromEntity(project.get());
+    }
 
 
-        return false;
+    @Override
+    public Integer createProject(ProjectDto projectDTO) {
+        Project project = new Project(
+                projectDTO.getProjectName(),
+                projectDTO.getProjectDesc(),
+                projectDTO.getTeam(),
+                projectDTO.getGithubRepoUrl()
+        );
+        Project result = repository.save(project);
+        return result.getProjectId();
+    }
+
+    @Override
+    public Integer updateProject(ProjectDto projectDTO) {
+        return 0;
+    }
+
+    @Override
+    public Integer deleteProject(ProjectDto projectDTO) {
+        return 0;
     }
 
 
