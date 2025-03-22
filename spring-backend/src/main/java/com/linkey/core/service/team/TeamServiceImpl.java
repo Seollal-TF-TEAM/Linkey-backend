@@ -70,11 +70,8 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean addTeamMember(TeamMemberDto teamMember) {
         TeamMember teamMemberEntity = TeamMember.toEntity(teamMember);
-        Optional<TeamMember> memOptional = Optional.of(teamMemberRepo.save(teamMemberEntity));
-
-        TeamMember member = memOptional.orElseThrow(() ->
-                new EntityNotFoundException("can not add member to team member" )
-        );
+        TeamMember saveTeamMember = Optional.of(teamMemberRepo.save(teamMemberEntity))
+                .orElseThrow(() -> new EntityNotFoundException("can not add member to team member"));
 
 
         return true;
