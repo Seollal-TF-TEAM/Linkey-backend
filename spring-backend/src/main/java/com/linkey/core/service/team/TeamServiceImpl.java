@@ -63,7 +63,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamMemberDto> getTeamMembers(Integer teamId) {
-        List<TeamMember> teamMembers = teamMemberRepo.findByTeamId(teamId);
+        List<TeamMember> teamMembers = teamMemberRepo.findTeamMembersByTeam_TeamId(teamId);
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 

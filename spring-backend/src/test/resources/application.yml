@@ -1,14 +1,14 @@
 spring:
   datasource:
-    url: jdbc:h2:mem: #testdb  # 테스트용 H2 인메모리 데이터베이스
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
+    url: jdbc:postgresql://linkey.co.kr:30432/linkey  #mydatabase
+    username: linkeyadmin #myuser
+    password: linkeyadmin12! #mypassword
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
 
   graphql:

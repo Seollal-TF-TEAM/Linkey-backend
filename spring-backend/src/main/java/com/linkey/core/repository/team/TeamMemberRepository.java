@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Integer> {
-    List<TeamMember> findByTeamId(Integer teamId);
+    List<TeamMember> findTeamMembersByTeam_TeamId(Integer teamId);
     TeamMember save(TeamMember teamMember);
-    void deleteByTeamId(Integer teamId);
+    void deleteByTeam_TeamId(Integer teamId);
 }

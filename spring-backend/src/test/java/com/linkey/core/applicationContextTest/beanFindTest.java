@@ -2,12 +2,16 @@ package com.linkey.core.applicationContextTest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+@SpringBootTest
 public class beanFindTest {
 
-    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext("com.linkey.core"); // ✅ 패키지 스캔
+    @Autowired
+    AnnotationConfigApplicationContext ac ; // ✅ 패키지 스캔
 
     @Test
     @DisplayName("모든 빈 출력하기")
