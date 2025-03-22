@@ -4,6 +4,7 @@ import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.repository.user.GitUserRepository;
 import com.linkey.core.security.CustomAuthentication;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,38 +23,40 @@ import java.util.Map;
 //@CrossOrigin(origins = "http://localhost:3000")
 public class GitAuthController {
 
+    //Redis 추가
+    private final RedisTemplate<String, String> redisTemplate;
+
     private final String clientId = "Ov23liQoOCN40W8vsEU0"; // GitHub OAuth 앱에서 발급받은 Client ID
     private final String clientSecret = "d806a20481797f422c52d6c8dc40e5cd66b64eab"; // GitHub OAuth 앱에서 발급받은 Client Secret
     private final RestTemplate restTemplate = new RestTemplate();
     private final GitUserRepository gitUserRepository;
 
-    public GitAuthController(GitUserRepository gitUserRepository) {
+    public GitAuthController(RedisTemplate<String, String> redisTemplate, GitUserRepository gitUserRepository) {
+        this.redisTemplate = redisTemplate;
         this.gitUserRepository = gitUserRepository;
     }
 
     @GetMapping("/callback")
-    public ResponseEntity<?> githubCallback(@RequestParam("code") String code, HttpSession session) {
-//        System.out.println("Received GitHub OAuth Code: " + code);
+    public ResponseEntity<?> githubCallback(@RequestParam("code") String code) {
+        System.out.println("Received GitHub OAuth Code: " + code);
 
         String accessToken = getAccessToken(code);
         if (accessToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to retrieve access token.");
         }
-//        System.out.println("GitHub Access Token: " + accessToken);
+        System.out.println("GitHub Access Token: " + accessToken);
 
         // GitHub 사용자 정보 가져오기
         GitUser user = getGitUser(accessToken);
-//        System.out.println("GitHub User Info: " + user);
+        System.out.println("GitHub User Info: " + user);
 
         // 유저 정보 DB 저장 (기존 유저 확인 후 업데이트)
         saveOrUpdateGitUser(user);
 
-        // 세션 id, access token 저장
-        session.setAttribute("userId", user.getGithubUserId());
-        session.setAttribute("accessToken", accessToken);
+        // Redis에 access_token, userId저장
+        String redisKey = "github:token:" + user.getGithubUserId();
+        redisTemplate.opsForValue().set(redisKey, accessToken, Duration.ofHours(1));
 
-//        System.out.println("[##SESSION] userId: " + session.getAttribute("userId"));
-//        System.out.println("[##SESSION] accessToken: " + session.getAttribute("accessToken"));
 
         UserDetails userDetails = User.withUsername(user.getGithubUserName()).password("").roles("USER").build();
         SecurityContextHolder.getContext().setAuthentication(new CustomAuthentication(userDetails));
@@ -60,7 +64,7 @@ public class GitAuthController {
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
 
-        //System.out.println("res :" + response);
+        System.out.println("res :" + response);
         return ResponseEntity.ok(response);
     }
 

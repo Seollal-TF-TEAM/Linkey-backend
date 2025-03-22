@@ -1,38 +1,27 @@
 package com.linkey.core.controller;
 
-import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class UserController {
-    @GetMapping("/session")
-    public ResponseEntity<?> getSessionData(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        String accessToken = (String) session.getAttribute("accessToken");
 
-        if (userId == null || accessToken == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expired or not logged in.");
+    private final RedisTemplate<String, String> redisTemplate;
+
+    @GetMapping("/token")
+    public ResponseEntity<?> getAccessToken(@RequestParam Long userId) {
+        String token = redisTemplate.opsForValue().get("github:token:" + userId);
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token not found");
         }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("userId", userId);
-        response.put("accessToken", accessToken);
-
-        System.out.println("userId = " + userId);
-        System.out.println("accessToken = " + accessToken);
-
-        System.out.println("response = " + response);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of("accessToken", token));
     }
 }
