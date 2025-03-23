@@ -19,10 +19,9 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
     password: ${REDIS_PASSWORD}
-  test-redis-host: ${REDIS_HOST}
-
-logging:
-  level:
-    org.springframework: DEBUG
-    org.springframework.data.redis: DEBUG
-    io.lettuce.core: DEBUG
+    lettuce:
+      pool:
+        max-active: 8    # 최대 활성 연결 수 (기본값: 8)
+        max-idle: 8      # 풀에 유지할 최대 유휴 연결 수 (기본값: 8)
+        min-idle: 0      # 풀에 유지할 최소 유휴 연결 수 (기본값: 0)
+        max-wait: 2000ms # 연결을 기다리는 최대 시간 (기본값: -1, 무제한 대기)
