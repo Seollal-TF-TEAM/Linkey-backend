@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +19,9 @@ public class HealthController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private Environment env;  // Environment 주입 추가
 
     @GetMapping("/db-check")
     public String checkDatabaseConnection() {
@@ -51,5 +56,14 @@ public class HealthController {
         }
 
         return result.toString();
+    }
+
+    @GetMapping("/db-check2")
+    public String checkDatabaseConnection2(@Value("${spring.test-redis-host}") String testRedisHost) {
+        System.out.println("Test Redis Host from application.yaml: " + testRedisHost);
+        System.out.println("spring.redis.host: " + env.getProperty("spring.redis.host"));
+        System.out.println("spring.redis.port: " + env.getProperty("spring.redis.port"));
+        System.out.println("spring.redis.password: " + env.getProperty("spring.redis.password"));
+        return "Check logs for Redis configuration details.";
     }
 }
