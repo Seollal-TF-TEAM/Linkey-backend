@@ -18,7 +18,8 @@ public class HealthController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-public String checkDatabaseConnection() {
+    @GetMapping("/db-check")
+    public String checkDatabaseConnection() {
         StringBuilder result = new StringBuilder();
 
         // PostgreSQL 연결 테스트
@@ -31,11 +32,13 @@ public String checkDatabaseConnection() {
 
         // Redis 연결 테스트
         try {
-            System.out.println("Redis Config - Host: " + System.getenv("REDIS_HOST") + 
-                              ", Port: " + System.getenv("REDIS_PORT") + 
-                              ", Password: " + System.getenv("REDIS_PASSWORD"));
+            String host = System.getenv("REDIS_HOST");
+            String port = System.getenv("REDIS_PORT");
+            String password = System.getenv("REDIS_PASSWORD");
+            System.out.println("Attempting Redis connection - Host: " + host + ", Port: " + port + ", Password: " + password);
             stringRedisTemplate.opsForValue().set("health-check", "ok");
             String value = stringRedisTemplate.opsForValue().get("health-check");
+            System.out.println("Redis response: " + value);
             if ("ok".equals(value)) {
                 result.append("Redis connection successful!");
             } else {
@@ -43,6 +46,8 @@ public String checkDatabaseConnection() {
             }
         } catch (Exception e) {
             result.append("Redis connection failed: ").append(e.getMessage());
+            System.err.println("Redis connection error: " + e.getMessage());
+            e.printStackTrace(); // 스택 트레이스 출력
         }
 
         return result.toString();
