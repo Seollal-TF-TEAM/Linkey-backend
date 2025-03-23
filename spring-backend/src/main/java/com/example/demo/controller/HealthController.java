@@ -27,7 +27,7 @@ public class HealthController {
             jdbcTemplate.execute("SELECT 1");
             result.append("Postgresql connection successful!\n");
         } catch (Exception e) {
-            result.append("Postgresql connection failed: ").append(e.getMessage()).append                .append("\n");
+            result.append("Postgresql connection failed: ").append(e.getMessage()).append("\n");
         }
 
         // Redis 연결 테스트
