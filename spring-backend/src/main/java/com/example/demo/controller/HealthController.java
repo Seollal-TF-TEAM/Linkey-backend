@@ -18,8 +18,7 @@ public class HealthController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @GetMapping("/db-check")
-    public String checkDatabaseConnection() {
+public String checkDatabaseConnection() {
         StringBuilder result = new StringBuilder();
 
         // PostgreSQL 연결 테스트
@@ -32,6 +31,9 @@ public class HealthController {
 
         // Redis 연결 테스트
         try {
+            System.out.println("Redis Config - Host: " + System.getenv("REDIS_HOST") + 
+                              ", Port: " + System.getenv("REDIS_PORT") + 
+                              ", Password: " + System.getenv("REDIS_PASSWORD"));
             stringRedisTemplate.opsForValue().set("health-check", "ok");
             String value = stringRedisTemplate.opsForValue().get("health-check");
             if ("ok".equals(value)) {
