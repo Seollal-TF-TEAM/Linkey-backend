@@ -1,14 +1,16 @@
 package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.response.ResProjectDetailDto;
+import com.linkey.core.domain.dto.response.ResProjectListDto;
 
 import java.util.List;
 
 public interface ProjectService {
 
-    public List<ProjectDto> getProjectsByGithubUserId(Long githubUserId);
+    public ResProjectListDto getProjectsByGithubUserId(Long githubUserId);
 
-    public ProjectDto getProjectByProjectId(Integer projectId);
+    public ResProjectDetailDto getProjectByProjectId(Integer projectId);
 
     public Integer createProject(ProjectDto projectDTO);
 
@@ -16,6 +18,6 @@ public interface ProjectService {
 
     public Integer deleteProject(ProjectDto projectDTO);
 
-    public List<ProjectDto> getProjectsByTeamId(Integer teamId);
+    public ResProjectListDto getProjectsByTeamId(Integer teamId);
 
 }
