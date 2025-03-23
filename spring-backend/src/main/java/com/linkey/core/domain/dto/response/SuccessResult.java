@@ -10,12 +10,5 @@ import lombok.Setter;
 @Builder
 public class SuccessResult {
     private String status;
-    private ResultData data;
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    static class ResultData {
-        private int id;
-    }
+    private Object data;
 }
