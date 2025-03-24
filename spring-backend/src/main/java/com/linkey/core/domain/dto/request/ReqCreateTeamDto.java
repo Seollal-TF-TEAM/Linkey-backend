@@ -18,7 +18,7 @@ public class ReqCreateTeamDto {
     @ToString
     @AllArgsConstructor
     public static class SingleTeamMember {
-        long githubUserId;
+        Long githubUserId;
     }
 }
 /*

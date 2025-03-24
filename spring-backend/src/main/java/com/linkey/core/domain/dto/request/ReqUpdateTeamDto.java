@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @ToString
 @AllArgsConstructor
-public class ReqUdateTeamDto {
+public class ReqUpdateTeamDto {
     private String teamName;
     private String teamDesc;
     private List<SingleTeamMember> teamMembers;

@@ -23,7 +23,7 @@ public class GitUser {
     }
 
     @Id
-    private long githubUserId;
+    private Long githubUserId;
 
     @Column(nullable = false, length = 255)
     private String githubUserName;

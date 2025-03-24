@@ -1,13 +1,10 @@
 package com.linkey.core.controller;
 
-
-import com.linkey.core.domain.entity.Team;
-import com.linkey.core.domain.entity.TeamMember;
-import org.springframework.stereotype.Component;
+import com.linkey.core.domain.dto.TeamDto;
+import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.service.team.TeamService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,35 +12,60 @@ import java.util.List;
 @RequestMapping("/api/teams")
 public class TeamController {
 
-//    private final
+    private final TeamService teamService;
 
-    @GetMapping("/getTeam")
-    public Team getTeam() {
-        return null;
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
     }
 
-    @GetMapping("/getMember")
-    public List<TeamMember> getTeamMember(){
-        return null;
+    // 팀 리스트
+    @GetMapping("/{id}")
+    @ResponseBody
+    public TeamDto getTeam(@PathVariable Integer id) {
+        return teamService.getTeamById(id);
     }
 
-    @PostMapping("/createTeam")
-    public boolean createTeam(Team team) {
-        return false;
+    // 팀 추가
+    @PostMapping
+    @ResponseBody
+    public Boolean createTeam(@RequestBody TeamDto teamDto) {
+        return teamService.addTeam(teamDto);
     }
 
-    @PostMapping("/createMember")
-    public boolean createMember(TeamMember teamMember) {
-        return false;
+    // 팀 수정
+    @PatchMapping("/{id}")
+    @ResponseBody
+    public Boolean updateTeam(@PathVariable Integer id, @RequestBody TeamDto teamDto) {
+        return teamService.updateTeam(id, teamDto);
     }
 
-    @PostMapping("/deleteTeam")
-    public boolean deleteTeam(Integer teamId) {
-        return false;
+    // 팀 삭제
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public Boolean deleteTeam(@PathVariable Integer id) {
+        return teamService.deleteTeam(id);
     }
 
-    @PostMapping("/deleteMember")
-    public boolean deleteMember(Integer teamMemberId) {
-        return false;
+    // 팀 멤버
+    @GetMapping("/{id}/members")
+    @ResponseBody
+    public List<TeamMemberDto> getTeamMembers(@PathVariable Integer id) {
+        return teamService.getTeamMembers(id);
+    }
+
+    // 팀 멤버 추가
+    @PostMapping("/{teamId}/members")
+    @ResponseBody
+    public Boolean addTeamMember(@PathVariable Integer teamId,
+                                 @RequestBody TeamMemberDto teamMemberDto) {
+        return teamService.addTeamMember(teamId, teamMemberDto);
+    }
+
+
+    // 팀 멤버 삭제
+    @DeleteMapping("/members/{memberId}")
+    @ResponseBody
+    public Boolean deleteTeamMember(@PathVariable Integer memberId) {
+        return teamService.deleteTeamMember(memberId);
     }
 }

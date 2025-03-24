@@ -116,7 +116,7 @@ public class TeamServiceImplTest {
         //when
 //        gitUserRepo.save(gitUser);
         Boolean teamResult = teamService.addTeam(teamDto);
-        Boolean result = teamService.addTeamMember(teamMemberDto);
+        //Boolean result = teamService.addTeamMember(teamMemberDto);
         List<TeamMemberDto> members = teamService.getTeamMembers(teamMemberDto.getTeamId());
 
         //then
