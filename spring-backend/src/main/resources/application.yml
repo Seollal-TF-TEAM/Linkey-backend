@@ -22,10 +22,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
-    url: jdbc:postgresql://linkey.co.kr:30432/linkey  #mydatabase
-    username: linkeyadmin #myuser
-    password: linkeyadmin12! #mypassword
+    url: ${POSTGRESQL_URL}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
   graphql:
     graphiql:
@@ -33,7 +35,7 @@ spring:
 #    printer:
 #      enabled: true
     cors:
-      allowed-origins: "http://localhost:3000"
+      allowed-origins: "https://linkey.co.kr"
       allowed-methods: "GET,POST"
       allowed-headers: "*"
     schema:
@@ -41,6 +43,17 @@ spring:
     playground:
       settings:
         request.credentials: "omit"
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+    lettuce:
+      pool:
+        max-active: 8    # 최대 활성 연결 수 (기본값: 8)
+        max-idle: 8      # 풀에 유지할 최대 유휴 연결 수 (기본값: 8)
+        min-idle: 0      # 풀에 유지할 최소 유휴 연결 수 (기본값: 0)
+        max-wait: 2000ms # 연결을 기다리는 최대 시간 (기본값: -1, 무제한 대기)
 
 logging:
   level:
