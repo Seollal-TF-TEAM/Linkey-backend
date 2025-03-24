@@ -316,3 +316,10 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,intellij,visualstudiocode,macos,windows,dotenv,gradle
+
+spring-backend/wrapper/
+.idea/
+spring-backend/daemon/
+spring-backend/native/
+spring-backend/caches/
+spring-backend/jdks/
