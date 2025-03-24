@@ -12,13 +12,13 @@ public interface TeamService {
 
     public Boolean deleteTeam(Integer id);
 
-    public Boolean updateTeam(TeamDto team);
+    public Boolean updateTeam(Integer id, TeamDto team);
 
     public TeamDto getTeamById(Integer id);
 
     public List<TeamMemberDto> getTeamMembers(Integer teamId);
 
-    public Boolean addTeamMember(TeamMemberDto teamMember);
+    public Boolean addTeamMember(Integer teamId, TeamMemberDto teamMember);
 
     public Boolean deleteTeamMember(Integer teamMemberId);
 
