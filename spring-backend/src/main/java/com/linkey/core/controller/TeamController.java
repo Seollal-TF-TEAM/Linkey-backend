@@ -47,10 +47,10 @@ public class TeamController {
     }
 
     // 팀 멤버
-    @GetMapping("/{id}/members")
+    @GetMapping("/{teamId}/members")
     @ResponseBody
-    public List<TeamMemberDto> getTeamMembers(@PathVariable Integer id) {
-        return teamService.getTeamMembers(id);
+    public List<TeamMemberDto> getTeamMembers(@PathVariable Integer teamId) {
+        return teamService.getTeamMembers(teamId);
     }
 
     // 팀 멤버 추가
@@ -60,7 +60,6 @@ public class TeamController {
                                  @RequestBody TeamMemberDto teamMemberDto) {
         return teamService.addTeamMember(teamId, teamMemberDto);
     }
-
 
     // 팀 멤버 삭제
     @DeleteMapping("/members/{memberId}")
