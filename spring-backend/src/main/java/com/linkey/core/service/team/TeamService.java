@@ -14,7 +14,7 @@ public interface TeamService {
 
     public Boolean updateTeam(Integer id, TeamDto team);
 
-    public TeamDto getTeamById(Integer id);
+    public TeamDto getTeamById(Integer teamId);
 
     public List<TeamMemberDto> getTeamMembers(Integer teamId);
 
