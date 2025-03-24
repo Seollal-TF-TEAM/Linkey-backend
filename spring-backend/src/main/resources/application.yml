@@ -2,7 +2,6 @@ server:
   port : 8080
 
 spring:
-
   security:
     oauth2:
       client:
@@ -18,10 +17,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
-    url: ${POSTGRESQL_URL}  #mydatabase
-    username: ${POSTGRESQL_USERNAME} #myuser
-    password: ${POSTGRESQL_PASSWORD} #mypassword
+    url: ${POSTGRESQL_URL}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
   graphql:
     graphiql:
