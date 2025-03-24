@@ -3,7 +3,7 @@ name: Backend Dev CI/CD - Build and Deploy to Dev Server
 on:
   push:
     branches:
-      - main-CICD
+      - main
 
 jobs:
   build-and-deploy:
