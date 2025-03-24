@@ -21,7 +21,7 @@ public class CorsConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 활성화
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)) // 세션 사용
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/graphql", "/playground", "/graphiql", "/auth/github/callback", "/user/token").permitAll() // GitHub OAuth API 허용
+                        .requestMatchers("/graphql", "/playground", "/graphiql", "/auth/github/callback", "/user/token", "/api/db-check").permitAll() // GitHub OAuth API 허용
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable()) // 로그인 폼 비활성화
