@@ -26,8 +26,8 @@ public class GitAuthController {
     //Redis 추가
     private final RedisTemplate<String, String> redisTemplate;
 
-    private final String clientId = "Ov23liAorbvvq3W4wXGF"; // GitHub OAuth 앱에서 발급받은 Client ID
-    private final String clientSecret = "c151c379f304a438abefab614cbfff564adc22b4"; // GitHub OAuth 앱에서 발급받은 Client Secret
+    private final String clientId = System.getenv("GITHUB_APP_CLIENT_ID");
+    private final String clientSecret = System.getenv("GITHUB_APP_CLIENT_SECRET");
     private final RestTemplate restTemplate = new RestTemplate();
     private final GitUserRepository gitUserRepository;
 
