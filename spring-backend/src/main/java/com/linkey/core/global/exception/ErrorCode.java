@@ -1,4 +1,4 @@
-package com.linkey.core.exception;
+package com.linkey.core.global.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
