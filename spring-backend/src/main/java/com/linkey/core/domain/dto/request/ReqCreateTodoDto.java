@@ -1,5 +1,6 @@
 package com.linkey.core.domain.dto.request;
 
+import com.linkey.core.domain.enums.TodoLevel;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,10 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReqCreateTodoDto {
     private String todoName;
-    private String todoContent;
+    private String todoContents;
     private LocalDateTime todoStartAt;
     private LocalDateTime todoEndAt;
     private SingleSprint sprint;
+    private TodoLevel todoLevel; // ENUM (L, M, H)
+    private Long createdUserId;
 
     @Builder
     @ToString
