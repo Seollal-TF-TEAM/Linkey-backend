@@ -26,8 +26,8 @@ public class GitAuthController {
     //Redis 추가
     private final RedisTemplate<String, String> redisTemplate;
 
-    private final String clientId = "Ov23liQoOCN40W8vsEU0"; // GitHub OAuth 앱에서 발급받은 Client ID
-    private final String clientSecret = "d806a20481797f422c52d6c8dc40e5cd66b64eab"; // GitHub OAuth 앱에서 발급받은 Client Secret
+    private final String clientId = "Ov23liAorbvvq3W4wXGF"; // GitHub OAuth 앱에서 발급받은 Client ID
+    private final String clientSecret = "c151c379f304a438abefab614cbfff564adc22b4"; // GitHub OAuth 앱에서 발급받은 Client Secret
     private final RestTemplate restTemplate = new RestTemplate();
     private final GitUserRepository gitUserRepository;
 
@@ -54,10 +54,10 @@ public class GitAuthController {
         saveOrUpdateGitUser(user);
 
         // Redis에 access_token, userId저장
-        String redisKey = "github:token:" + user.getGithubUserId();
+        String redisKey = "githubId:" + user.getGithubUserId();
         redisTemplate.opsForValue().set(redisKey, accessToken, Duration.ofHours(1));
 
-
+        redisTemplate.hasKey(redisKey);
         UserDetails userDetails = User.withUsername(user.getGithubUserName()).password("").roles("USER").build();
         SecurityContextHolder.getContext().setAuthentication(new CustomAuthentication(userDetails));
 
@@ -65,7 +65,9 @@ public class GitAuthController {
         response.put("user", user);
 
         System.out.println("res :" + response);
+
         return ResponseEntity.ok(response);
+
     }
 
     private String getAccessToken(String code) {
@@ -131,4 +133,17 @@ public class GitAuthController {
             gitUserRepository.save(user);
         });
     }
+
+    // Redis에 githubId값 유무 체크(로그인 체크)
+    @GetMapping("/exists/{githubUserId}")
+    public ResponseEntity<?> checkIfTokenExists(@PathVariable("githubUserId") Long githubUserId) {
+        String redisKey = "githubId:" + githubUserId;
+        boolean exists = Boolean.TRUE.equals(redisTemplate.hasKey(redisKey));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("exists", exists);
+
+        return ResponseEntity.ok(response);
+    }
+
 }
