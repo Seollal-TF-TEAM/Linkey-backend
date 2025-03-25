@@ -1,30 +1,13 @@
 package com.linkey.core.service.sprint;
 
 import com.linkey.core.domain.dto.SprintDto;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 public interface SprintService {
 
-    //public List<SprintDto> findByProjectId(Integer projectId);
+    Boolean addSprint(Integer projectId, SprintDto sprintDto);
 
-    public Boolean addSprint(Integer projectId, SprintDto sprintDto);
+    Boolean updateSprint(Long sprintId, SprintDto sprintDto);
 
-    //List<SprintDto> findByProjectId(Integer projectId);
-
-    /*
-        - Sprint insert 해야할 것
-            - project id - fk
-            - sprint name
-            - sprint contents
-            - sprint start at
-            - sprint end at
-
-        1. 프로젝트 id를 프로젝트 리포지토리에서 찾음
-        2. new sprint를 만듦
-        3. sprint repository에 save를 함
-
-        * */
-    //Boolean addSprint(Integer projectId, SprintDto sprintDto);
+//    List<SprintDto> findByProjectId(Integer projectId); // 프로젝트별 스프린트 조회 (필요한 경우)
 }

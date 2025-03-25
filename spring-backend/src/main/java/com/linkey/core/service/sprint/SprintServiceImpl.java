@@ -5,14 +5,14 @@ import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Sprint;
 import com.linkey.core.repository.project.ProjectRepository;
 import com.linkey.core.repository.sprint.SprintRepository;
-import graphql.com.google.common.base.Optional;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class SprintServiceImpl implements SprintService {
 
     private final SprintRepository repository;
@@ -24,10 +24,21 @@ public class SprintServiceImpl implements SprintService {
         this.projectRepo = projectRepo;
     }
 
+    // update sprint
+    @Transactional
+    @Override
+    public Boolean updateSprint(Long sprintId, SprintDto sprintDto) {
+        Sprint existingSprint = repository.findById(sprintId)
+                .orElseThrow(() -> new EntityNotFoundException("Sprint not found with id: " + sprintId));
+
+        existingSprint.updateFromDto(sprintDto);
+        return true;
+    }
+
     @Override
     public Boolean addSprint(Integer projectId, SprintDto sprintDto) {
+        Project project = projectRepo.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + projectId));
 
-        Project project = projectRepo.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + projectId));;
         Sprint sprint = Sprint.builder()
                 .sprintName(sprintDto.getSprintName())
                 .sprintContents(sprintDto.getSprintContents())
