@@ -37,42 +37,19 @@ public class ProjectController {
     }
 
     @PostMapping("createProject")
-    public Boolean createProject() {
+    public ResWrapper createProject() {
         return null;
     }
 
     @PatchMapping("updateProject")
     public ResWrapper updateProject(@RequestBody ReqUpdateProjectDto reqUpdateProjectDto) {
-        ResWrapper result = null;
         try {
             Integer projectId = projectService.updateProject(reqUpdateProjectDto);
-            result = ResWrapper.builder()
-                    .result(
-                            SuccessResult.builder()
-                                    .status("Success")
-                                    .data(projectId)
-                                    .build()
-                    ).build();
-            return result;
+            return ResWrapper.resSuccess(projectId);
         } catch (CustomException e) {
-            result = ResWrapper.builder()
-                    .result(
-                            ErrorResult.builder()
-                                    .status(e.getErrorCode().getHttpStatus().value())
-                                    .errorCode(e.getErrorCode().getCode())
-                                    .message(e.getErrorCode().getMessage())
-                    ).build();
-            return result;
+            return ResWrapper.resCustomException(e);
         } catch (Exception e) {
-            result = ResWrapper.builder()
-                    .result(
-                            ErrorResult.builder()
-                                    .status(400)
-                                    .errorCode(9999)
-                                    .message(e.getMessage())
-                                    .build()
-                    ).build();
-            return result;
+            return ResWrapper.resException(e);
         }
 
     }

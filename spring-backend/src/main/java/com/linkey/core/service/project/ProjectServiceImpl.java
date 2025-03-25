@@ -1,6 +1,7 @@
 package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.request.ReqUpdateProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.project.ProjectRepository;
@@ -53,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer updateProject(ProjectDto projectDTO) {
+    public Integer updateProject(ReqUpdateProjectDto projectDTO) {
         return 0;
     }
 
