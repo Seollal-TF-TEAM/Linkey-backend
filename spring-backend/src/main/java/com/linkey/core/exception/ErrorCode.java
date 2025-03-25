@@ -1,7 +1,9 @@
 package com.linkey.core.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
 
     // 1000번대: 사용자 관련 예외 처리
@@ -24,13 +26,4 @@ public enum ErrorCode {
         this.httpStatus = httpStatus;
     }
 
-    public int getCode() {
-        return code;
-    }
-    public String getMessage() {
-        return message;
-    }
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
 }

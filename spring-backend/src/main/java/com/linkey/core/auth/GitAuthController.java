@@ -63,9 +63,12 @@ public class GitAuthController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
+        response.put("token", accessToken); // 여기 꼭 포함
 
         System.out.println("res :" + response);
+
         return ResponseEntity.ok(response);
+
     }
 
     private String getAccessToken(String code) {

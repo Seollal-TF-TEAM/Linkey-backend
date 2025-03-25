@@ -24,7 +24,6 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepo;
-
     private final TeamMemberRepository teamMemberRepo;
     private final GitUserRepository gitUserRepository;
 
@@ -52,7 +51,7 @@ public class TeamServiceImpl implements TeamService {
                 new EntityNotFoundException("Team not found with id: " + id)
         );
 
-        teamRepo.deleteById(id);
+        teamRepo.deleteByTeamId(id);
         return true;
     }
 
@@ -70,8 +69,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamDto getTeamById(Integer id) {
         Team team = teamRepo.findByTeamId(id);
-        TeamDto teamDto = TeamDto.fromEntity(team);
-        return teamDto;
+        return TeamDto.fromEntity(team);
     }
 
     @Override
