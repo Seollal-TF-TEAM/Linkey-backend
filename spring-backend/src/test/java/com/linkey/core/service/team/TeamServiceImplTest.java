@@ -41,11 +41,11 @@ public class TeamServiceImplTest {
 
 //    @InjectMocks
 //    TeamServiceImpl teamService;
-    @BeforeEach
-    public void beforeEach() {
-        MockitoAnnotations.openMocks(this); // ✅ Mock 초기화 필수!
-        teamService = new TeamServiceImpl(teamRepo, teamMemberRepo);
-    }
+//    @BeforeEach
+//    public void beforeEach() {
+//        MockitoAnnotations.openMocks(this); // ✅ Mock 초기화 필수!
+//        teamService = new TeamServiceImpl(teamRepo, teamMemberRepo);
+//    }
 
     @Test
     public void testAddTeam() {

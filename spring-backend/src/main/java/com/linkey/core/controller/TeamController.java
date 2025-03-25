@@ -2,6 +2,8 @@ package com.linkey.core.controller;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
+import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.service.team.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +23,14 @@ public class TeamController {
     // 팀 리스트
     @GetMapping("/{id}")
     @ResponseBody
-    public TeamDto getTeam(@PathVariable Integer id) {
+    public ResTeamListDto getTeam(@PathVariable Integer id) {
         return teamService.getTeamById(id);
     }
 
     // 팀 추가
     @PostMapping
     @ResponseBody
-    public Boolean createTeam(@RequestBody TeamDto teamDto) {
+    public Boolean createTeam(@RequestBody ReqCreateTeamDto teamDto) {
         return teamService.addTeam(teamDto);
     }
 
@@ -49,7 +51,7 @@ public class TeamController {
     // 팀 멤버
     @GetMapping("/{teamId}/members")
     @ResponseBody
-    public List<TeamMemberDto> getTeamMembers(@PathVariable Integer teamId) {
+    public ResTeamListDto getTeamMembers(@PathVariable Integer teamId) {
         return teamService.getTeamMembers(teamId);
     }
 

@@ -13,7 +13,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositor
 
     List<Todo> getTodosBySprint_SprintId(Integer sprintId);
 
-    Todo saveAll(List<Todo> todo);
+//    List<Todo> saveAll(List<Todo> todo);
 
     void deleteById(Long id);
 }

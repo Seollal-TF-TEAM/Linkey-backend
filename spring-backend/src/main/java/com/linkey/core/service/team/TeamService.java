@@ -6,6 +6,7 @@ import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -18,10 +19,11 @@ public interface TeamService {
 
     public ResTeamListDto getTeamById(Integer id);
 
-
     public ResTeamListDto getTeamMembers(Integer teamId);
 
     public Boolean addTeamMember(ReqCreateTeamDto team);
+
+    public Boolean addTeamMember(Integer teamId, TeamMemberDto team);
 
     public Boolean deleteTeamMember(Integer teamMemberId);
 
