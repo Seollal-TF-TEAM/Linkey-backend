@@ -1,14 +1,14 @@
 package com.linkey.core.domain.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+
+@Data
+@AllArgsConstructor
 public class ErrorResult {
-    private String status;
+    private int status;
     private int errorCode;
     private String message;
 }

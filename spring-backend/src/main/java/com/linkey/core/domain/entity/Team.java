@@ -53,5 +53,17 @@ public class Team {
                 .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
                 .build();
     }
+    public void updateFromDto(TeamDto dto) {
+        if (dto.getTeamName() != null) {
+            this.teamName = dto.getTeamName();
+        }
+
+        if (dto.getTeamDesc() != null) {
+            this.teamDesc = dto.getTeamDesc();
+        }
+
+        this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
+    }
+
 
 }

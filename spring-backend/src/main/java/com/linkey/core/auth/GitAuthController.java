@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth/github")
+@RequestMapping("/api/auth/github")
 //@CrossOrigin(origins = "http://localhost:3000")
 public class GitAuthController {
 

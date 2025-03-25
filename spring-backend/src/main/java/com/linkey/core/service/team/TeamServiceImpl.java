@@ -4,14 +4,19 @@ import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
+import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
+import com.linkey.core.exception.CustomException;
+import com.linkey.core.exception.ErrorCode;
 import com.linkey.core.repository.team.TeamMemberRepository;
 import com.linkey.core.repository.team.TeamRepository;
+import com.linkey.core.repository.user.GitUserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,10 +30,12 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepo;
 
     private final TeamMemberRepository teamMemberRepo;
+    private final GitUserRepository gitUserRepository;
 
-    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo) {
+    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository) {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
+        this.gitUserRepository = gitUserRepository;
     }
 
 
@@ -55,14 +62,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Boolean updateTeam(TeamDto team) {
-        Team teamEntity = teamRepo.findByTeamId(team.getTeamId());
-        if (teamEntity== null) throw new EntityNotFoundException("Team not found");
+    public Boolean updateTeam(Integer id, TeamDto teamDto) {
+        Team existingTeam = teamRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
 
-        if (team.getTeamDesc() != null) teamEntity.setTeamDesc(team.getTeamDesc());
-        if (team.getTeamName() != null) teamEntity.setTeamName(team.getTeamName());
-
-        teamEntity.setUpdatedAt(LocalDateTime.now());
+        existingTeam.updateFromDto(teamDto);
 
         return true;
     }
@@ -81,18 +85,36 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean addTeamMember(TeamMemberDto teamMember) {
-        TeamMember teamMemberEntity = TeamMember.toEntity(teamMember);
-        TeamMember saveTeamMember = Optional.ofNullable(teamMemberRepo.save(teamMemberEntity))
-                .orElseThrow(() -> new EntityNotFoundException("can not add member to team member"));
 
+    @Transactional
+    public Boolean addTeamMember(Integer teamId, TeamMemberDto dto) {
+        Team team = teamRepo.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + teamId));
 
+        //이미 존재하는 팀원은 추가 못하게
+        GitUser gitUser = gitUserRepository.findByGithubUserId(dto.getGithubUserId())
+                .orElseThrow(() -> new IllegalArgumentException("GitUser not found: id=" + dto.getGithubUserId()));
+
+        boolean isDuplicate = teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId());
+        if (isDuplicate) {
+            throw new CustomException(ErrorCode.DUPLICATE_TEAM_MEMBER);
+        }
+
+        TeamMember teamMember = TeamMember.builder()
+                .team(team)
+                .user(new GitUser(dto.getGithubUserId()))
+                .memberRole(dto.getMemberRole())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        teamMemberRepo.save(teamMember);
         return true;
     }
 
     @Override
     public Boolean deleteTeamMember(Integer teamMemberId) {
         teamMemberRepo.deleteById(teamMemberId);
-        return null;
+        return true;
     }
 }
