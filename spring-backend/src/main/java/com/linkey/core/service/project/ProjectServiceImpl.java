@@ -1,6 +1,7 @@
 package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.request.ReqCreateProjectDto;
 import com.linkey.core.domain.dto.request.ReqUpdateProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
@@ -41,12 +42,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public Integer createProject(ProjectDto projectDto) {
+    public Integer createProject(ReqCreateProjectDto projectDto) {
 
         Project project = new Project(
                 projectDto.getProjectName(),
                 projectDto.getProjectDesc(),
-                new Team(projectDto.getTeamId()),
+                new Team(projectDto.getTeam().getTeamId()),
                 projectDto.getGithubRepoUrl()
         );
         Project result = repository.save(project);
