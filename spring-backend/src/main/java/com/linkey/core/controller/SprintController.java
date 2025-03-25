@@ -23,13 +23,13 @@ public class SprintController {
     // 프로젝트 id로 해당 프로젝트의 전체 스프린트 가져오기!
     @GetMapping("/{projectId}")
     public List<SprintDto> getAllSprints(@PathVariable Integer id) {
-        return sprintService.getAllSprintsByProjectId(id);
+        return sprintService.findByProjectId(id);
     }
 
     // sprint 정보 insert
     @ResponseBody
     @PostMapping("")
-    public Boolean addSprint(@RequestParam SprintDto sprintDto){//@RequestParam String name, @RequestParam int year) {
+    public Boolean addSprint(@RequestParam SprintDto sprintDto){
         return sprintService.addSprint(sprintDto);
     }
 

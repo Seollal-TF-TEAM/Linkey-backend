@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SprintRepository extends JpaRepository<Sprint, Integer> {
-    Sprint getAllSprintsByProjectId(Integer projectId);
+    Sprint findByProjectId(Integer projectId);
+    Sprint save(Sprint sprint);
 }

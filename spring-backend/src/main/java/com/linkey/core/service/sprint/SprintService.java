@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface SprintService {
 
-    public List<SprintDto> getAllSprintsByProjectId(Integer projectId);
+    public List<SprintDto> findByProjectId(Integer projectId);
 
     public Boolean addSprint(SprintDto sprintDto);
 
-    List<SprintDto> getAllSprintsByProjectId(Long projectId);
+//    List<SprintDto> findByProjectId(Long projectId);
 
     /*
         - Sprint insert 해야할 것
