@@ -1,17 +1,14 @@
 package com.linkey.core.controller;
 
-
 import com.linkey.core.domain.dto.SprintDto;
-import com.linkey.core.domain.entity.Sprint;
 import com.linkey.core.service.sprint.SprintService;
-import com.linkey.core.service.team.TeamService;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/api/sprints")
+@RestController
+@RequestMapping("/api/projects/{projectId}/sprints")
 public class SprintController {
 
     private final SprintService sprintService;
@@ -20,18 +17,15 @@ public class SprintController {
         this.sprintService = sprintService;
     }
 
-    // 프로젝트 id로 해당 프로젝트의 전체 스프린트 가져오기!
-    @GetMapping("/{projectId}")
-    public List<SprintDto> getAllSprints(@PathVariable Integer id) {
-        return sprintService.findByProjectId(id);
+    @PostMapping
+    public ResponseEntity<?> addSprint(@PathVariable Integer projectId, @RequestBody SprintDto sprintDto) {
+        sprintService.addSprint(projectId, sprintDto);
+        return ResponseEntity.ok("스프린트 등록 완료!");
     }
 
-    // sprint 정보 insert
-    @ResponseBody
-    @PostMapping("")
-    public Boolean addSprint(@RequestParam SprintDto sprintDto){
-        return sprintService.addSprint(sprintDto);
-    }
-
-
+//    @GetMapping
+//    public ResponseEntity<List<SprintDto>> getSprints(@PathVariable Integer projectId) {
+//        List<SprintDto> sprints = sprintService.findByProjectId(projectId);
+//        return ResponseEntity.ok(sprints);
+//    }
 }

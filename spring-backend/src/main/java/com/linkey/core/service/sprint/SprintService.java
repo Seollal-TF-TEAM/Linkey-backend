@@ -1,16 +1,17 @@
 package com.linkey.core.service.sprint;
 
 import com.linkey.core.domain.dto.SprintDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface SprintService {
 
-    public List<SprintDto> findByProjectId(Integer projectId);
+    //public List<SprintDto> findByProjectId(Integer projectId);
 
-    public Boolean addSprint(SprintDto sprintDto);
+    public Boolean addSprint(Integer projectId, SprintDto sprintDto);
 
-//    List<SprintDto> findByProjectId(Long projectId);
+    //List<SprintDto> findByProjectId(Integer projectId);
 
     /*
         - Sprint insert 해야할 것
@@ -25,5 +26,5 @@ public interface SprintService {
         3. sprint repository에 save를 함
 
         * */
-    Boolean addSprint(Integer projectId, SprintDto sprintDto);
+    //Boolean addSprint(Integer projectId, SprintDto sprintDto);
 }
