@@ -2,15 +2,14 @@ package com.linkey.core.controller;
 
 import com.linkey.core.domain.dto.request.ReqCreateProjectDto;
 import com.linkey.core.domain.dto.request.ReqUpdateProjectDto;
-import com.linkey.core.domain.dto.response.ErrorResult;
+import com.linkey.core.domain.dto.response.ResProjectDetailDto;
+import com.linkey.core.domain.dto.response.ResProjectListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
-import com.linkey.core.domain.entity.Project;
 import com.linkey.core.exception.CustomException;
 import com.linkey.core.service.project.ProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/api/projects")
@@ -24,16 +23,33 @@ public class ProjectController {
 
 
     @GetMapping("projectList")
-    public List<Project> getPageProjectList() {
-        return null;
+    @ResponseBody
+    public ResWrapper getProjectList(@RequestParam("githubUserId") long githubUserId) {
+        try {
+            ResProjectListDto resProjectListDto = projectService.getProjectsByGithubUserId(githubUserId);
+            return ResWrapper.resSuccess(resProjectListDto);
+        } catch (CustomException e){
+            return ResWrapper.resCustomException(e);
+        } catch (Exception e) {
+            return ResWrapper.resException(e);
+        }
     }
 
     @GetMapping("projectDetail")
-    public Project getPageProjectDetail() {
-        return null;
+    @ResponseBody
+    public ResWrapper getProjectDetail(@RequestParam("projectId") int projectId) {
+        try {
+            ResProjectDetailDto resProjectDetailDto = projectService.getProjectByProjectId(projectId);
+            return ResWrapper.resSuccess(resProjectDetailDto);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        } catch (Exception e) {
+            return ResWrapper.resException(e);
+        }
     }
 
     @PostMapping("createProject")
+    @ResponseBody
     public ResWrapper createProject(@RequestBody ReqCreateProjectDto reqCreateProjectDto) {
         try {
             Integer projectId = projectService.createProject(reqCreateProjectDto);
@@ -46,6 +62,7 @@ public class ProjectController {
     }
 
     @PatchMapping("updateProject")
+    @ResponseBody
     public ResWrapper updateProject(@RequestBody ReqUpdateProjectDto reqUpdateProjectDto) {
         try {
             Integer projectId = projectService.updateProject(reqUpdateProjectDto);
@@ -59,7 +76,15 @@ public class ProjectController {
     }
 
     @PatchMapping("deleteProject")
-    public  deleteProject() {
-        return null;
+    @ResponseBody
+    public ResWrapper deleteProject(@RequestBody int reqProjectId) {
+        try {
+            Integer projectId = projectService.deleteProject(reqProjectId);
+            return ResWrapper.resSuccess(projectId);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        } catch (Exception e) {
+            return ResWrapper.resException(e);
+        }
     }
 }
