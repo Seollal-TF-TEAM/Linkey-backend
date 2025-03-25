@@ -146,4 +146,15 @@ public class GitAuthController {
         return ResponseEntity.ok(response);
     }
 
+    // 로그아웃 (Redis 키 삭제)
+    @DeleteMapping("/logout/{githubUserId}")
+    public ResponseEntity<?> logout(@PathVariable("githubUserId") Long githubUserId) {
+        String redisKey = "githubId:" + githubUserId;
+        redisTemplate.delete(redisKey);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Logged out");
+        return ResponseEntity.ok(response);
+    }
+
 }
