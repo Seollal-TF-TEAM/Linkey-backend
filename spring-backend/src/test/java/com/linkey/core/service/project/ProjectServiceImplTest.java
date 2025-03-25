@@ -3,8 +3,13 @@ package com.linkey.core.service.project;
 import com.linkey.core.domain.dto.ProjectDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
+import com.linkey.core.domain.entity.TeamMember;
+import com.linkey.core.repository.project.ProjectRepository;
 import com.linkey.core.repository.project.custom.ProjectRepositoryImpl;
+import com.linkey.core.repository.team.TeamMemberRepository;
+import com.linkey.core.repository.team.TeamRepository;
 import jakarta.transaction.Transactional;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +31,14 @@ class ProjectServiceImplTest {
     // test를 위한 가짜 projectRepository 컨텍스트 생성
     // when 절을 이용해 컨텍스트의 동작 방식을 지정해 줄 수 있다.
     @Mock
-    private ProjectRepositoryImpl projectRepository;
+    private ProjectRepository projectRepository;
+
+    @Mock
+    private TeamRepository teamRepository;
+
+    @Mock
+    private TeamMemberRepository teamMemberRepository;
+
 
     // Mock 컨텍스트를 주입하여 사용할 실제 인스턴스를 지정
     @InjectMocks
@@ -102,6 +114,30 @@ class ProjectServiceImplTest {
 
 //        assertEquals(1, result);
     }
+
+    @Test
+    void createProjectFetchJoin(){
+        //given
+
+        Team team = new Team();
+        ProjectDto project = ProjectDto.builder()
+                .projectName("test1")
+                .projectDesc("test1 project")
+                .teamId(team.getTeamId())
+                .githubRepoUrl("https://test1.repo")
+                .build();
+
+        when(projectRepository.save(any(ProjectDto.class))).thenReturn(project);
+
+        projectService.createProject(project);
+        //when
+
+        List<ProjectDto> foundProjects = projectService.getProjectsByGithubUserId(1L);
+
+        //then
+        System.out.println(foundProjects.toString());
+    }
+
 
     @Test
     void updateProject() {
