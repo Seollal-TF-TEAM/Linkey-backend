@@ -2,6 +2,8 @@ package com.linkey.core.service.team;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
+import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
 import com.linkey.core.repository.team.TeamMemberRepository;
@@ -31,7 +33,7 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public Boolean addTeam(TeamDto team) {
+    public Boolean addTeam(ReqCreateTeamDto team) {
         Team teamEntity = Team.toEntity(team);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
                 .orElseThrow(() -> new IllegalArgumentException("save Fail"));
@@ -66,9 +68,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDto getTeamById(Integer id) {
+    public ResTeamListDto getTeamById(Integer id) {
         Team team = teamRepo.findByTeamId(id);
-        TeamDto teamDto = TeamDto.fromEntity(team);
+        ResTeamListDto teamDto = ResTeamListDto.fromEntity(team);
         return teamDto;
     }
 

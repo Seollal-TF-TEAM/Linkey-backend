@@ -1,6 +1,9 @@
 package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.response.ResProjectDetailDto;
+import com.linkey.core.domain.dto.response.ResProjectListDto;
+import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.repository.project.ProjectRepository;
@@ -24,31 +27,34 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public List<ProjectDto> getProjectsByGithubUserId(Long githubUserId) {
+    public ResProjectListDto getProjectsByGithubUserId(Long githubUserId) {
         List<Project> projects = repository.findProectsByGithubUserId(githubUserId);
 
-        return projects.stream()
-                    .map(ProjectDto::fromEntity)
-                    .toList();
+
+        return ResProjectListDto.fromEntity(projects);
+//        return projects.stream()
+//                    .map(ProjectDto::fromEntity)
+//                    .toList();
     }
 
 
     @Override
-    public ProjectDto getProjectByProjectId(Integer projectId) {
+    public ResProjectDetailDto getProjectByProjectId(Integer projectId) {
         Optional<Project> project = Optional.ofNullable(repository.findProjectByProjectId(projectId));
         Project projectEntity = project.orElseThrow(()-> new EntityNotFoundException("반환된 프로젝트 없음"));
 
-        return ProjectDto.fromEntity(projectEntity);
+        return ResProjectDetailDto.fromEntity(projectEntity);
     }
 
 
     @Override
-    public List<ProjectDto> getProjectsByTeamId(Integer teamId) {
+    public ResProjectListDto getProjectsByTeamId(Integer teamId) {
         Optional<List<Project>> projects= Optional.ofNullable((repository.findProjectsByTeam_TeamId(teamId)));
 
         List<Project> projectEntities = projects.orElseThrow(() -> new EntityNotFoundException("반환된 프로젝트 없음"));
 
-        return projectEntities.stream().map(ProjectDto::fromEntity).toList();
+        return ResProjectListDto.fromEntity(projectEntities);
+//        return projectEntities.stream().map(ProjectDto::fromEntity).toList();
     }
 
 
