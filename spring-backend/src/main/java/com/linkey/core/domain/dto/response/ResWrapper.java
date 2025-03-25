@@ -1,6 +1,6 @@
 package com.linkey.core.domain.dto.response;
 
-import com.linkey.core.exception.CustomException;
+import com.linkey.core.global.exception.CustomException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
