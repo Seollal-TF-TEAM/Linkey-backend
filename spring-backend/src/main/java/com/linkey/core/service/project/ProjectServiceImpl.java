@@ -7,6 +7,8 @@ import com.linkey.core.domain.dto.response.ResProjectDetailDto;
 import com.linkey.core.domain.dto.response.ResProjectListDto;
 import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Team;
+import com.linkey.core.global.exception.CustomException;
+import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.repository.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,25 +46,52 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Integer createProject(ReqCreateProjectDto projectDto) {
 
-        Project project = new Project(
-                projectDto.getProjectName(),
-                projectDto.getProjectDesc(),
-                new Team(projectDto.getTeam().getTeamId()),
-                projectDto.getGithubRepoUrl()
+        Project result = repository.save(Project.builder()
+                .projectName(projectDto.getProjectName())
+                .projectDesc(projectDto.getProjectDesc())
+                .team(
+                        Team.builder()
+                                .teamId(projectDto.getTeam().getTeamId())
+                                .build()
+                ).githubRepoUrl(projectDto.getGithubRepoUrl())
+                .build()
         );
-        Project result = repository.save(project);
+
         return result.getProjectId();
     }
 
     @Override
-    public Integer updateProject(ReqUpdateProjectDto projectDTO) {
-        return 0;
+    public Integer updateProject(ReqUpdateProjectDto projectDto) throws CustomException {
+
+        Optional<Project> target = repository.findById(
+                projectDto.getProjectId()
+        );
+
+        if (target.isEmpty()) {
+            throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
+        }
+
+        Project result = repository.save(Project.builder()
+                .projectName(projectDto.getProjectName())
+                .projectDesc(projectDto.getProjectDesc())
+                .githubRepoUrl(projectDto.getGithubRepoUrl())
+                .build()
+        );
+
+        return result.getProjectId();
     }
 
     @Override
-    public Integer deleteProject(int projectId) {
-        return 0;
+    public Integer deleteProject(int projectId) throws CustomException {
+
+        Optional<Project> target = repository.findById(projectId);
+
+        if (target.isEmpty()) {
+            throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
+        }
+
+        repository.delete(target.get());
+
+        return target.get().getProjectId();
     }
-
-
 }
