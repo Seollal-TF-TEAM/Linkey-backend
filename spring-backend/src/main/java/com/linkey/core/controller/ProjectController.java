@@ -7,6 +7,7 @@ import com.linkey.core.domain.dto.response.ResProjectListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.project.ProjectService;
+import com.linkey.core.service.project.ProjectServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/projects")
 public class ProjectController {
 
-    private final ProjectService projectService;
+    private final ProjectServiceImpl projectService;
 
-    public ProjectController (ProjectService projectService) {
+    public ProjectController (ProjectServiceImpl projectService) {
         this.projectService = projectService;
     }
 
@@ -30,8 +31,6 @@ public class ProjectController {
             return ResWrapper.resSuccess(resProjectListDto);
         } catch (CustomException e){
             return ResWrapper.resCustomException(e);
-        } catch (Exception e) {
-            return ResWrapper.resException(e);
         }
     }
 
@@ -43,8 +42,6 @@ public class ProjectController {
             return ResWrapper.resSuccess(resProjectDetailDto);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
-        } catch (Exception e) {
-            return ResWrapper.resException(e);
         }
     }
 
@@ -56,8 +53,6 @@ public class ProjectController {
             return ResWrapper.resSuccess(projectId);
         } catch (CustomException e){
             return ResWrapper.resCustomException(e);
-        } catch (Exception e) {
-            return ResWrapper.resException(e);
         }
     }
 
@@ -69,10 +64,7 @@ public class ProjectController {
             return ResWrapper.resSuccess(projectId);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
-        } catch (Exception e) {
-            return ResWrapper.resException(e);
         }
-
     }
 
     @PatchMapping("deleteProject")
@@ -83,8 +75,6 @@ public class ProjectController {
             return ResWrapper.resSuccess(projectId);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
-        } catch (Exception e) {
-            return ResWrapper.resException(e);
         }
     }
 }
