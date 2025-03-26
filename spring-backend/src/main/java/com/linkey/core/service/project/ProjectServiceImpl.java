@@ -39,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ResProjectDetailDto getProjectByProjectId(Integer projectId) {
         Optional<Project> project = repository.findById(projectId);
 
-        return ResProjectDetailDto.fromEntity(project.get());
+        return project.map(ResProjectDetailDto::fromEntity).orElse(null);
     }
 
 
