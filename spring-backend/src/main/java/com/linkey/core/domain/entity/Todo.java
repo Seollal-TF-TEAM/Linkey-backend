@@ -55,17 +55,4 @@ public class Todo {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static Todo toEntity(TodoDto dto) {
-        return Todo.builder()
-                .todoId(dto.getTodoId())
-                .todoContents(dto.getTodoContents())
-                .todoDoneYn(dto.getTodoDoneYn())
-                .todoLevel(dto.getTodoLevel())
-                .sprint(dto.getSprintId() != null ? new Sprint(dto.getSprintId()) : null)
-                .createdUser(dto.getCreatedUserId() != null ? new GitUser(dto.getCreatedUserId()) : null)
-                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
-                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
-                .build();
-    }
-
 }

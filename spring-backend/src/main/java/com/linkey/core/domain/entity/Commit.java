@@ -47,16 +47,4 @@ public class Commit {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static Commit toEntity(CommitDto dto) {
-        return Commit.builder()
-                .githubCommitSha(dto.getGithubCommitSha())
-                .githubCommitMessage(dto.getGithubCommitMessage())
-                .githubCommitUserId(dto.getGithubCommitUserId())
-                .githubCommitDate(dto.getGithubCommitDate())
-                .todo(new Todo(dto.getTodoId()))
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
-    }
-
 }

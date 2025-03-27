@@ -39,8 +39,8 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     @Override
     public Boolean addTeam(ReqCreateTeamDto teamDto) {
-        Team teamEntity = Team.toEntity(teamDto);
-        TeamMember teamMemberEntity = TeamMember.toEntity(teamDto);
+//        Team teamEntity = Team.toEntity(teamDto);
+//        TeamMember teamMemberEntity = TeamMember.toEntity(teamDto);
 //        Team saveTeam = Optional.of(teamRepo.save(teamEntity))
 //                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
 

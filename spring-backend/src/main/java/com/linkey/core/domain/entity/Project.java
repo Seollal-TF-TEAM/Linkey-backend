@@ -48,23 +48,9 @@ public class Project {
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-
-    public static Project toEntity(ProjectDto dto) {
-        return Project.builder()
-                .projectId(dto.getProjectId())
-                .projectName(dto.getProjectName())
-                .projectDesc(dto.getProjectDesc())
-                .team(new Team(dto.getTeamId()))
-                .githubRepoUrl(dto.getGithubRepoUrl())
-                .createdAt(dto.getCreatedAt())
-                .updatedAt( dto.getUpdatedAt())
-                .build();
     }
 
 }

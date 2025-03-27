@@ -45,16 +45,4 @@ public class Image {
     @JoinColumn(name = "sprintId")
     private Sprint sprint;
 
-    public static Image toEntity(ImageDto dto) {
-        return Image.builder()
-                .imgId(dto.getImgId())
-                .imageUrl(dto.getImageUrl())
-                .imagePath(dto.getImagePath())
-                .fileSize(dto.getFileSize())
-                .fileType(dto.getFileType())
-                .createdAt(dto.getCreatedAt())
-                .project(new Project(dto.getProjectId()))
-                .sprint(new Sprint(dto.getSprintId()))
-                .build();
-    }
 }
