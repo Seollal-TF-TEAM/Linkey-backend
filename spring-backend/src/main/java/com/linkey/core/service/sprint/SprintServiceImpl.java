@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class SprintServiceImpl implements SprintService {
@@ -24,7 +27,7 @@ public class SprintServiceImpl implements SprintService {
         this.projectRepo = projectRepo;
     }
 
-    // update sprint
+    // sprint 수정
     @Transactional
     @Override
     public Boolean updateSprint(Long sprintId, SprintDto sprintDto) {
@@ -35,6 +38,7 @@ public class SprintServiceImpl implements SprintService {
         return true;
     }
 
+    // sprint 추가
     @Override
     public Boolean addSprint(Integer projectId, SprintDto sprintDto) {
         Project project = projectRepo.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + projectId));
@@ -50,4 +54,14 @@ public class SprintServiceImpl implements SprintService {
         repository.save(sprint);
         return true;
     }
+
+    // sprint 삭제
+    @Override
+    public Boolean deleteSprint(Long sprintId) {
+        repository.deleteById(sprintId);
+        return true;
+    }
+
+
+
 }
