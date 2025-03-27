@@ -33,7 +33,6 @@ public class TeamServiceImpl implements TeamService {
         this.gitUserRepository = gitUserRepository;
     }
 
-
     @Override
     public Boolean addTeam(TeamDto team) {
         Team teamEntity = Team.toEntity(team);
