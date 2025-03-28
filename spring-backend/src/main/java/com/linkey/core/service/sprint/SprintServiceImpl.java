@@ -68,15 +68,14 @@ public class SprintServiceImpl implements SprintService {
         Sprint sprint = repository.findById(sprintId)
                 .orElseThrow(() -> new EntityNotFoundException("Sprint not found with id: " + sprintId));
         return SprintDto.fromEntity(sprint);
-//        Optional<Sprint> sprint = repository.findById(sprintId);
-//        assert sprint.orElse(null) != null;
-//        return SprintDto.fromEntity(sprint.orElse(null));
     }
 
-    // sprint 목록 조회 - project id 사용해서 sprint 전부 가져오기
+    // sprint 목록 조회
     @Override
     public List<SprintDto> getSprintsByProjectId(Integer projectId) {
-        List<Sprint> sprints = repository.findByProjectId(projectId); // project id로 sprint 목록 가져오기
+        Project project = new Project(projectId);
+        List<Sprint> sprints = repository.findByProject(project);
         return sprints.stream().map(SprintDto::fromEntity).toList();
     }
+
 }

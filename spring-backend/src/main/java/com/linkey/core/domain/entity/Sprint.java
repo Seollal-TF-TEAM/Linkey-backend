@@ -32,7 +32,7 @@ public class Sprint {
     private String sprintContents;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project; // FK (projects.project_id)
 
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")

@@ -26,6 +26,14 @@ public class SprintController {
         return ResponseEntity.ok(sprints);
     }
 
+    // sprint 조회
+    @ResponseBody
+    @GetMapping("/{sprintId}")
+    public ResponseEntity<SprintDto> getSprint(@PathVariable Long projectId, @PathVariable Long sprintId) {
+        SprintDto sprint = sprintService.getSprintById(sprintId);
+        return ResponseEntity.ok(sprint);
+    }
+
     // sprint 생성
     @PostMapping
     public ResponseEntity<?> addSprint(@PathVariable Integer projectId, @RequestBody SprintDto sprintDto) {
@@ -48,11 +56,4 @@ public class SprintController {
         return sprintService.deleteSprint(sprintId);
     }
 
-    // sprint 조회
-    @ResponseBody
-    @GetMapping("/{sprintId}")
-    public ResponseEntity<SprintDto> getSprint(@PathVariable Long projectId, @PathVariable Long sprintId) {
-        SprintDto sprint = sprintService.getSprintById(sprintId);
-        return ResponseEntity.ok(sprint);
-    }
 }
