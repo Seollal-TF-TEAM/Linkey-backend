@@ -11,5 +11,5 @@ import java.util.List;
 public interface SprintRepository extends JpaRepository<Sprint, Long> {
     Sprint save(Sprint sprint);
     Optional<Sprint> findById(Long sprintId);
-
+    List<Sprint> findByProjectId(Integer projectId);
 }

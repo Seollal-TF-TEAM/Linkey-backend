@@ -18,6 +18,14 @@ public class SprintController {
         this.sprintService = sprintService;
     }
 
+    // sprint 목록 조회 - project id로 조회
+    @ResponseBody
+    @GetMapping
+    public ResponseEntity<List<SprintDto>> getSprints(@PathVariable Integer projectId) {
+        List<SprintDto> sprints = sprintService.getSprintsByProjectId(projectId);
+        return ResponseEntity.ok(sprints);
+    }
+
     // sprint 생성
     @PostMapping
     public ResponseEntity<?> addSprint(@PathVariable Integer projectId, @RequestBody SprintDto sprintDto) {
@@ -41,18 +49,10 @@ public class SprintController {
     }
 
     // sprint 조회
-//    @ResponseBody
-//    @GetMapping("/{sprintId}")
-//    public ResponseEntity<SprintDto> getSprint(@PathVariable Long projectId, @PathVariable Long sprintId) {
-//        SprintDto sprint = sprintService.getSprintById(sprintId);
-//        return ResponseEntity.ok(sprint);
-//    }
-//
-//    // sprint 목록 조회
-//    @ResponseBody
-//    @GetMapping
-//    public ResponseEntity<List<SprintDto>> getSprints(@PathVariable Integer projectId, @PathVariable Long sprintId) {
-//        List<SprintDto> sprints = sprintService.getSprintsByProjectId(projectId);
-//        return ResponseEntity.ok(sprints);
-//    }
+    @ResponseBody
+    @GetMapping("/{sprintId}")
+    public ResponseEntity<SprintDto> getSprint(@PathVariable Long projectId, @PathVariable Long sprintId) {
+        SprintDto sprint = sprintService.getSprintById(sprintId);
+        return ResponseEntity.ok(sprint);
+    }
 }

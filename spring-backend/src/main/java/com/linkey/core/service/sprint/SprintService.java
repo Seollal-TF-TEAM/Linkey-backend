@@ -11,12 +11,12 @@ public interface SprintService {
     Boolean updateSprint(Long sprintId, SprintDto sprintDto);
 
     Boolean deleteSprint(Long sprintId);
-//
-//    // sprint detail
-//    SprintDto getSprintById(Long sprintId);
-//
-//    // sprint list
-//    List<SprintDto> getSprintsByProjectId(Integer projectId);
+
+    // sprint detail
+    SprintDto getSprintById(Long sprintId);
+
+    // sprint list
+    List<SprintDto> getSprintsByProjectId(Integer projectId);
 
 //    List<SprintDto> findByProjectId(Integer projectId); // 프로젝트별 스프린트 조회 (필요한 경우)
 }
