@@ -1,4 +1,4 @@
-package com.linkey.core.exception;
+package com.linkey.core.global.exception;
 
 import com.linkey.core.domain.dto.response.ErrorResult;
 import org.springframework.http.ResponseEntity;

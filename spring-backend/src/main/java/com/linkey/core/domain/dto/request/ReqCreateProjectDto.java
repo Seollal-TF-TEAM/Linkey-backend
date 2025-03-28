@@ -13,6 +13,7 @@ public class ReqCreateProjectDto {
     private String githubRepoUrl;
     private SingleTeam team;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
