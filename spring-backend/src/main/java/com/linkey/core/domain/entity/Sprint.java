@@ -32,7 +32,7 @@ public class Sprint {
     private String sprintContents;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project; // FK (projects.project_id)
 
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
@@ -41,7 +41,7 @@ public class Sprint {
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private LocalDate sprintEndAt;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = true , updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -63,6 +63,28 @@ public class Sprint {
                 .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
                 .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
                 .build();
+    }
+
+
+    public void updateFromDto(SprintDto dto) {
+        if (dto.getSprintName() != null) {
+            this.sprintName = dto.getSprintName();
+        }
+
+        if (dto.getSprintContents() != null) {
+            this.sprintContents = dto.getSprintContents();
+        }
+
+        if (dto.getSprintStartAt() != null) {
+            this.sprintStartAt = dto.getSprintStartAt();
+        }
+
+        if (dto.getSprintEndAt() != null) {
+            this.sprintEndAt = dto.getSprintEndAt();
+        }
+
+        this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
+
     }
 
 }
