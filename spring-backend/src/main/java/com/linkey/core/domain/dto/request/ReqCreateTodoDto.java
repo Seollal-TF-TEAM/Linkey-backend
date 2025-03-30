@@ -19,7 +19,7 @@ public class ReqCreateTodoDto {
     private LocalDateTime todoStartAt;
     private LocalDateTime todoEndAt;
     private SingleSprint sprint;
-    private Long githubUserId; // 👈 담당자 ID 추가!
+    private Long githubUserId;
 
     @Getter
     @Builder

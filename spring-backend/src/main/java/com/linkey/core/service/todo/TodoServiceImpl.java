@@ -12,6 +12,7 @@ import com.linkey.core.repository.todo.TodoRepository;
 import com.linkey.core.repository.user.GitUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,11 +29,6 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<TodoDto> getTodos(Long sprintId) {
-        return List.of();
-    }
-
-    @Override
     public Boolean createTodo(Long sprintId, ReqCreateTodoDto request) {
         Sprint sprint = Sprint.builder()
                 .sprintId((long) request.getSprint().getSprintId())
@@ -46,16 +42,34 @@ public class TodoServiceImpl implements TodoService{
 
         return true;
     }
-
+    @Override
+    public List<TodoDto> getTodos(Long sprintId) {
+        return todoRepository.findBySprint_SprintId(sprintId).stream()
+                .map(TodoDto::fromEntity)
+                .toList();
+    }
 
     @Override
+    @Transactional
     public Boolean updateTodo(Long sprintId, Long todoId, ReqUpdateTodoDto request) {
+        Todo todo = todoRepository.findByTodoId(todoId)
+                .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
+
+        GitUser user = gitUserRepository.findByGithubUserId(request.getGithubUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.TODO_INVALID_USER));
+
+        todo.updateFromDto(request, user);
+
         return true;
     }
 
     @Override
     public Boolean deleteTodo(Long todoId) {
-        todoRepository.deleteByTodoId(todoId);
+        Todo todo = todoRepository.findByTodoId(todoId)
+                .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
+
+        todoRepository.delete(todo);
         return true;
     }
+
 }
