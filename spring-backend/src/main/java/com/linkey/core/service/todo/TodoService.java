@@ -14,6 +14,6 @@ public interface TodoService {
 
     public Boolean updateTodo(Long sprintId, Long todoId, ReqUpdateTodoDto todoDto);
 
-    public Boolean deleteTodo(Integer todoId);
+    public Boolean deleteTodo(Long todoId);
 
 }

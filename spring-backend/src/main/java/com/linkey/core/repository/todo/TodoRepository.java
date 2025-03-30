@@ -1,12 +1,17 @@
 package com.linkey.core.repository.todo;
 
-import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.Todo;
 import com.linkey.core.repository.todo.custom.TodoRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
-    Todo save(Todo todo);
-    Todo findByTodoId(Integer id);
-    void deleteByTodoId(Integer id);
+
+    Optional<Todo> findByTodoId(Long id);
+
+    void deleteByTodoId(Long id);
+
+    List<Todo> findBySprint_SprintId(Long sprintId);
 }
