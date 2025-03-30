@@ -35,7 +35,7 @@ public class Project {
 
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "teamId", nullable = false)
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team; // FK (team_members.team_id)
 
     @NonNull
