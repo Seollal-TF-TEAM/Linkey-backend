@@ -43,7 +43,7 @@ public class TodoController {
     @DeleteMapping("/{todoId}")
     @ResponseBody
     public Boolean deleteTodo(@PathVariable Long sprintId,
-                              @PathVariable Integer todoId) {
+                              @PathVariable Long todoId) {
         return todoService.deleteTodo(todoId);
     }
 }

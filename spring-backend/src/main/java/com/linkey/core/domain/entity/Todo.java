@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.TodoDto;
+import com.linkey.core.domain.dto.request.ReqCreateTodoDto;
 import com.linkey.core.domain.enums.TodoLevel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -55,16 +56,15 @@ public class Todo {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static Todo toEntity(TodoDto dto) {
+    public static Todo toEntity(ReqCreateTodoDto dto, Sprint sprint, GitUser user) {
         return Todo.builder()
-                .todoId(dto.getTodoId())
-                .todoContents(dto.getTodoContents())
-                .todoDoneYn(dto.getTodoDoneYn())
+                .todoContents(dto.getTodoContent())
+                .todoDoneYn(dto.getTodoDoneYn() != null ? dto.getTodoDoneYn().name().charAt(0) : 'N') // enum → 'Y'/'N'
                 .todoLevel(dto.getTodoLevel())
-                .sprint(dto.getSprintId() != null ? new Sprint(dto.getSprintId()) : null)
-                .createdUser(dto.getCreatedUserId() != null ? new GitUser(dto.getCreatedUserId()) : null)
-                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
-                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .sprint(sprint)
+                .createdUser(user)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 

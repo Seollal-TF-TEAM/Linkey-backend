@@ -1,5 +1,7 @@
 package com.linkey.core.domain.dto.request;
 
+import com.linkey.core.domain.enums.TodoDoneYn;
+import com.linkey.core.domain.enums.TodoLevel;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,10 +14,14 @@ import java.time.LocalDateTime;
 public class ReqCreateTodoDto {
     private String todoName;
     private String todoContent;
+    private TodoDoneYn todoDoneYn;
+    private TodoLevel todoLevel;
     private LocalDateTime todoStartAt;
     private LocalDateTime todoEndAt;
     private SingleSprint sprint;
+    private Long githubUserId; // 👈 담당자 ID 추가!
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -23,18 +29,3 @@ public class ReqCreateTodoDto {
         int sprintId;
     }
 }
-
-/*
-예시 :
-    ReqCreateTodoDto.builder()
-                .todoName("name")
-                .todoContent("content")
-                .todoStartAt(LocalDateTime.now())
-                .todoEndAt(LocalDateTime.now())
-                .sprint(
-                        ReqCreateTodoDto.SingleSprint.builder()
-                                .sprintId(123)
-                                .build()
-                )
-                .build();
- */
