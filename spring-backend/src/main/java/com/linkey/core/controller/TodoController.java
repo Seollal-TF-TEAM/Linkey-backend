@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/sprints/{sprintId}/todos")
+@RequestMapping("/api/todos/")
 public class TodoController {
 
     private final TodoService todoService;
@@ -19,31 +19,30 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @GetMapping
+    @GetMapping("todoList")
     @ResponseBody
-    public List<TodoDto> getTodos(@PathVariable Long sprintId) {
+    public List<TodoDto> getTodos(@RequestParam("sprintId") Long sprintId) {
         return todoService.getTodos(sprintId);
     }
 
-    @PostMapping
+    @PostMapping("createTodo")
     @ResponseBody
-    public Boolean createTodo(@PathVariable Long sprintId,
+    public Boolean createTodo(@RequestParam("sprintId") Long sprintId,
                               @RequestBody ReqCreateTodoDto todoDto) {
         return todoService.createTodo(sprintId, todoDto);
     }
 
-    @PatchMapping("/{todoId}")
+    @PatchMapping("updateTodo")
     @ResponseBody
-    public Boolean updateTodo(@PathVariable Long sprintId,
-                              @PathVariable Long todoId,
+    public Boolean updateTodo(@RequestParam("sprintId") Long sprintId,
+                              @RequestParam("todoId") Long todoId,
                               @RequestBody ReqUpdateTodoDto todoDto) {
         return todoService.updateTodo(sprintId, todoId, todoDto);
     }
 
-    @DeleteMapping("/{todoId}")
+    @DeleteMapping("deleteTodo")
     @ResponseBody
-    public Boolean deleteTodo(@PathVariable Long sprintId,
-                              @PathVariable Long todoId) {
+    public Boolean deleteTodo(@RequestParam("todoId") Long todoId) {
         return todoService.deleteTodo(todoId);
     }
 }
