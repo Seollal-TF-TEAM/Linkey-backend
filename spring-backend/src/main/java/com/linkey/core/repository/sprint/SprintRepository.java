@@ -1,16 +1,9 @@
 package com.linkey.core.repository.sprint;
 
-import com.linkey.core.domain.entity.Project;
 import com.linkey.core.domain.entity.Sprint;
+import com.linkey.core.repository.sprint.custom.SprintRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.List;
+public interface SprintRepository extends JpaRepository<Sprint, Long>, SprintRepositoryCustom {
 
-@Repository
-public interface SprintRepository extends JpaRepository<Sprint, Long> {
-    Sprint save(Sprint sprint);
-    Optional<Sprint> findById(Long sprintId);
-    List<Sprint> findByProject(Project projectId);
 }

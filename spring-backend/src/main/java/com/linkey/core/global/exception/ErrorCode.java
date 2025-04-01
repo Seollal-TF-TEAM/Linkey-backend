@@ -28,7 +28,16 @@ public enum ErrorCode {
 
 
     // 4000번대 : Sprint 관련 예외처리
+    // 4000~4099 : DQL 관련 예외
+    SPRINT_NOT_FOUND(4001, "해당하는 스프린트를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
+    // 4100~4399 : DML 관련 예외처리
+    CAN_NOT_FIND_SPRINT(4101, "스프린트를 검색할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_CREATE_SPRINT(4102, "스프린트를 생성할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_UPDATE_SPRINT(4103, "스프린트를 수정할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_DELETE_SPRINT(4104, "스프린트를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+
+    // 4400~4999 : 기타 예외처리
 
     // 5000번대: Todo 관련 예외처리
     TODO_NOT_FOUND(5001, "해당 Todo를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

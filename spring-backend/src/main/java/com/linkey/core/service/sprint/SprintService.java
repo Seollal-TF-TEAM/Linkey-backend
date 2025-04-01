@@ -1,16 +1,13 @@
 package com.linkey.core.service.sprint;
 
-import com.linkey.core.domain.dto.SprintDto;
 import com.linkey.core.domain.dto.request.ReqCreateSprintDto;
 import com.linkey.core.domain.dto.request.ReqUpdateSprintDto;
 import com.linkey.core.domain.dto.response.ResSprintDetailDto;
 import com.linkey.core.domain.dto.response.ResSprintListDto;
 
-import java.util.List;
-
 public interface SprintService {
 
-    long addSprint(ReqCreateSprintDto reqCreateSprintDto);
+    long createSprint(ReqCreateSprintDto reqCreateSprintDto);
 
     long updateSprint(ReqUpdateSprintDto reqUpdateSprintDto);
 
