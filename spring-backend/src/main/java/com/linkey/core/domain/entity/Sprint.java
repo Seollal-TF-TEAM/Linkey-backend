@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.SprintDto;
+import com.linkey.core.domain.dto.request.ReqUpdateSprintDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -66,7 +67,7 @@ public class Sprint {
     }
 
 
-    public void updateFromDto(SprintDto dto) {
+    public Sprint updateFromDto(ReqUpdateSprintDto dto) {
         if (dto.getSprintName() != null) {
             this.sprintName = dto.getSprintName();
         }
@@ -85,6 +86,7 @@ public class Sprint {
 
         this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
 
+        return this;
     }
 
 }
