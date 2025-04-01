@@ -2,6 +2,7 @@ package com.linkey.core.domain.dto.request;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,11 +13,12 @@ import java.time.LocalDateTime;
 public class ReqCreateSprintDto {
     private String sprintName;
     private String sprintContent;
-    private LocalDateTime sprintStartAt;
-    private LocalDateTime sprintEndAt;
+    private LocalDate sprintStartAt;
+    private LocalDate sprintEndAt;
     private SingleProject project;
     private SingleImage sprintImg;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -24,6 +26,7 @@ public class ReqCreateSprintDto {
         int projectId;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

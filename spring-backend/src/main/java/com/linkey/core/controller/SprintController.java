@@ -1,6 +1,10 @@
 package com.linkey.core.controller;
 
 import com.linkey.core.domain.dto.SprintDto;
+import com.linkey.core.domain.dto.request.ReqCreateSprintDto;
+import com.linkey.core.domain.dto.request.ReqUpdateSprintDto;
+import com.linkey.core.domain.dto.response.ResSprintDetailDto;
+import com.linkey.core.domain.dto.response.ResSprintListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.sprint.SprintService;
@@ -25,7 +29,7 @@ public class SprintController {
     @GetMapping("sprintsList")
     public ResWrapper getSprints(@RequestParam("projectId") Integer projectId) {
         try {
-            List<SprintDto> sprints = sprintService.getSprintsByProjectId(projectId);
+            ResSprintListDto sprints = sprintService.getSprintsByProjectId(projectId);
             return ResWrapper.resSuccess(sprints);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
@@ -37,7 +41,7 @@ public class SprintController {
     @GetMapping("sprintDetail")
     public ResWrapper getSprint(@RequestParam("projectId") Integer projectId, @RequestParam("sprintId") Long sprintId) {
         try {
-            SprintDto sprint = sprintService.getSprintById(sprintId);
+            ResSprintDetailDto sprint = sprintService.getSprintById(sprintId);
             return ResWrapper.resSuccess(sprint);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
@@ -47,10 +51,10 @@ public class SprintController {
     // sprint 생성
     @ResponseBody
     @PostMapping("createSprint")
-    public ResWrapper addSprint(@RequestParam("projectId") Integer projectId, @RequestBody SprintDto sprintDto) {
+    public ResWrapper addSprint(@RequestBody ReqCreateSprintDto reqCreateSprintDto) {
         try {
-            sprintService.addSprint(projectId, sprintDto);
-            return ResWrapper.resSuccess("성공");
+            Long sprintId = sprintService.addSprint(reqCreateSprintDto);
+            return ResWrapper.resSuccess(sprintId);
         } catch (CustomException e) {
             return ResWrapper.resException(e);
         }
@@ -59,9 +63,9 @@ public class SprintController {
     // sprint 수정 (sprint id)
     @ResponseBody
     @PatchMapping("updateSprint")
-    public ResWrapper updateSprint(@RequestParam("projectId") Integer projectId, @RequestParam("sprintId") Long sprintId, @RequestBody SprintDto sprintDto) {
+    public ResWrapper updateSprint(@RequestBody ReqUpdateSprintDto reqUpdateSprintDto) {
         try {
-            sprintService.updateSprint(sprintId, sprintDto);
+            sprintService.updateSprint(reqUpdateSprintDto);
             return ResWrapper.resSuccess("성공");
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);

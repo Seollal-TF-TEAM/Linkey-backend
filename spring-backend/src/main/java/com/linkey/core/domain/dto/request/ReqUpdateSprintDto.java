@@ -2,7 +2,7 @@ package com.linkey.core.domain.dto.request;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,8 +13,8 @@ public class ReqUpdateSprintDto {
     private int sprintId;
     private String sprintName;
     private String sprintContents;
-    private LocalDateTime sprintStartAt;
-    private LocalDateTime sprintEndAt;
+    private LocalDate sprintStartAt;
+    private LocalDate sprintEndAt;
 }
 
 /*
