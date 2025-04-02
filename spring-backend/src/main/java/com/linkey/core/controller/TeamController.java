@@ -4,6 +4,8 @@ import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
+import com.linkey.core.domain.dto.response.ResWrapper;
+import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.team.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/teams")
+@RequestMapping("/api/teams/")
 public class TeamController {
 
     private final TeamService teamService;
@@ -21,52 +23,104 @@ public class TeamController {
     }
 
     // 팀 리스트
-    @GetMapping("/{id}")
+    @GetMapping("teamList")
     @ResponseBody
-    public ResTeamListDto getTeam(@PathVariable Integer id) {
-        return teamService.getTeamById(id);
+    public ResWrapper getTeamList(@RequestParam("githubUserId") Long id) {
+        return null;
+    }
+
+  // 팀 상세
+    @GetMapping("teamDetail")
+    @ResponseBody
+    public ResWrapper getTeamDetail(@RequestParam("teamId") Integer teamId) {
+        try {
+            TeamDto teamDto = teamService.getTeamById(teamId);
+            return ResWrapper.resSuccess(teamDto);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 
     // 팀 추가
-    @PostMapping
+    @PostMapping("createTeam")
     @ResponseBody
-    public Boolean createTeam(@RequestBody ReqCreateTeamDto teamDto) {
-        return teamService.addTeam(teamDto);
+    public ResWrapper createTeam(@RequestBody TeamDto teamDto) {
+        try {
+            boolean result = teamService.addTeam(teamDto);
+            return ResWrapper.resSuccess(result);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 
     // 팀 수정
-    @PatchMapping("/{id}")
+    @PatchMapping("updateTeam")
     @ResponseBody
-    public Boolean updateTeam(@PathVariable Integer id, @RequestBody TeamDto teamDto) {
-        return teamService.updateTeam(id, teamDto);
+    public ResWrapper updateTeam(@RequestParam("teamId") Integer teamId, @RequestBody TeamDto teamDto) {
+        try {
+            boolean result = teamService.updateTeam(teamId, teamDto);
+            return ResWrapper.resSuccess(result);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 
     // 팀 삭제
-    @DeleteMapping("/{id}")
+    @DeleteMapping("deleteTeam")
     @ResponseBody
-    public Boolean deleteTeam(@PathVariable Integer id) {
-        return teamService.deleteTeam(id);
+    public ResWrapper deleteTeam(@RequestParam("teamId") Integer teamId) {
+        try {
+            boolean result = teamService.deleteTeam(teamId);
+            return ResWrapper.resSuccess(result);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 
-    // 팀 멤버
-    @GetMapping("/{teamId}/members")
+
+
+    // 팀 멤버 리스트 조회
+    @GetMapping("members/teamMemberList")
     @ResponseBody
-    public ResTeamListDto getTeamMembers(@PathVariable Integer teamId) {
-        return teamService.getTeamMembers(teamId);
+    public ResWrapper getTeamMembers(@RequestParam("teamId") Integer teamId) {
+        try {
+            List<TeamMemberDto> teamMemberDtoList = teamService.getTeamMembers(teamId);
+            return ResWrapper.resSuccess(teamMemberDtoList);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
+    }
+
+    // 팀 멤버 조회
+    @GetMapping("members/teamMemberDetail")
+    @ResponseBody
+    public ResWrapper getTeamMember(@RequestParam("teamId") Integer teamId,
+                                    @RequestParam("githubUserId") Long githubUserId) {
+        return null;
     }
 
     // 팀 멤버 추가
-    @PostMapping("/{teamId}/members")
+    @PostMapping("members/createTeamMember")
     @ResponseBody
-    public Boolean addTeamMember(@PathVariable Integer teamId,
+    public ResWrapper addTeamMember(@RequestParam("teamId") Integer teamId,
                                  @RequestBody TeamMemberDto teamMemberDto) {
-        return teamService.addTeamMember(teamId, teamMemberDto);
+        try {
+            boolean result = teamService.addTeamMember(teamId, teamMemberDto);
+            return ResWrapper.resSuccess(result);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 
     // 팀 멤버 삭제
-    @DeleteMapping("/members/{memberId}")
+    @DeleteMapping("members/deleteTeamMember")
     @ResponseBody
-    public Boolean deleteTeamMember(@PathVariable Integer memberId) {
-        return teamService.deleteTeamMember(memberId);
+    public ResWrapper deleteTeamMember(@RequestParam("memberId") Integer memberId) {
+        try {
+            boolean result = teamService.deleteTeamMember(memberId);
+            return ResWrapper.resSuccess(result);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
     }
 }

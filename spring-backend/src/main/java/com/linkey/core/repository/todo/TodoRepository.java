@@ -4,16 +4,16 @@ import com.linkey.core.domain.dto.TodoDto;
 import com.linkey.core.domain.entity.Todo;
 import com.linkey.core.repository.todo.custom.TodoRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+import java.util.Optional;
+
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 
-    List<Todo> getTodosBySprint_SprintId(Integer sprintId);
+    Optional<Todo> findByTodoId(Long id);
 
-//    List<Todo> saveAll(List<Todo> todo);
+    void deleteByTodoId(Long id);
 
-    void deleteById(Long id);
+    List<Todo> findBySprint_SprintId(Long sprintId);
 }

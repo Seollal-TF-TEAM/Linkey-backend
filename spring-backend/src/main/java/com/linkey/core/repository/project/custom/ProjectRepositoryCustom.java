@@ -5,6 +5,6 @@ import com.linkey.core.domain.entity.Project;
 import java.util.List;
 
 public interface ProjectRepositoryCustom {
-    List<Project> findProectsByGithubUserId(Long githubUserId);
+    List<Project> findProjectsByGithubUserId(Long githubUserId);
 
 }

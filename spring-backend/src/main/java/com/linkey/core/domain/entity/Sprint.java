@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.SprintDto;
+import com.linkey.core.domain.dto.request.ReqUpdateSprintDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class Sprint {
     private String sprintContents;
 
     @ManyToOne
-    @JoinColumn(name = "projectId", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project; // FK (projects.project_id)
 
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
@@ -41,7 +42,7 @@ public class Sprint {
     @Column(nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private LocalDate sprintEndAt;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = true , updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -50,6 +51,42 @@ public class Sprint {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static Sprint toEntity(SprintDto dto) {
+        return Sprint.builder()
+                .sprintId(dto.getSprintId())
+                .sprintName(dto.getSprintName())
+                .sprintContents(dto.getSprintContents())
+                .project(dto.getProjectId() != null ? new Project(dto.getProjectId()) : null)
+                .sprintStartAt(dto.getSprintStartAt())
+                .sprintEndAt(dto.getSprintEndAt())
+                .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
+                .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
+                .build();
+    }
+
+
+    public Sprint updateFromDto(ReqUpdateSprintDto dto) {
+        if (dto.getSprintName() != null) {
+            this.sprintName = dto.getSprintName();
+        }
+
+        if (dto.getSprintContents() != null) {
+            this.sprintContents = dto.getSprintContents();
+        }
+
+        if (dto.getSprintStartAt() != null) {
+            this.sprintStartAt = dto.getSprintStartAt();
+        }
+
+        if (dto.getSprintEndAt() != null) {
+            this.sprintEndAt = dto.getSprintEndAt();
+        }
+
+        this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
+
+        return this;
     }
 
 }

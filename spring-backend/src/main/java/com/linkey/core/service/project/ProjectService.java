@@ -1,6 +1,8 @@
 package com.linkey.core.service.project;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.request.ReqCreateProjectDto;
+import com.linkey.core.domain.dto.request.ReqUpdateProjectDto;
 import com.linkey.core.domain.dto.response.ResProjectDetailDto;
 import com.linkey.core.domain.dto.response.ResProjectListDto;
 
@@ -12,11 +14,11 @@ public interface ProjectService {
 
     public ResProjectDetailDto getProjectByProjectId(Integer projectId);
 
-    public Integer createProject(ProjectDto projectDTO);
+    public Integer createProject(ReqCreateProjectDto projectDTO);
 
-    public Integer updateProject(ProjectDto projectDTO);
+    public Integer updateProject(ReqUpdateProjectDto projectDTO);
 
-    public Integer deleteProject(ProjectDto projectDTO);
+    public Integer deleteProject(int projectId);
 
     public ResProjectListDto getProjectsByTeamId(Integer teamId);
 

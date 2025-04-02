@@ -1,6 +1,8 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.TodoDto;
+import com.linkey.core.domain.dto.request.ReqCreateTodoDto;
+import com.linkey.core.domain.dto.request.ReqUpdateTodoDto;
 import com.linkey.core.domain.enums.TodoLevel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,5 +56,37 @@ public class Todo {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    public static Todo toEntity(ReqCreateTodoDto dto, Sprint sprint, GitUser user) {
+        return Todo.builder()
+                .todoContents(dto.getTodoContent())
+                .todoDoneYn(dto.getTodoDoneYn() != null ? dto.getTodoDoneYn().name().charAt(0) : 'N') // enum → 'Y'/'N'
+                .todoLevel(dto.getTodoLevel())
+                .sprint(sprint)
+                .createdUser(user)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+    }
+    public void updateFromDto(ReqUpdateTodoDto dto, GitUser user) {
+        if (dto.getTodoName() != null) {
+            this.todoContents = dto.getTodoName(); // dto에서는 이름인데 DB는 contents임!
+        }
+
+        if (dto.getTodoDoneYn() != null) {
+            this.todoDoneYn = dto.getTodoDoneYn().name().charAt(0);
+        }
+
+        if (dto.getTodoLevel() != null) {
+            this.todoLevel = dto.getTodoLevel();
+        }
+
+        if (user != null) {
+            this.createdUser = user;
+        }
+
+        this.updatedAt = LocalDateTime.now(); // 마지막 수정일 갱신
+    }
+
 
 }

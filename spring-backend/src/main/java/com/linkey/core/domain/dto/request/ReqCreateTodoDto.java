@@ -12,13 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReqCreateTodoDto {
     private String todoName;
-    private String todoContents;
+    private String todoContent;
+    private TodoDoneYn todoDoneYn;
+    private TodoLevel todoLevel;
     private LocalDateTime todoStartAt;
     private LocalDateTime todoEndAt;
     private SingleSprint sprint;
-    private TodoLevel todoLevel; // ENUM (L, M, H)
-    private Long createdUserId;
+    private Long githubUserId;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -26,18 +28,3 @@ public class ReqCreateTodoDto {
         int sprintId;
     }
 }
-
-/*
-예시 :
-    ReqCreateTodoDto.builder()
-                .todoName("name")
-                .todoContent("content")
-                .todoStartAt(LocalDateTime.now())
-                .todoEndAt(LocalDateTime.now())
-                .sprint(
-                        ReqCreateTodoDto.SingleSprint.builder()
-                                .sprintId(123)
-                                .build()
-                )
-                .build();
- */

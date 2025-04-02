@@ -20,7 +20,8 @@ public class ResProjectDetailDto {
     @Builder
     @AllArgsConstructor
     public static class SingleTeamMember {
-        long githubUserId;
+        String githubUserName;
+        String githubProfileUrl;
     }
 
     public static ResProjectDetailDto fromEntity(Project projectEntity) {
@@ -31,11 +32,12 @@ public class ResProjectDetailDto {
                 .teamName(projectEntity.getTeam().getTeamName())
                 .teamMembers(
                         projectEntity.getTeam().getTeamMembers().stream()
-                                        .map((teamMember) ->
-                                            SingleTeamMember.builder()
-                                                    .githubUserId(teamMember.getMemberId())
-                                                    .build()
-                                        ).toList()
+                                .map((teamMember) ->
+                                    SingleTeamMember.builder()
+                                            .githubUserName(teamMember.getUser().getGithubUserName())
+                                            .githubProfileUrl(teamMember.getUser().getGithubProfileUrl())
+                                            .build()
+                                ).toList()
                 ).build();
     }
 }

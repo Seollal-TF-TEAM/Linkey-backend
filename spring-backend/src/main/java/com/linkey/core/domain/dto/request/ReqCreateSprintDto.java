@@ -3,6 +3,7 @@ package com.linkey.core.domain.dto.request;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,6 +18,7 @@ public class ReqCreateSprintDto {
     private SingleProject project;
     private SingleImage sprintImg;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -24,6 +26,7 @@ public class ReqCreateSprintDto {
         int projectId;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

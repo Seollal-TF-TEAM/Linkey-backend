@@ -4,38 +4,35 @@ import com.linkey.core.domain.enums.TodoDoneYn;
 import com.linkey.core.domain.enums.TodoLevel;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
 @ToString
 @AllArgsConstructor
 public class ReqUpdateTodoDto {
-    private int todoId;
     private String todoName;
+    private String todoContent;
     private TodoDoneYn todoDoneYn;
     private TodoLevel todoLevel;
-    private SingleUser user;
+    private LocalDateTime todoStartAt;
+    private LocalDateTime todoEndAt;
+    private ReqCreateTodoDto.SingleSprint sprint;
+    private Long githubUserId;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
     public static class SingleUser {
-        long githubUserId;
+        private Long githubUserId;
+    }
+    @Getter
+    @Builder
+    @ToString
+    @AllArgsConstructor
+    public static class SingleSprint {
+        int sprintId;
     }
 }
-
-/*
-예시 :
-    ReqUpdateTodoDto.builder()
-                .todoId(123)
-                .todoName("name")
-                .todoDoneYn(TodoDoneYn.N)
-                .todoLevel(TodoLevel.L)
-                .user(
-                        ReqUpdateTodoDto.SingleUser.builder()
-                                .githubUserId(123L)
-                                .build()
-                )
-                .build();
- */
-
