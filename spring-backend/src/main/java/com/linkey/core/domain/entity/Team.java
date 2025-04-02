@@ -1,12 +1,14 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.TeamDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Entity
 @Table(name = "teams")
@@ -55,6 +57,26 @@ public class Team {
 
         this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
     }
+
+    public static Team fromDto(ReqCreateTeamDto dto, Function<Long, GitUser> userResolver) {
+        Team team = Team.builder()
+                .teamName(dto.getTeamName())
+                .teamDesc(dto.getTeamDesc())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        List<TeamMember> members = dto.getTeamMembers().stream()
+                .map(memberDto -> {
+                    GitUser user = userResolver.apply(memberDto.getGithubUserId());
+                    return TeamMember.fromDto(memberDto, user, team); // 👈 여기!
+                })
+                .toList();
+
+        team.setTeamMembers(members);
+        return team;
+    }
+
 
 
 }

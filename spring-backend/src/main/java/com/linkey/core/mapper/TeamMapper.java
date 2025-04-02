@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface TeamMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "teamMembers", ignore = true) // 👈 teamMembers는 나중에 따로 채움
+    @Mapping(target = "teamId", ignore = true) // 👈 teamMembers는 나중에 따로 채움
     Team toEntity(ReqCreateTeamDto dto);
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @Slf4j
@@ -43,6 +44,11 @@ public class TeamServiceImpl implements TeamService {
 //        TeamMember teamMemberEntity = TeamMember.toEntity(teamDto);
 //        Team saveTeam = Optional.of(teamRepo.save(teamEntity))
 //                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
+
+        Function<Long, GitUser> userResolver = githubUserId -> {
+            // 세션/Redis에서 가져오는 로직 구현
+            return sessionGitUserResolver.get(githubUserId);
+        };
 
 
         return true;
