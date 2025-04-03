@@ -5,10 +5,8 @@ import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.Image.ImageServiceImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -21,7 +19,7 @@ public class ImageController {
     public ImageController (ImageServiceImpl imageService) { this.imageService = imageService; }
 
 
-    @GetMapping("imageList")
+    @GetMapping("imageListByProjectId")
     @ResponseBody
     public ResWrapper getImageListByProjectId(@RequestParam("projectId") int projectId) {
         try {
@@ -32,12 +30,23 @@ public class ImageController {
         }
     }
 
-    @GetMapping("imageList")
+    @GetMapping("imageListBySprintId")
     @ResponseBody
     public ResWrapper getImageListBySprintId(@RequestParam("sprintId") long sprintId) {
         try {
             ResImageListDto resImageListDto = imageService.getImagesBySprintId(sprintId);
             return ResWrapper.resSuccess(resImageListDto);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
+    }
+
+    @PostMapping("createImage")
+    @ResponseBody
+    public ResWrapper createImage(@RequestParam("image") MultipartFile imageFile) {
+        try {
+            long imgId = imageService.createImage(imageFile);
+            return ResWrapper.resSuccess(imgId);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);
         }
