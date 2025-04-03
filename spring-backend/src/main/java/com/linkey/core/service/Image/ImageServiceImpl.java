@@ -6,7 +6,6 @@ import com.linkey.core.domain.entity.Image;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.repository.image.ImageRepository;
-import com.linkey.core.service.Image.ImageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +30,7 @@ public class ImageServiceImpl implements ImageService {
     private String uploadDir;
 
     @Override
-    public ResImageListDto getImagesBySprintId(long sprintId) {
+    public ResImageListDto getImagesBySprintId(long sprintId) throws CustomException {
         try {
             List<Image> imageList = imageRepository.findImagesBySprintId(sprintId);
             return ResImageListDto.fromEntity(imageList);
@@ -41,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ResImageListDto getImagesByProjectId(int projectId) {
+    public ResImageListDto getImagesByProjectId(int projectId) throws CustomException {
         try {
             List<Image> imageList = imageRepository.findImagesByProjectId(projectId);
             return ResImageListDto.fromEntity(imageList);
@@ -96,7 +95,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public long deleteImage(long reqImgId) {
+    public long deleteImage(long reqImgId) throws CustomException {
         try {
             Image target = imageRepository.findById(reqImgId)
                     .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));

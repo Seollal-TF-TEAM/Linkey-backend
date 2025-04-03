@@ -2,18 +2,12 @@ package com.linkey.core.service.Image;
 
 import com.linkey.core.domain.dto.request.ReqUpdateImageDto;
 import com.linkey.core.domain.dto.response.ResImageListDto;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 public interface ImageService {
-
-    public ResImageListDto getImagesBySprintId(long sprintId);
-    public ResImageListDto getImagesByProjectId(int projectId);
-
-    public long createImage(MultipartFile imageFile);
-
-    public long updateImage(ReqUpdateImageDto reqUpdateImageDto);
-
-    public long deleteImage(long reqImgId);
+    ResImageListDto getImagesBySprintId(long sprintId);
+    ResImageListDto getImagesByProjectId(int projectId);
+    long createImage(MultipartFile imageFile);
+    long updateImage(ReqUpdateImageDto reqUpdateImageDto);
+    long deleteImage(long reqImgId);
 }

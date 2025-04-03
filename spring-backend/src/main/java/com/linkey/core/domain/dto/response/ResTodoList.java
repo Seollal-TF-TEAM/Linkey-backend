@@ -14,6 +14,7 @@ import java.util.List;
 public class ResTodoList {
     private List<SingleTodo> todos;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -24,6 +25,7 @@ public class ResTodoList {
         SingleUser user;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

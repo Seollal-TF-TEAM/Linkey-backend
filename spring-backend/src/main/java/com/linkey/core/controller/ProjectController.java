@@ -6,7 +6,6 @@ import com.linkey.core.domain.dto.response.ResProjectDetailDto;
 import com.linkey.core.domain.dto.response.ResProjectListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
-import com.linkey.core.service.project.ProjectService;
 import com.linkey.core.service.project.ProjectServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

@@ -14,6 +14,7 @@ import java.util.List;
 public class ResSprintListDto {
     private List<SingleSprint> sprints;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

@@ -22,6 +22,7 @@ public class ResSprintDetailDto {
     private SingleProject project;
     private List<SingleTodo> todos;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -29,6 +30,7 @@ public class ResSprintDetailDto {
         int projectId;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -40,6 +42,7 @@ public class ResSprintDetailDto {
         SingleUser user;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -48,7 +51,6 @@ public class ResSprintDetailDto {
     }
 
     public static ResSprintDetailDto fromEntity(Sprint sprintEntity, List<Todo> todoEntityList) {
-
 
         return ResSprintDetailDto.builder()
                 .sprintName(sprintEntity.getSprintName())

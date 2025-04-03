@@ -3,7 +3,6 @@ package com.linkey.core.domain.dto.request;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

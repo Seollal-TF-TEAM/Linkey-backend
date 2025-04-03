@@ -13,7 +13,6 @@ public class ReqUpdateImageDto {
     private SingleSprint sprint;
 
     @Getter
-    @Setter
     @Builder
     @AllArgsConstructor
     @ToString
@@ -22,7 +21,6 @@ public class ReqUpdateImageDto {
     }
 
     @Getter
-    @Setter
     @Builder
     @AllArgsConstructor
     @ToString

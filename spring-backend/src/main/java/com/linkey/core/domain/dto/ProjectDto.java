@@ -1,7 +1,6 @@
 package com.linkey.core.domain.dto;
 
 import com.linkey.core.domain.entity.Project;
-import com.linkey.core.domain.entity.Team;
 import lombok.*;
 
 import java.time.LocalDateTime;

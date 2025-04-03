@@ -68,6 +68,7 @@ public enum ErrorCode {
     UPLOAD_DIR_NOT_EXIST(6401, "해당 경로가 유효하지 않습니다.", HttpStatus.NOT_ACCEPTABLE),
     CAN_NOT_WRITE(6402, "파일 쓰기가 실패했습니다.", HttpStatus.NOT_ACCEPTABLE)
     ;
+
     private final int code;
     private final String message;
     private final HttpStatus httpStatus;

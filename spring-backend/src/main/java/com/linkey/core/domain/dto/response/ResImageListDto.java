@@ -14,7 +14,6 @@ public class ResImageListDto {
     private List<SingleImage> images;
 
     @Getter
-    @Setter
     @Builder
     @ToString
     @AllArgsConstructor
