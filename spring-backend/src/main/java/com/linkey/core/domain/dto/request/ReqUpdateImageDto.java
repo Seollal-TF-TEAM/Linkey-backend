@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ReqUpdateImageDto {
-    private int imgId;
+    private long imgId;
     private SingleProject project;
     private SingleSprint sprint;
 

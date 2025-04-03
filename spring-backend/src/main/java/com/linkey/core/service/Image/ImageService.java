@@ -14,4 +14,6 @@ public interface ImageService {
     public long createImage(MultipartFile imageFile);
 
     public long updateImage(ReqUpdateImageDto reqUpdateImageDto);
+
+    public long deleteImage(long reqImgId);
 }

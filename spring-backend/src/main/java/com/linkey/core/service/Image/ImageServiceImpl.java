@@ -83,4 +83,17 @@ public class ImageServiceImpl implements ImageService {
             throw new CustomException(ErrorCode.CAN_NOT_UPDATE_IMAGE);
         }
     }
+
+    @Override
+    public long deleteImage(long reqImgId) {
+        try {
+            Image target = imageRepository.findById(reqImgId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
+            imageRepository.delete(target);
+            return target.getImgId();
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.CAN_NOT_DELETE_IMAGE);
+        }
+    }
+
 }

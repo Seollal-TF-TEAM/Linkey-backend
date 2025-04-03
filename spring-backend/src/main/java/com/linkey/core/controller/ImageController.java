@@ -64,4 +64,14 @@ public class ImageController {
         }
     }
 
+    @DeleteMapping("deleteImage")
+    @ResponseBody
+    public ResWrapper deleteImage(@RequestParam("imgId") long reqImgId) {
+        try {
+            long imgId = imageService.deleteImage(reqImgId);
+            return ResWrapper.resSuccess(imgId);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
+    }
 }
