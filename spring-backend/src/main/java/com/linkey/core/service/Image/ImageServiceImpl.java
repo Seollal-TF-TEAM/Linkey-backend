@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,12 +32,22 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ResImageListDto getImagesBySprintId(long sprintId) {
-        return null;
+        try {
+            List<Image> imageList = imageRepository.findImagesBySprintId(sprintId);
+            return ResImageListDto.fromEntity(imageList);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.CAN_NOT_FIND_IMAGE);
+        }
     }
 
     @Override
     public ResImageListDto getImagesByProjectId(int projectId) {
-        return null;
+        try {
+            List<Image> imageList = imageRepository.findImagesByProjectId(projectId);
+            return ResImageListDto.fromEntity(imageList);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.CAN_NOT_FIND_IMAGE);
+        }
     }
 
     @Override
