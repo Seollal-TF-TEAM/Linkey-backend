@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.ImageDto;
+import com.linkey.core.domain.dto.request.ReqUpdateImageDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -56,5 +57,19 @@ public class Image {
                 .project(new Project(dto.getProjectId()))
                 .sprint(new Sprint(dto.getSprintId()))
                 .build();
+    }
+
+    public Image update(ReqUpdateImageDto reqUpdateImageDto){
+        this.setProject(Project.builder()
+                .projectId(reqUpdateImageDto.getProject().getProjectId())
+                .build()
+        );
+
+        this.setSprint(Sprint.builder()
+                .sprintId(reqUpdateImageDto.getSprint().getSprintId())
+                .build()
+        );
+
+        return this;
     }
 }

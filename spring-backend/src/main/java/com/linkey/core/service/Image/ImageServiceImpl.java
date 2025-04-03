@@ -1,5 +1,6 @@
 package com.linkey.core.service.Image;
 
+import com.linkey.core.domain.dto.request.ReqUpdateImageDto;
 import com.linkey.core.domain.dto.response.ResImageListDto;
 import com.linkey.core.domain.entity.Image;
 import com.linkey.core.global.exception.CustomException;
@@ -65,8 +66,21 @@ public class ImageServiceImpl implements ImageService {
             return image.getImgId();
         } catch (IOException e) {
             throw new CustomException(ErrorCode.CAN_NOT_WRITE);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_CREATE_IMAGE);
+        }
+    }
+
+    @Override
+    public long updateImage(ReqUpdateImageDto reqUpdateImageDto) throws CustomException {
+        try {
+            Image target = imageRepository.findById(reqUpdateImageDto.getImgId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
+            target.update(reqUpdateImageDto);
+            imageRepository.save(target);
+            return target.getImgId();
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.CAN_NOT_UPDATE_IMAGE);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.linkey.core.controller;
 
+import com.linkey.core.domain.dto.request.ReqUpdateImageDto;
 import com.linkey.core.domain.dto.response.ResImageListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
@@ -46,6 +47,17 @@ public class ImageController {
     public ResWrapper createImage(@RequestParam("image") MultipartFile imageFile) {
         try {
             long imgId = imageService.createImage(imageFile);
+            return ResWrapper.resSuccess(imgId);
+        } catch (CustomException e) {
+            return ResWrapper.resCustomException(e);
+        }
+    }
+
+    @PatchMapping("updateImage")
+    @ResponseBody
+    public ResWrapper updateImage(@RequestBody ReqUpdateImageDto reqUpdateImageDto) {
+        try {
+            long imgId = imageService.updateImage(reqUpdateImageDto);
             return ResWrapper.resSuccess(imgId);
         } catch (CustomException e) {
             return ResWrapper.resCustomException(e);

@@ -21,11 +21,12 @@ public class ReqUpdateImageDto {
         int projectId;
     }
 
+    @Getter
     @Setter
     @Builder
     @AllArgsConstructor
     @ToString
     public static class SingleSprint {
-        int sprintId;
+        long sprintId;
     }
 }
