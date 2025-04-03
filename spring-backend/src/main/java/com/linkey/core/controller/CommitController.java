@@ -2,7 +2,6 @@ package com.linkey.core.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.linkey.core.domain.dto.response.ResCommitDto;
-import com.linkey.core.domain.entity.GitUser;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -17,7 +17,9 @@ public class ResProjectDetailDto {
     private String githubRepoUrl;
     private List<SingleTeamMember> teamMembers;
 
+    @Getter
     @Builder
+    @ToString
     @AllArgsConstructor
     public static class SingleTeamMember {
         String githubUserName;

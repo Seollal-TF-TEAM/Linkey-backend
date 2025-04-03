@@ -11,10 +11,10 @@ import java.util.List;
 @Builder
 @ToString
 @AllArgsConstructor
-
 public class ResTeamListDto {
     private List<SingleTeam> teams;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
@@ -27,6 +27,7 @@ public class ResTeamListDto {
         List<SingleTeamMember> teamMembers;
     }
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

@@ -12,10 +12,8 @@ import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.repository.project.ProjectRepository;
 import com.linkey.core.repository.sprint.SprintRepository;
 import com.linkey.core.repository.todo.TodoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

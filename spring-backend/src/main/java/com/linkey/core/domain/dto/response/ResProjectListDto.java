@@ -14,7 +14,10 @@ import java.util.List;
 public class ResProjectListDto {
     private List<SingleProject> projects;
 
+    @Getter
     @Builder
+    @ToString
+    @AllArgsConstructor
     public static class SingleProject {
         int projectId;
         String projectName;

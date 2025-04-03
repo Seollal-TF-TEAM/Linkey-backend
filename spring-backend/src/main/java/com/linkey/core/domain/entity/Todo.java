@@ -1,6 +1,5 @@
 package com.linkey.core.domain.entity;
 
-import com.linkey.core.domain.dto.TodoDto;
 import com.linkey.core.domain.dto.request.ReqCreateTodoDto;
 import com.linkey.core.domain.dto.request.ReqUpdateTodoDto;
 import com.linkey.core.domain.enums.TodoLevel;

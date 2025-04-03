@@ -7,13 +7,8 @@ import com.linkey.core.domain.dto.request.ReqUpdateTodoDto;
 import java.util.List;
 
 public interface TodoService {
-
-    public List<TodoDto> getTodos(Long sprintId);
-
-    public Boolean createTodo(Long sprintId, ReqCreateTodoDto todoDto);
-
-    public Boolean updateTodo(Long sprintId, Long todoId, ReqUpdateTodoDto todoDto);
-
-    public Boolean deleteTodo(Long todoId);
-
+    List<TodoDto> getTodos(Long sprintId);
+    Boolean createTodo(Long sprintId, ReqCreateTodoDto todoDto);
+    Boolean updateTodo(Long sprintId, Long todoId, ReqUpdateTodoDto todoDto);
+    Boolean deleteTodo(Long todoId);
 }

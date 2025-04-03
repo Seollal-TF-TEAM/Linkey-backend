@@ -14,6 +14,7 @@ public class ReqUpdateTeamDto {
     private String teamDesc;
     private List<SingleTeamMember> teamMembers;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor

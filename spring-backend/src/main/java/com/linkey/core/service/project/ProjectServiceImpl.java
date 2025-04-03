@@ -26,18 +26,15 @@ public class ProjectServiceImpl implements ProjectService {
         this.repository = repository;
     }
 
-
     @Override
     public ResProjectListDto getProjectsByGithubUserId(Long githubUserId) throws CustomException {
         try {
             List<Project> projects = repository.findProjectsByGithubUserId(githubUserId);
-
             return ResProjectListDto.fromEntity(projects);
         } catch (RuntimeException e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT);
         }
     }
-
 
     @Override
     public ResProjectDetailDto getProjectByProjectId(Integer projectId) throws CustomException{
@@ -48,7 +45,6 @@ public class ProjectServiceImpl implements ProjectService {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT);
         }
     }
-
 
     @Override
     public Integer createProject(ReqCreateProjectDto projectDto) throws CustomException {

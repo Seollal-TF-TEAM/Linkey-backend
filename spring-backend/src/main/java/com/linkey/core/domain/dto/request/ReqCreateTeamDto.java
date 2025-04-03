@@ -14,6 +14,7 @@ public class ReqCreateTeamDto {
     private String teamDesc;
     private List<SingleTeamMember> teamMembers;
 
+    @Getter
     @Builder
     @ToString
     @AllArgsConstructor
