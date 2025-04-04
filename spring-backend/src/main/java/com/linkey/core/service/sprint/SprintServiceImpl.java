@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,10 +44,17 @@ public class SprintServiceImpl implements SprintService {
             Sprint existingSprint = repository.findById(sprintId)
                     .orElseThrow(() -> new CustomException(ErrorCode.SPRINT_NOT_FOUND));
 
-            Sprint sprint = existingSprint.updateFromDto(reqUpdateSprintDto);
-
+            int dateDiff = reqUpdateSprintDto.getSprintEndAt().compareTo(
+                    reqUpdateSprintDto.getSprintStartAt()
+            );
+            if (dateDiff < 0) {
+                throw new CustomException(ErrorCode.SPRINT_END_DATE_IS_INVALID);
+            }
+            Sprint sprint = existingSprint.update(reqUpdateSprintDto);
             repository.save(sprint);
-            return sprintId;
+            return sprint.getSprintId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_UPDATE_SPRINT);
         }
@@ -60,17 +68,25 @@ public class SprintServiceImpl implements SprintService {
             Project project = projectRepo.findById(projectId)
                     .orElseThrow(() ->
                             new CustomException(ErrorCode.SPRINT_NOT_FOUND));
-
+            int dateDiff = reqCreateSprintDto.getSprintEndAt().compareTo(
+                    reqCreateSprintDto.getSprintStartAt()
+            );
+            if (dateDiff < 0) {
+                throw new CustomException(ErrorCode.SPRINT_END_DATE_IS_INVALID);
+            }
             Sprint sprint = Sprint.builder()
                     .sprintName(reqCreateSprintDto.getSprintName())
                     .sprintContents(reqCreateSprintDto.getSprintContent())
                     .sprintStartAt(reqCreateSprintDto.getSprintStartAt())
                     .sprintEndAt(reqCreateSprintDto.getSprintEndAt())
                     .project(project)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
                     .build();
-
             repository.save(sprint);
-            return projectId;
+            return sprint.getSprintId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_CREATE_SPRINT);
         }
@@ -82,8 +98,10 @@ public class SprintServiceImpl implements SprintService {
         try {
             Sprint target = repository.findById(sprintId)
                             .orElseThrow(() -> new CustomException(ErrorCode.SPRINT_NOT_FOUND));
-            repository.deleteById(sprintId);
-            return sprintId;
+            repository.delete(target);
+            return target.getSprintId();
+        } catch (CustomException e){
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_DELETE_SPRINT);
         }
@@ -108,7 +126,7 @@ public class SprintServiceImpl implements SprintService {
         try {
             List<Sprint> sprints = repository.findSprintsByProjectId(projectId);
             return ResSprintListDto.fromEntity(sprints);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_SPRINT);
         }
     }
