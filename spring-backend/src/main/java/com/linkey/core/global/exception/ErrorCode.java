@@ -62,11 +62,15 @@ public enum ErrorCode {
     // 6100~6399 : DML 관련 예외처리
     CAN_NOT_FIND_IMAGE(6101, "이미지를 검색할 수 없습니다.", HttpStatus.BAD_REQUEST),
     CAN_NOT_CREATE_IMAGE(6102, "이미지를 생성할 수 없습니다.", HttpStatus.BAD_REQUEST),
-    CAN_NOT_UPDATE_IMAGE(6102, "이미지를 수정할 수 없습니다.", HttpStatus.BAD_REQUEST),
-    CAN_NOT_DELETE_IMAGE(6102, "이미지를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_UPDATE_IMAGE(6103, "이미지를 수정할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_DELETE_IMAGE(6104, "이미지를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    UPDATE_PARAMETER_IS_EMPTY(6105, "이미지 업데이트에 필요한 인자가 없습니다.", HttpStatus.BAD_REQUEST),
+
     // 6400~6999 : 기타 예외처리
     UPLOAD_DIR_NOT_EXIST(6401, "해당 경로가 유효하지 않습니다.", HttpStatus.NOT_ACCEPTABLE),
-    CAN_NOT_WRITE(6402, "파일 쓰기가 실패했습니다.", HttpStatus.NOT_ACCEPTABLE)
+    CAN_NOT_WRITE(6402, "파일 쓰기가 실패했습니다.", HttpStatus.NOT_ACCEPTABLE),
+    IMAGE_FILE_CAN_NOT_NULL(6403, "이미지 파일을 제공해주세요", HttpStatus.NOT_ACCEPTABLE)
+
     ;
 
     private final int code;

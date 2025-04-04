@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,12 @@ public class ImageServiceImpl implements ImageService {
     public ResImageListDto getImagesBySprintId(long sprintId) throws CustomException {
         try {
             List<Image> imageList = imageRepository.findImagesBySprintId(sprintId);
+            if (imageList.isEmpty()) {
+                throw new CustomException(ErrorCode.IMAGE_NOT_FOUND);
+            }
             return ResImageListDto.fromEntity(imageList);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_IMAGE);
         }
@@ -43,7 +49,12 @@ public class ImageServiceImpl implements ImageService {
     public ResImageListDto getImagesByProjectId(int projectId) throws CustomException {
         try {
             List<Image> imageList = imageRepository.findImagesByProjectId(projectId);
+            if (imageList.isEmpty()) {
+                throw new CustomException(ErrorCode.IMAGE_NOT_FOUND);
+            }
             return ResImageListDto.fromEntity(imageList);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_IMAGE);
         }
@@ -54,7 +65,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             // imageFile 저장
             if (imageFile.isEmpty()) {
-                throw new CustomException(ErrorCode.CAN_NOT_CREATE_IMAGE);
+                throw new CustomException(ErrorCode.IMAGE_FILE_CAN_NOT_NULL);
             }
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
             Path filePath = Paths.get(uploadDir, fileName);
@@ -71,9 +82,12 @@ public class ImageServiceImpl implements ImageService {
                             .imagePath("")
                             .fileSize(imageFile.getSize())
                             .fileType(imageFile.getContentType())
+                            .createdAt(LocalDateTime.now())
                             .build()
             );
             return image.getImgId();
+        } catch (CustomException e) {
+            throw e;
         } catch (IOException e) {
             throw new CustomException(ErrorCode.CAN_NOT_WRITE);
         } catch (Exception e) {
@@ -86,9 +100,11 @@ public class ImageServiceImpl implements ImageService {
         try {
             Image target = imageRepository.findById(reqUpdateImageDto.getImgId())
                     .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
-            target.update(reqUpdateImageDto);
-            imageRepository.save(target);
-            return target.getImgId();
+            Image updatedTarget = target.update(reqUpdateImageDto);
+            imageRepository.save(updatedTarget);
+            return updatedTarget.getImgId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_UPDATE_IMAGE);
         }
@@ -101,6 +117,8 @@ public class ImageServiceImpl implements ImageService {
                     .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
             imageRepository.delete(target);
             return target.getImgId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_DELETE_IMAGE);
         }
