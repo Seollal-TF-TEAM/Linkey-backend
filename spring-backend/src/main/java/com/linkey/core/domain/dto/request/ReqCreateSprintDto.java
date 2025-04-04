@@ -15,7 +15,6 @@ public class ReqCreateSprintDto {
     private LocalDate sprintStartAt;
     private LocalDate sprintEndAt;
     private SingleProject project;
-    private SingleImage sprintImg;
 
     @Getter
     @Builder
@@ -25,13 +24,6 @@ public class ReqCreateSprintDto {
         int projectId;
     }
 
-    @Getter
-    @Builder
-    @ToString
-    @AllArgsConstructor
-    public static class SingleImage {
-        int imageId;
-    }
 }
 /*
 예시 :
@@ -45,9 +37,4 @@ public class ReqCreateSprintDto {
                                 .projectId(123)
                                 .build()
                 )
-                .sprintImg(
-                        ReqCreateSprintDto.SingleImage.builder()
-                                .imageId(111)
-                                .build()
-                );
  */

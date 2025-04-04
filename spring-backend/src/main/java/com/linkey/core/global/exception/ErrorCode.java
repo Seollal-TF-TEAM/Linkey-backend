@@ -42,7 +42,7 @@ public enum ErrorCode {
     CAN_NOT_DELETE_SPRINT(4104, "스프린트를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     // 4400~4999 : 기타 예외처리
-
+    SPRINT_END_DATE_IS_INVALID(4401, "스프린트 종료 날짜는 시작날짜보다 앞설 수 없습니다.", HttpStatus.NOT_ACCEPTABLE),
 
 
     // 5000번대: Todo 관련 예외처리
