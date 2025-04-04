@@ -29,7 +29,9 @@ public class SprintServiceImpl implements SprintService {
     private final TodoRepository todoRepo;
 
     @Autowired
-    SprintServiceImpl(SprintRepository repository, ProjectRepository projectRepo, TodoRepository todoRepo) {
+    SprintServiceImpl(SprintRepository repository,
+                      ProjectRepository projectRepo,
+                      TodoRepository todoRepo) {
         this.repository = repository;
         this.projectRepo = projectRepo;
         this.todoRepo = todoRepo;
@@ -38,7 +40,7 @@ public class SprintServiceImpl implements SprintService {
     // sprint 수정
     @Transactional
     @Override
-    public long updateSprint(ReqUpdateSprintDto reqUpdateSprintDto) {
+    public long updateSprint(ReqUpdateSprintDto reqUpdateSprintDto) throws CustomException {
         try {
             long sprintId = reqUpdateSprintDto.getSprintId();
             Sprint existingSprint = repository.findById(sprintId)
@@ -61,8 +63,9 @@ public class SprintServiceImpl implements SprintService {
     }
 
     // sprint 추가
+    @Transactional
     @Override
-    public long createSprint(ReqCreateSprintDto reqCreateSprintDto) {
+    public long createSprint(ReqCreateSprintDto reqCreateSprintDto) throws CustomException {
         try {
             int projectId = reqCreateSprintDto.getProject().getProjectId();
             Project project = projectRepo.findById(projectId)
@@ -93,8 +96,9 @@ public class SprintServiceImpl implements SprintService {
     }
 
     // sprint 삭제
+    @Transactional
     @Override
-    public long deleteSprint(Long sprintId) {
+    public long deleteSprint(Long sprintId) throws CustomException {
         try {
             Sprint target = repository.findById(sprintId)
                             .orElseThrow(() -> new CustomException(ErrorCode.SPRINT_NOT_FOUND));
@@ -109,12 +113,14 @@ public class SprintServiceImpl implements SprintService {
 
     // sprint 조회
     @Override
-    public ResSprintDetailDto getSprintById(Long sprintId) {
+    public ResSprintDetailDto getSprintById(Long sprintId) throws CustomException {
         try {
             Sprint sprint = repository.findById(sprintId)
                     .orElseThrow(() -> new CustomException(ErrorCode.SPRINT_NOT_FOUND));
             List<Todo> todoList = todoRepo.findBySprint_SprintId(sprintId);
             return ResSprintDetailDto.fromEntity(sprint, todoList);
+        } catch (CustomException e){
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_SPRINT);
         }
@@ -122,10 +128,15 @@ public class SprintServiceImpl implements SprintService {
 
     // sprint 목록 조회
     @Override
-    public ResSprintListDto getSprintsByProjectId(Integer projectId) {
+    public ResSprintListDto getSprintsByProjectId(Integer projectId) throws CustomException {
         try {
             List<Sprint> sprints = repository.findSprintsByProjectId(projectId);
+            if (sprints.isEmpty()) {
+                throw new CustomException(ErrorCode.SPRINT_NOT_FOUND);
+            }
             return ResSprintListDto.fromEntity(sprints);
+        } catch (CustomException e){
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_SPRINT);
         }
