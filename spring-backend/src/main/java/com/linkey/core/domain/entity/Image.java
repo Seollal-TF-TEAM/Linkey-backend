@@ -2,6 +2,8 @@ package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.ImageDto;
 import com.linkey.core.domain.dto.request.ReqUpdateImageDto;
+import com.linkey.core.global.exception.CustomException;
+import com.linkey.core.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +38,9 @@ public class Image {
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime updatedAt;
+
     @ManyToOne
     @JoinColumn(name = "projectId")
     private Project project;
@@ -43,6 +48,12 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "sprintId")
     private Sprint sprint;
+
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public static Image toEntity(ImageDto dto) {
         return Image.builder()
@@ -57,16 +68,24 @@ public class Image {
                 .build();
     }
 
-    public Image update(ReqUpdateImageDto reqUpdateImageDto){
-        this.setProject(Project.builder()
-                .projectId(reqUpdateImageDto.getProject().getProjectId())
-                .build()
-        );
+    public Image update(ReqUpdateImageDto reqUpdateImageDto) throws CustomException {
+        if (reqUpdateImageDto.getProject().getProjectId() == 0
+            && reqUpdateImageDto.getSprint().getSprintId() == 0) {
+            throw new CustomException(ErrorCode.UPDATE_PARAMETER_IS_EMPTY);
+        }
+        if (reqUpdateImageDto.getProject().getProjectId() != 0) {
+            this.setProject(Project.builder()
+                    .projectId(reqUpdateImageDto.getProject().getProjectId())
+                    .build()
+            );
+        }
 
-        this.setSprint(Sprint.builder()
-                .sprintId(reqUpdateImageDto.getSprint().getSprintId())
-                .build()
-        );
+        if (reqUpdateImageDto.getSprint().getSprintId() != 0) {
+            this.setSprint(Sprint.builder()
+                    .sprintId(reqUpdateImageDto.getSprint().getSprintId())
+                    .build()
+            );
+        }
 
         return this;
     }
