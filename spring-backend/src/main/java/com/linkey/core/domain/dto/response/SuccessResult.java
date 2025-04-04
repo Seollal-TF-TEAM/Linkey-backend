@@ -8,6 +8,6 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 public class SuccessResult {
-    private String status;
+    private int status;
     private Object data;
 }

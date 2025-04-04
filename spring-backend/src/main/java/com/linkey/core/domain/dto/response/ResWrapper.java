@@ -15,7 +15,7 @@ public class ResWrapper<T> {
 
         return ResWrapper.<SuccessResult>builder()
                 .result(SuccessResult.builder()
-                        .status("Success")
+                        .status(200)
                         .data(o)
                         .build()
                 ).build();
