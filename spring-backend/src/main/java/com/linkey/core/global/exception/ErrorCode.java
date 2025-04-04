@@ -14,6 +14,7 @@ public enum ErrorCode {
     // 2000번대: 팀 관련 예외 처리
     TEAM_NOT_FOUND(2001, "해당 팀을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DUPLICATE_TEAM_MEMBER(2002, "이미 존재하는 팀원입니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_CREATE_TEAM(2003, "팀을 생성할 수 없습니다.", HttpStatus.BAD_REQUEST),
 
 
 
@@ -28,7 +29,8 @@ public enum ErrorCode {
     CAN_NOT_DELETE_PROJECT(3104, "프로젝트를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     // 3400~3999 : 기타 예외처리
-
+    // 공통 예외처리
+    INVALID_INPUT_VALUE(3401, "입력 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
 
 
     // 4000번대 : Sprint 관련 예외처리

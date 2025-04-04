@@ -3,8 +3,10 @@ package com.linkey.core.domain.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+//@Data
+@Getter
 @Builder
 @AllArgsConstructor
 public class ResCommitDto {

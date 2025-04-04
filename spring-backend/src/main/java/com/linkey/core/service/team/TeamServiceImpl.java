@@ -34,11 +34,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean addTeam(TeamDto team) {
+    public TeamDto addTeam(TeamDto team) {
         Team teamEntity = Team.toEntity(team);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
-                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
-        return true;
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
+        TeamDto teamDto = TeamDto.fromEntity(saveTeam);
+        return teamDto;
     }
 
     @Override

@@ -5,7 +5,9 @@ import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.team.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,13 +44,8 @@ public class TeamController {
     // 팀 추가
     @PostMapping("createTeam")
     @ResponseBody
-    public ResWrapper createTeam(@RequestBody TeamDto teamDto) {
-        try {
-            boolean result = teamService.addTeam(teamDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper createTeam(@Valid @RequestBody TeamDto teamDto) {
+        return ResWrapper.resSuccess(teamService.addTeam(teamDto));
     }
 
     // 팀 수정

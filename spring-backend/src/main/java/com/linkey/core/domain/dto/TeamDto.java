@@ -1,6 +1,7 @@
 package com.linkey.core.domain.dto;
 
 import com.linkey.core.domain.entity.Team;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TeamDto {
     private Integer teamId;
+
+    @NotBlank(message = "팀 이름은 필수 입력 값입니다.")
     private String teamName;
     private String teamDesc;
     private LocalDateTime createdAt;
