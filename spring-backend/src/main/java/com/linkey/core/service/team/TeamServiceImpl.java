@@ -54,11 +54,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Boolean updateTeam(Integer id, TeamDto teamDto) {
+    public TeamDto updateTeam(Integer id, TeamDto teamDto) {
         Team existingTeam = teamRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
         existingTeam.updateFromDto(teamDto);
-        return true;
+        return teamDto;
     }
 
     @Override

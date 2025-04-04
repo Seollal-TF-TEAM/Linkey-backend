@@ -14,7 +14,6 @@ public enum ErrorCode {
     // 2000번대: 팀 관련 예외 처리
     TEAM_NOT_FOUND(2001, "해당 팀을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DUPLICATE_TEAM_MEMBER(2002, "이미 존재하는 팀원입니다.", HttpStatus.BAD_REQUEST),
-    CAN_NOT_CREATE_TEAM(2003, "팀을 생성할 수 없습니다.", HttpStatus.BAD_REQUEST),
 
 
 
@@ -71,7 +70,8 @@ public enum ErrorCode {
     // 6400~6999 : 기타 예외처리
     UPLOAD_DIR_NOT_EXIST(6401, "해당 경로가 유효하지 않습니다.", HttpStatus.NOT_ACCEPTABLE),
     CAN_NOT_WRITE(6402, "파일 쓰기가 실패했습니다.", HttpStatus.NOT_ACCEPTABLE),
-    IMAGE_FILE_CAN_NOT_NULL(6403, "이미지 파일을 제공해주세요", HttpStatus.NOT_ACCEPTABLE)
+    IMAGE_FILE_CAN_NOT_NULL(6403, "이미지 파일을 제공해주세요", HttpStatus.NOT_ACCEPTABLE),
+    NOT_VALID_ARGUMENT(6404, "입력 값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST)
 
     ;
 

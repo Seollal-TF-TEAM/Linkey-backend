@@ -7,7 +7,6 @@ import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.team.TeamService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,13 +50,9 @@ public class TeamController {
     // 팀 수정
     @PatchMapping("updateTeam")
     @ResponseBody
-    public ResWrapper updateTeam(@RequestParam("teamId") Integer teamId, @RequestBody TeamDto teamDto) {
-        try {
-            boolean result = teamService.updateTeam(teamId, teamDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper updateTeam(@RequestParam("teamId") Integer teamId
+                                ,@Valid @RequestBody TeamDto teamDto) {
+        return ResWrapper.resSuccess(teamService.updateTeam(teamId, teamDto));
     }
 
     // 팀 삭제

@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
-//@Data
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 public class ResCommitDto {
