@@ -21,7 +21,8 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-
+    // 테스트 완료
+    // http://localhost:8080/api/projects/projectList?githubUserId=103468518
     @GetMapping("projectList")
     @ResponseBody
     public ResWrapper getProjectList(@RequestParam("githubUserId") long githubUserId) {
@@ -33,6 +34,8 @@ public class ProjectController {
         }
     }
 
+    // 테스트 완료
+    // http://localhost:8080/api/projects/projectDetail?projectId=12
     @GetMapping("projectDetail")
     @ResponseBody
     public ResWrapper getProjectDetail(@RequestParam("projectId") int projectId) {
@@ -44,6 +47,18 @@ public class ProjectController {
         }
     }
 
+    // 테스트 완료
+    // http://localhost:8080/api/projects/createProject
+    /* body
+    {
+        "projectName" : "projectName-250404-test",
+        "projectDesc" : "projectDesc-250404-test",
+        "githubRepoUrl" : "https://localhost",
+        "team" : {
+            "teamId" : 19
+        }
+    }
+     */
     @PostMapping("createProject")
     @ResponseBody
     public ResWrapper createProject(@RequestBody ReqCreateProjectDto reqCreateProjectDto) {
@@ -55,6 +70,16 @@ public class ProjectController {
         }
     }
 
+    // 테스트 완료
+    // http://localhost:8080/api/projects/updateProject
+    /* body
+    {
+        "projectId": 1,
+        "projectName": "projectName-update-1",
+        "projectDesc": "projectDesc-update-1",
+        "githubRepoUrl": "http://updateurl-1"
+    }
+     */
     @PatchMapping("updateProject")
     @ResponseBody
     public ResWrapper updateProject(@RequestBody ReqUpdateProjectDto reqUpdateProjectDto) {
@@ -66,9 +91,11 @@ public class ProjectController {
         }
     }
 
-    @PatchMapping("deleteProject")
+    // 테스트 완료
+    // http://localhost:8080/api/projects/deleteProject?projectId=1
+    @DeleteMapping("deleteProject")
     @ResponseBody
-    public ResWrapper deleteProject(@RequestBody int reqProjectId) {
+    public ResWrapper deleteProject(@RequestParam("projectId") int reqProjectId) {
         try {
             Integer projectId = projectService.deleteProject(reqProjectId);
             return ResWrapper.resSuccess(projectId);

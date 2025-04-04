@@ -70,19 +70,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Integer updateProject(ReqUpdateProjectDto projectDto) throws CustomException {
         try {
-            Optional<Project> target = repository.findById(
-                    projectDto.getProjectId()
-            );
-            if (target.isEmpty()) {
-                throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
-            }
-            Project result = repository.save(Project.builder()
-                    .projectName(projectDto.getProjectName())
-                    .projectDesc(projectDto.getProjectDesc())
-                    .githubRepoUrl(projectDto.getGithubRepoUrl())
-                    .build()
-            );
-            return result.getProjectId();
+            Project target = repository.findById(projectDto.getProjectId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.PROJECT_NOT_FOUND));
+            Project updatedTarget = target.update(projectDto);
+            updatedTarget.preUpdate();
+            repository.save(updatedTarget);
+            return target.getProjectId();
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_UPDATE_PROJECT);
         }
@@ -91,12 +84,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Integer deleteProject(int projectId) throws CustomException {
         try {
-            Optional<Project> target = repository.findById(projectId);
-            if (target.isEmpty()) {
-                throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
-            }
-            repository.delete(target.get());
-            return target.get().getProjectId();
+            Project target = repository.findById(projectId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.PROJECT_NOT_FOUND));
+            repository.delete(target);
+            return target.getProjectId();
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_DELETE_PROJECT);
         }
