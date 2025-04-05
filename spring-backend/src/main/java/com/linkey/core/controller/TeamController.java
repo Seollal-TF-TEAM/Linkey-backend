@@ -5,6 +5,7 @@ import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.team.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,40 +43,24 @@ public class TeamController {
     // 팀 추가
     @PostMapping("createTeam")
     @ResponseBody
-    public ResWrapper createTeam(@RequestBody TeamDto teamDto) {
-        try {
-            boolean result = teamService.addTeam(teamDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper createTeam(@Valid @RequestBody TeamDto teamDto) {
+        return ResWrapper.resSuccess(teamService.addTeam(teamDto));
     }
 
     // 팀 수정
     @PatchMapping("updateTeam")
     @ResponseBody
-    public ResWrapper updateTeam(@RequestParam("teamId") Integer teamId, @RequestBody TeamDto teamDto) {
-        try {
-            boolean result = teamService.updateTeam(teamId, teamDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper updateTeam(@RequestParam("teamId") Integer teamId
+                                ,@Valid @RequestBody TeamDto teamDto) {
+        return ResWrapper.resSuccess(teamService.updateTeam(teamId, teamDto));
     }
 
     // 팀 삭제
     @DeleteMapping("deleteTeam")
     @ResponseBody
     public ResWrapper deleteTeam(@RequestParam("teamId") Integer teamId) {
-        try {
-            boolean result = teamService.deleteTeam(teamId);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(teamService.deleteTeam(teamId));
     }
-
-
 
     // 팀 멤버 리스트 조회
     @GetMapping("members/teamMemberList")
