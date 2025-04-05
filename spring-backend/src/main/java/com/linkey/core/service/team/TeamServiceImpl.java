@@ -34,35 +34,34 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean addTeam(TeamDto team) {
+    public TeamDto addTeam(TeamDto team) {
         Team teamEntity = Team.toEntity(team);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
-                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
-        return true;
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
+        TeamDto teamDto = TeamDto.fromEntity(saveTeam);
+        return teamDto;
     }
 
     @Override
     public Boolean deleteTeam(Integer id) {
-        Optional<Team> teamOptional = Optional.ofNullable(teamRepo.findByTeamId(id));
-        Team team = teamOptional.orElseThrow(() ->
-                new EntityNotFoundException("Team not found with id: " + id)
-        );
+        Team team = teamRepo.findByTeamId(id)
+                    .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
         teamRepo.deleteByTeamId(id);
         return true;
     }
 
     @Override
     @Transactional
-    public Boolean updateTeam(Integer id, TeamDto teamDto) {
+    public TeamDto updateTeam(Integer id, TeamDto teamDto) {
         Team existingTeam = teamRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
         existingTeam.updateFromDto(teamDto);
-        return true;
+        return teamDto;
     }
 
     @Override
     public TeamDto getTeamById(Integer id) {
-        Team team = teamRepo.findByTeamId(id);
+        Team team = teamRepo.findByTeamId(id).orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
         return TeamDto.fromEntity(team);
     }
 
