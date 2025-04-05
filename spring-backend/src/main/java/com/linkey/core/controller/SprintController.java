@@ -1,12 +1,14 @@
 package com.linkey.core.controller;
 
+import com.linkey.core.domain.dto.SprintDto;
 import com.linkey.core.domain.dto.request.ReqCreateSprintDto;
 import com.linkey.core.domain.dto.request.ReqUpdateSprintDto;
 import com.linkey.core.domain.dto.response.ResSprintDetailDto;
 import com.linkey.core.domain.dto.response.ResSprintListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
-import com.linkey.core.global.exception.CustomException;
+import com.linkey.core.domain.dto.response.SuccessResult;
 import com.linkey.core.service.sprint.SprintService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +27,9 @@ public class SprintController {
     // sprint 목록 조회 - project id로 조회
     @ResponseBody
     @GetMapping("sprintList")
-    public ResWrapper getSprintList(@RequestParam("projectId") Integer projectId) {
-        try {
-            ResSprintListDto sprints = sprintService.getSprintsByProjectId(projectId);
-            return ResWrapper.resSuccess(sprints);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper<SuccessResult> getSprintList(@RequestParam(value = "projectId", required = false) Integer projectId) {
+        ResSprintListDto sprints = sprintService.getSprintsByProjectId(projectId);
+        return ResWrapper.resSuccess(sprints);
     }
 
     // 테스트 완료
@@ -39,13 +37,9 @@ public class SprintController {
     // sprint 조회
     @ResponseBody
     @GetMapping("sprintDetail")
-    public ResWrapper getSprintDetail(@RequestParam("sprintId") Long sprintId) {
-        try {
-            ResSprintDetailDto sprint = sprintService.getSprintById(sprintId);
-            return ResWrapper.resSuccess(sprint);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper<SuccessResult> getSprintDetail(@RequestParam("sprintId") Long sprintId) {
+        ResSprintDetailDto sprint = sprintService.getSprintById(sprintId);
+        return ResWrapper.resSuccess(sprint);
     }
 
     // 테스트 완료
@@ -64,13 +58,9 @@ public class SprintController {
     // sprint 생성
     @ResponseBody
     @PostMapping("createSprint")
-    public ResWrapper createSprint(@RequestBody ReqCreateSprintDto reqCreateSprintDto) {
-        try {
-            long sprintId = sprintService.createSprint(reqCreateSprintDto);
-            return ResWrapper.resSuccess(sprintId);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper<SuccessResult> createSprint(@Valid @RequestBody ReqCreateSprintDto reqCreateSprintDto) {
+        SprintDto result = sprintService.createSprint(reqCreateSprintDto);
+        return ResWrapper.resSuccess(result);
     }
 
     // 테스트 완료
@@ -87,13 +77,9 @@ public class SprintController {
     // sprint 수정 (sprint id)
     @ResponseBody
     @PatchMapping("updateSprint")
-    public ResWrapper updateSprint(@RequestBody ReqUpdateSprintDto reqUpdateSprintDto) {
-        try {
-            long sprintId = sprintService.updateSprint(reqUpdateSprintDto);
-            return ResWrapper.resSuccess(sprintId);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper<SuccessResult> updateSprint(@Valid @RequestBody ReqUpdateSprintDto reqUpdateSprintDto) {
+        SprintDto result = sprintService.updateSprint(reqUpdateSprintDto);
+        return ResWrapper.resSuccess(result);
     }
 
     // 테스트 완료
@@ -101,13 +87,8 @@ public class SprintController {
     // sprint 삭제
     @ResponseBody
     @DeleteMapping("deleteSprint")
-    public ResWrapper deleteSprint(@RequestParam("sprintId") Long reqSprintId) {
-        try {
-            long sprintId = sprintService.deleteSprint(reqSprintId);
-            return ResWrapper.resSuccess(sprintId);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+    public ResWrapper<SuccessResult> deleteSprint(@RequestParam("sprintId") Long reqSprintId) {
+        SprintDto result = sprintService.deleteSprint(reqSprintId);
+        return ResWrapper.resSuccess(result);
     }
-
 }

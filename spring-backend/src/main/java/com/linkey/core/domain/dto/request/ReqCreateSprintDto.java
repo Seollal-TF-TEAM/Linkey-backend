@@ -1,5 +1,6 @@
 package com.linkey.core.domain.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 public class ReqCreateSprintDto {
+    @NotBlank(message = "스프린트 이름은 필수 입력 값입니다.")
     private String sprintName;
     private String sprintContent;
     private LocalDate sprintStartAt;

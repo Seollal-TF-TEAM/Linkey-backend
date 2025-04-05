@@ -63,28 +63,37 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public long createImage(MultipartFile imageFile) throws CustomException {
         try {
-            // imageFile 저장
             if (imageFile.isEmpty()) {
                 throw new CustomException(ErrorCode.IMAGE_FILE_CAN_NOT_NULL);
             }
+
+            // UUID 파일명 생성
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+
+            // NAS 마운트된 업로드 경로 지정
             Path filePath = Paths.get(uploadDir, fileName);
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 throw new CustomException(ErrorCode.UPLOAD_DIR_NOT_EXIST);
             }
+
+            // 파일 저장
             imageFile.transferTo(filePath.toFile());
 
-            // image DB 저장
+            // 접근 가능한 URL 경로 (Ingress + WebConfig 기준)
+            String imageUrl = System.getenv("BASE_URL") + "/images/" + fileName;
+
+            // DB 저장
             Image image = imageRepository.save(
                     Image.builder()
-                            .imageUrl("")
-                            .imagePath("")
+                            .imageUrl(imageUrl)
+                            .imagePath(filePath.toString())
                             .fileSize(imageFile.getSize())
                             .fileType(imageFile.getContentType())
                             .createdAt(LocalDateTime.now())
                             .build()
             );
+
             return image.getImgId();
         } catch (CustomException e) {
             throw e;

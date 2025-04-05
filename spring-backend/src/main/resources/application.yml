@@ -31,7 +31,7 @@ spring:
 #    printer:
 #      enabled: true
     cors:
-      allowed-origins: ${CORS_ALLOWED_ORIGINS}
+      allowed-origins: ${BASE_URL}
       allowed-methods: "GET,POST"
       allowed-headers: "*"
     schema:
@@ -57,6 +57,9 @@ logging:
     org.hibernate.SQL: DEBUG
     #org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 #    root: trace
+
+IMAGE_UPLOAD_DIR: /app/photos
+
 
 
 #datasource:
