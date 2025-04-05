@@ -4,6 +4,8 @@ import com.linkey.core.domain.entity.Project;
 import com.linkey.core.repository.project.custom.ProjectRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ProjectRepository extends JpaRepository<Project, Integer>, ProjectRepositoryCustom {
 
     Project findProjectByProjectId(Integer projectId);

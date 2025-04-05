@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.enums.MemberRole;
 import jakarta.persistence.*;
 import lombok.*;

@@ -13,5 +13,6 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Integer>
     //void deleteByTeam_TeamId(Integer teamId);
     List<TeamMember> findByUser_GithubUserId(Long githubUserId);
 
+
     boolean existsByTeam_TeamIdAndUser_GithubUserId(Integer teamId, Long githubUserId);
 }
