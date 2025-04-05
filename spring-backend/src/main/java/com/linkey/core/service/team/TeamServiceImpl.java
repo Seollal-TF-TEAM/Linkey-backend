@@ -2,10 +2,12 @@ package com.linkey.core.service.team;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
+import com.linkey.core.domain.enums.MemberRole;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.global.resolver.UserResolver;
@@ -14,13 +16,13 @@ import com.linkey.core.repository.team.TeamRepository;
 import com.linkey.core.repository.user.GitUserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 @Slf4j
@@ -47,17 +49,38 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public ResTeamListDto findAllTeamsByTeamId(Integer teamId) {
-        List<Team> teamList = teamRepo.findTeamsByTeamId(teamId);
-        ResTeamListDto teamListDto = ResTeamListDto.fromEntity(teamList);
-        return teamListDto;
+    public ResTeamListDto findTeamsByTeamMember(Long githubUserId) {
+        List<TeamMember> teamMembers = teamMemberRepo.findByUser_GithubUserId(githubUserId);
+        List<Team> teamList = teamRepo.findTeamsByTeamMembers(teamMembers);
+        return ResTeamListDto.fromEntity(teamList);
     }
 
     @Override
-    public TeamDto addTeam(TeamDto team) {
-        Team teamEntity = Team.toEntity(team);
+    public TeamDto addTeam(@Valid TeamDto team) {
+        // 팀 생성
+        TeamDto teamDto = TeamDto.builder()
+                .teamName(team.getTeamName())
+                .teamDesc(team.getTeamDesc())
+                .build();
+        Team teamEntity = Team.toEntity(teamDto);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
+
+        // 팀 멤버 추가
+        for (ReqCreateTeamDto.SingleTeamMember member : team.getTeamMembers()) {
+            GitUser gitUser = gitUserRepository.findByGithubUserId(member.getGithubUserId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+            TeamMember teamMember = TeamMember.builder()
+                    .team(saveTeam)
+                    .user(gitUser)
+                    .memberRole(MemberRole.MEMBER)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+            teamMemberRepo.save(teamMember);
+        }
+
         return TeamDto.fromEntity(saveTeam);
     }
 
