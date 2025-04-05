@@ -2,6 +2,7 @@ package com.linkey.core.service.team;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
@@ -31,6 +32,20 @@ public class TeamServiceImpl implements TeamService {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
         this.gitUserRepository = gitUserRepository;
+    }
+
+    @Override
+    public ResTeamListDto findAll() {
+        List<Team> teamList = teamRepo.findAllOrderByTeamIdDesc();
+        ResTeamListDto teamListDto = ResTeamListDto.fromEntity(teamList);
+        return teamListDto;
+    }
+
+    @Override
+    public ResTeamListDto findAllTeamsByTeamId(Integer teamId) {
+        List<Team> teamList = teamRepo.findTeamsByTeamId(teamId);
+        ResTeamListDto teamListDto = ResTeamListDto.fromEntity(teamList);
+        return teamListDto;
     }
 
     @Override
@@ -72,7 +87,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamMemberDto> getTeamMembersByTeamId(Integer teamId) {
-        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamId(teamId);
+        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamIdOrderByCreatedAtDesc(teamId);
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 
@@ -87,10 +102,12 @@ public class TeamServiceImpl implements TeamService {
     public Boolean addTeamMember(Integer teamId, TeamMemberDto dto) {
         Team team = teamRepo.findById(teamId)
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND, "Team not found with id: " + teamId));
-        //이미 존재하는 팀원은 추가 못하게
-        GitUser gitUser = gitUserRepository.findByGithubUserId(dto.getGithubUserId())
-                .orElseThrow(() -> new IllegalArgumentException("GitUser not found: id=" + dto.getGithubUserId()));
 
+        // 가입한 유저인지 확인
+        GitUser gitUser = gitUserRepository.findByGithubUserId(dto.getGithubUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND, "User not found with githubUserId: " + dto.getGithubUserId()));
+
+        //이미 존재하는 팀원은 추가 못하게
         if (teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId())) {
             throw new CustomException(ErrorCode.DUPLICATE_TEAM_MEMBER);
         }
@@ -108,7 +125,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean deleteTeamMember(Integer teamMemberId) {
         TeamMember teamMember = teamMemberRepo.findByMemberId(teamMemberId)
-                .orElseThrow(() -> new EntityNotFoundException("TeamMember not found: id=" + teamMemberId));
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_MEMBER_NOT_FOUND, "TeamMember not found with id: " + teamMemberId));
         teamMemberRepo.deleteById(teamMemberId);
         return true;
     }
