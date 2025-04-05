@@ -9,6 +9,7 @@ import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
+import com.linkey.core.global.resolver.UserResolver;
 import com.linkey.core.repository.team.TeamMemberRepository;
 import com.linkey.core.repository.team.TeamRepository;
 import com.linkey.core.repository.user.GitUserRepository;
@@ -28,11 +29,13 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepo;
     private final TeamMemberRepository teamMemberRepo;
     private final GitUserRepository gitUserRepository;
+    private final UserResolver userResolver;
 
-    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository) {
+    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository, UserResolver userResolver) {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
         this.gitUserRepository = gitUserRepository;
+        this.userResolver = userResolver;
     }
 
     @Transactional
@@ -43,11 +46,7 @@ public class TeamServiceImpl implements TeamService {
 //        Team saveTeam = Optional.of(teamRepo.save(teamEntity))
 //                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
 
-        Function<Long, GitUser> userResolver = githubUserId -> {
-            // 세션/Redis에서 가져오는 로직 구현
-            return sessionGitUserResolver.get(githubUserId);
-        };
-
+        userResolver.getUserId()
 
         return true;
     }

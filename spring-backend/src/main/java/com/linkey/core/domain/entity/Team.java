@@ -69,13 +69,14 @@ public class Team {
         List<TeamMember> members = dto.getTeamMembers().stream()
                 .map(memberDto -> {
                     GitUser user = userResolver.apply(memberDto.getGithubUserId());
-                    return TeamMember.fromDto(memberDto, user, team); // 👈 여기!
+                    return TeamMember.fromDto(memberDto, user, team);
                 })
                 .toList();
 
         team.setTeamMembers(members);
         return team;
     }
+
 
 
 
