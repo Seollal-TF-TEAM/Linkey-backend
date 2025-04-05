@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, Integer> {
     Optional<TeamMember> findByMemberId(Integer memberId);
-    List<TeamMember> findByTeam_TeamId(Integer teamId);
+
+    List<TeamMember> findByTeam_TeamIdOrderByCreatedAtDesc(Integer teamId);
     //TeamMember save(TeamMember teamMember);
     //void deleteByTeam_TeamId(Integer teamId);
     List<TeamMember> findByUser_GithubUserId(Long githubUserId);

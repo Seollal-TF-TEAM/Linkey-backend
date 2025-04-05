@@ -5,7 +5,6 @@ import com.linkey.core.domain.dto.TeamMemberDto;
 import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
-import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.team.TeamService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ public class TeamController {
     @GetMapping("teamListAll")
     @ResponseBody
     public ResWrapper getTeamList() {
-        return ResWrapper.resSuccess(teamService.getTeamMembers());
+        return ResWrapper.resSuccess(teamService.findAll());
     }
 
     // 팀 리스트
@@ -37,7 +36,7 @@ public class TeamController {
         return ResWrapper.resSuccess(teamService.getTeamMembersByUser(githubUserId));
     }
 
-  // 팀 상세
+    // 팀 상세
     @GetMapping("teamDetail")
     @ResponseBody
     public ResWrapper getTeamDetail(@RequestParam("teamId") Integer teamId) {

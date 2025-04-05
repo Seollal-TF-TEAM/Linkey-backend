@@ -18,7 +18,7 @@ public enum ErrorCode {
     // 2000번대: 팀 관련 예외 처리
     TEAM_NOT_FOUND(2001, "해당 팀을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DUPLICATE_TEAM_MEMBER(2002, "이미 존재하는 팀원입니다.", HttpStatus.BAD_REQUEST),
-
+    TEAM_MEMBER_NOT_FOUND(2003, "해당 팀원을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     // ----
 
