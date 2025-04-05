@@ -24,20 +24,15 @@ public class TeamController {
     // 팀 리스트
     @GetMapping("teamList")
     @ResponseBody
-    public ResWrapper getTeamList(@RequestParam("githubUserId") Long id) {
-        return null;
+    public ResWrapper getTeamList(@RequestParam("githubUserId") Long githubUserId) {
+        return ResWrapper.resSuccess(teamService.getTeamMembersByUser(githubUserId));
     }
 
   // 팀 상세
     @GetMapping("teamDetail")
     @ResponseBody
     public ResWrapper getTeamDetail(@RequestParam("teamId") Integer teamId) {
-        try {
-            TeamDto teamDto = teamService.getTeamById(teamId);
-            return ResWrapper.resSuccess(teamDto);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(teamService.getTeamById(teamId));
     }
 
     // 팀 추가
@@ -66,12 +61,7 @@ public class TeamController {
     @GetMapping("members/teamMemberList")
     @ResponseBody
     public ResWrapper getTeamMembers(@RequestParam("teamId") Integer teamId) {
-        try {
-            List<TeamMemberDto> teamMemberDtoList = teamService.getTeamMembers(teamId);
-            return ResWrapper.resSuccess(teamMemberDtoList);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(teamService.getTeamMembers(teamId));
     }
 
     // 팀 멤버 조회
@@ -86,13 +76,8 @@ public class TeamController {
     @PostMapping("members/createTeamMember")
     @ResponseBody
     public ResWrapper addTeamMember(@RequestParam("teamId") Integer teamId,
-                                 @RequestBody TeamMemberDto teamMemberDto) {
-        try {
-            boolean result = teamService.addTeamMember(teamId, teamMemberDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+                                    @Valid @RequestBody TeamMemberDto teamMemberDto) {
+        return ResWrapper.resSuccess(teamService.addTeamMember(teamId, teamMemberDto));
     }
 
     // 팀 멤버 삭제
