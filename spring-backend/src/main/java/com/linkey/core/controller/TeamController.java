@@ -22,9 +22,16 @@ public class TeamController {
     }
 
     // 팀 리스트
+    @GetMapping("teamListAll")
+    @ResponseBody
+    public ResWrapper getTeamList() {
+        return ResWrapper.resSuccess(teamService.getTeamMembers());
+    }
+
+    // 팀 리스트
     @GetMapping("teamList")
     @ResponseBody
-    public ResWrapper getTeamList(@RequestParam("githubUserId") Long githubUserId) {
+    public ResWrapper getTeamListByUserId(@RequestParam("githubUserId") Long githubUserId) {
         return ResWrapper.resSuccess(teamService.getTeamMembersByUser(githubUserId));
     }
 
@@ -61,7 +68,7 @@ public class TeamController {
     @GetMapping("members/teamMemberList")
     @ResponseBody
     public ResWrapper getTeamMembers(@RequestParam("teamId") Integer teamId) {
-        return ResWrapper.resSuccess(teamService.getTeamMembers(teamId));
+        return ResWrapper.resSuccess(teamService.getTeamMembersByTeamId(teamId));
     }
 
     // 팀 멤버 조회
@@ -84,11 +91,6 @@ public class TeamController {
     @DeleteMapping("members/deleteTeamMember")
     @ResponseBody
     public ResWrapper deleteTeamMember(@RequestParam("memberId") Integer memberId) {
-        try {
-            boolean result = teamService.deleteTeamMember(memberId);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(teamService.deleteTeamMember(memberId));
     }
 }

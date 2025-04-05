@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
-    Team save(Team team);
+    //Team save(Team team);
     Optional<Team> findByTeamId(Integer id);
     void deleteByTeamId(Integer id);
 }
