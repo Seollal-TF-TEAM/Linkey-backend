@@ -1,6 +1,5 @@
 package com.linkey.core.domain.dto.request;
 
-import com.linkey.core.domain.enums.TodoDoneYn;
 import com.linkey.core.domain.enums.TodoLevel;
 import lombok.*;
 

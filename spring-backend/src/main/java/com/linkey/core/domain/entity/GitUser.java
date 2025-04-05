@@ -54,17 +54,4 @@ public class GitUser {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static GitUser fromDto(GitUserDto dto) {
-        return GitUser.builder()
-                .githubUserId(dto.getGithubUserId())
-                .githubUserName(dto.getGithubUserName())
-                .githubProfileUrl(dto.getGithubProfileUrl())
-                .githubUserEmail(dto.getGithubUserEmail())
-                .githubReposUrl(dto.getGithubReposUrl())
-                .githubUpdatedAt(dto.getGithubUpdatedAt())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
-    }
-
 }

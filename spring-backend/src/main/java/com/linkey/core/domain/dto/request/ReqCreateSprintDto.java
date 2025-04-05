@@ -13,15 +13,11 @@ import java.time.LocalDate;
 public class ReqCreateSprintDto {
     @NotBlank(message = "스프린트 이름은 필수 입력 값입니다.")
     private String sprintName;
-    private String sprintContent;
+    private String sprintContents;
     private LocalDate sprintStartAt;
     private LocalDate sprintEndAt;
     private SingleProject project;
 
-    @Getter
-    @Builder
-    @ToString
-    @AllArgsConstructor
     public static class SingleProject {
         int projectId;
     }

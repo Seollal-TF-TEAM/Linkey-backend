@@ -49,7 +49,6 @@ public class Project {
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();

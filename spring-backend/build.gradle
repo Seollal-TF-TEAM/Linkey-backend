@@ -50,7 +50,14 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor(
+            'org.projectlombok:lombok:1.18.30',
+            'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    )
+
+    //mapper
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     //test
     testCompileOnly 'org.projectlombok:lombok'

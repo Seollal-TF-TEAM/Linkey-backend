@@ -11,12 +11,14 @@ import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.repository.project.ProjectRepository;
 import com.linkey.core.repository.team.TeamRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -46,8 +48,23 @@ public class ProjectServiceImpl implements ProjectService {
         );
     }
 
-    @Transactional
     @Override
+    public ResProjectListDto getProjectsByTeamId(Integer teamId) throws CustomException {
+        try{
+            Optional<List<Project>> projects= Optional.ofNullable((projectRepo.findProjectsByTeam_TeamId(teamId)));
+            List<Project> projectEntities = projects.orElseThrow(() -> new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT));
+
+            return ResProjectListDto.fromEntity(projectEntities);
+        }catch (CustomException e){
+            throw e;
+        }catch (Exception e) {
+            throw new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT);
+        }
+
+
+//        return projectEntities.stream().map(ProjectDto::fromEntity).toList();
+    }
+
     public ProjectDto createProject(ReqCreateProjectDto projectDto) {
         Team team = teamRepo.findById(projectDto.getTeam().getTeamId())
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));

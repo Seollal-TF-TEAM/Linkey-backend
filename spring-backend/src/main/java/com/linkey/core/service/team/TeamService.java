@@ -20,5 +20,6 @@ public interface TeamService {
     List<TeamMemberDto> getTeamMembersByTeamId(Integer teamId);
     List<TeamMemberDto> getTeamMembersByUser(Long githubUserId);
     Boolean addTeamMember(Integer teamId, TeamMemberDto teamMember);
+//    Boolean addDtoTeamMember(Integer teamId, List<Long> membersId);
     Boolean deleteTeamMember(Integer teamMemberId);
 }
