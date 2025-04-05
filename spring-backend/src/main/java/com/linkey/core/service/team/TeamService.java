@@ -2,6 +2,7 @@ package com.linkey.core.service.team;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResTeamListDto;
 
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
 public interface TeamService {
     // Team
     ResTeamListDto findAll();
-    ResTeamListDto findAllTeamsByTeamId(Integer teamId);
-    TeamDto addTeam(TeamDto team);
+    ResTeamListDto findTeamsByTeamMember(Long githubUserId);
+    TeamDto addTeam(ReqCreateTeamDto team);
     Boolean deleteTeam(Integer id);
     TeamDto updateTeam(Integer id, TeamDto team);
     TeamDto getTeamById(Integer teamId);
