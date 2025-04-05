@@ -38,8 +38,7 @@ public class TeamServiceImpl implements TeamService {
         Team teamEntity = Team.toEntity(team);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
-        TeamDto teamDto = TeamDto.fromEntity(saveTeam);
-        return teamDto;
+        return TeamDto.fromEntity(saveTeam);
     }
 
     @Override
@@ -67,7 +66,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamMemberDto> getTeamMembers(Integer teamId) {
-        List<TeamMember> teamMembers = teamMemberRepo.findTeamMembersByTeam_TeamId(teamId);
+        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamId(teamId);
+        return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
+    }
+
+    @Override
+    public List<TeamMemberDto> getTeamMembersByUser(Long githubUserId) {
+        List<TeamMember> teamMembers = teamMemberRepo.findByUser_GithubUserId(githubUserId);
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 
