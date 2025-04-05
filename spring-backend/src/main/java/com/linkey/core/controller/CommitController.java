@@ -20,11 +20,11 @@ public class CommitController {
     private final RedisTemplate<String, String> redisTemplate;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("/{githubUserId}/{owner}/{repo}")
+    @GetMapping("/")
     public ResponseEntity<?> getCommits(
-            @PathVariable Long githubUserId,
-            @PathVariable String owner,
-            @PathVariable String repo
+            @RequestParam("githubUserId") long githubUserId,
+            @RequestParam("owner") String owner,
+            @RequestParam("repo") String repo
     ) {
         String redisKey = "githubId:" + githubUserId;
         String token = redisTemplate.opsForValue().get(redisKey);

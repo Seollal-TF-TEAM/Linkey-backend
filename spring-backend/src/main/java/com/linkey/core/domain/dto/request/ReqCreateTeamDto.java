@@ -1,5 +1,6 @@
 package com.linkey.core.domain.dto.request;
 
+import com.linkey.core.domain.enums.MemberRole;
 import lombok.*;
 
 import java.util.List;
@@ -17,9 +18,12 @@ public class ReqCreateTeamDto {
     @Getter
     @Builder
     @ToString
+    @Getter
+    @Setter
     @AllArgsConstructor
     public static class SingleTeamMember {
         Long githubUserId;
+        MemberRole role;
     }
 }
 /*

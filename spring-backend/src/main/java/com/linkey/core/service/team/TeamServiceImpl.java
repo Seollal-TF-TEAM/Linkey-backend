@@ -10,13 +10,15 @@ import com.linkey.core.domain.entity.TeamMember;
 import com.linkey.core.domain.enums.MemberRole;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
+import com.linkey.core.global.resolver.UserResolver;
 import com.linkey.core.repository.team.TeamMemberRepository;
 import com.linkey.core.repository.team.TeamRepository;
 import com.linkey.core.repository.user.GitUserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,13 +31,16 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepo;
     private final TeamMemberRepository teamMemberRepo;
     private final GitUserRepository gitUserRepository;
+    private final UserResolver userResolver;
 
-    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository) {
+    public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository, UserResolver userResolver) {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
         this.gitUserRepository = gitUserRepository;
+        this.userResolver = userResolver;
     }
 
+    @Transactional
     @Override
     public ResTeamListDto findAll() {
         List<Team> teamList = teamRepo.findAllOrderByTeamIdDesc();
@@ -51,7 +56,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDto addTeam(ReqCreateTeamDto team) {
+    public TeamDto addTeam(@Valid TeamDto team) {
         // 팀 생성
         TeamDto teamDto = TeamDto.builder()
                 .teamName(team.getTeamName())
@@ -120,8 +125,9 @@ public class TeamServiceImpl implements TeamService {
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 
-    @Override
+
     @Transactional
+    @Override
     public Boolean addTeamMember(Integer teamId, TeamMemberDto dto) {
         Team team = teamRepo.findById(teamId)
                 .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND, "Team not found with id: " + teamId));
