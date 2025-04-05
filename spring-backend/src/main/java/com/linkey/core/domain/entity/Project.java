@@ -1,6 +1,7 @@
 package com.linkey.core.domain.entity;
 
 import com.linkey.core.domain.dto.ProjectDto;
+import com.linkey.core.domain.dto.request.ReqUpdateProjectDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -53,4 +54,23 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
+
+    public static Project toEntity(ProjectDto dto) {
+        return Project.builder()
+                .projectId(dto.getProjectId())
+                .projectName(dto.getProjectName())
+                .projectDesc(dto.getProjectDesc())
+                .team(new Team(dto.getTeamId()))
+                .githubRepoUrl(dto.getGithubRepoUrl())
+                .createdAt(dto.getCreatedAt())
+                .updatedAt( dto.getUpdatedAt())
+                .build();
+    }
+
+    public Project update(ReqUpdateProjectDto reqUpdateProjectDto) {
+        this.setProjectName(reqUpdateProjectDto.getProjectName());
+        this.setProjectDesc(reqUpdateProjectDto.getProjectDesc());
+        this.setGithubRepoUrl(reqUpdateProjectDto.getGithubRepoUrl());
+        return this;
+    }
 }

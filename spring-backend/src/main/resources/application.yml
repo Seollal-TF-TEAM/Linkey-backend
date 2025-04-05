@@ -58,6 +58,9 @@ logging:
     #org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 #    root: trace
 
+IMAGE_UPLOAD_DIR: /app/photos
+
+
 
 #datasource:
 #  url: jdbc:postgresql://host.docker.internal:5432/mydatabase

@@ -9,49 +9,56 @@ import com.linkey.core.domain.entity.Team;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.global.exception.ErrorCode;
 import com.linkey.core.repository.project.ProjectRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.linkey.core.repository.team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    private final ProjectRepository repository;
+    private final ProjectRepository projectRepo;
+    private final TeamRepository teamRepo;
 
     @Autowired
-    ProjectServiceImpl(ProjectRepository repository) {
-        this.repository = repository;
+    ProjectServiceImpl(ProjectRepository repository, TeamRepository teamRepo) {
+        this.projectRepo = repository;
+        this.teamRepo = teamRepo;
     }
-
 
     @Override
     public ResProjectListDto getProjectsByGithubUserId(Long githubUserId) throws CustomException {
         try {
-            List<Project> projects = repository.findProjectsByGithubUserId(githubUserId);
-
+            List<Project> projects = projectRepo.findProjectsByGithubUserId(githubUserId);
+            if (projects.isEmpty()) {
+                throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
+            }
             return ResProjectListDto.fromEntity(projects);
+        } catch (CustomException e) {
+            throw e;
         } catch (RuntimeException e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT);
         }
     }
 
-
     @Override
     public ResProjectDetailDto getProjectByProjectId(Integer projectId) throws CustomException{
         try {
-            Optional<Project> project = repository.findById(projectId);
-            return project.map(ResProjectDetailDto::fromEntity).orElse(null);
+            Project project = projectRepo.findById(projectId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.PROJECT_NOT_FOUND));
+            return ResProjectDetailDto.fromEntity(project);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_FIND_PROJECT);
         }
     }
 
-
+    @Transactional
     @Override
     public ResProjectListDto getProjectsByTeamId(Integer teamId) {
         Optional<List<Project>> projects= Optional.ofNullable((repository.findProjectsByTeam_TeamId(teamId)));
@@ -65,40 +72,36 @@ public class ProjectServiceImpl implements ProjectService {
 
     public Integer createProject(ReqCreateProjectDto projectDto) throws CustomException {
         try {
-            Project result = repository.save(Project.builder()
+            Team team = teamRepo.findById(projectDto.getTeam().getTeamId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
+            Project result = projectRepo.save(Project.builder()
                     .projectName(projectDto.getProjectName())
                     .projectDesc(projectDto.getProjectDesc())
-                    .team(
-                            Team.builder()
-                                    .teamId(projectDto.getTeam().getTeamId())
-                                    .build()
-                    ).githubRepoUrl(projectDto.getGithubRepoUrl())
+                    .team(team)
+                    .githubRepoUrl(projectDto.getGithubRepoUrl())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build()
             );
             return result.getProjectId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_CREATE_PROJECT);
         }
     }
 
+    @Transactional
     @Override
     public Integer updateProject(ReqUpdateProjectDto projectDto) throws CustomException {
         try {
-            Optional<Project> target = repository.findById(
-                    projectDto.getProjectId()
-            );
-            if (target.isEmpty()) {
-                throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
-            }
-            Project result = repository.save(Project.builder()
-                    .projectName(projectDto.getProjectName())
-                    .projectDesc(projectDto.getProjectDesc())
-                    .githubRepoUrl(projectDto.getGithubRepoUrl())
-                    .build()
-            );
-            return result.getProjectId();
+            Project target = projectRepo.findById(projectDto.getProjectId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.PROJECT_NOT_FOUND));
+            Project updatedTarget = target.update(projectDto);
+            projectRepo.save(updatedTarget);
+            return target.getProjectId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_UPDATE_PROJECT);
         }
@@ -107,12 +110,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Integer deleteProject(int projectId) throws CustomException {
         try {
-            Optional<Project> target = repository.findById(projectId);
-            if (target.isEmpty()) {
-                throw new CustomException(ErrorCode.PROJECT_NOT_FOUND);
-            }
-            repository.delete(target.get());
-            return target.get().getProjectId();
+            Project target = projectRepo.findById(projectId)
+                    .orElseThrow(() -> new CustomException(ErrorCode.PROJECT_NOT_FOUND));
+            projectRepo.delete(target);
+            return target.getProjectId();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(ErrorCode.CAN_NOT_DELETE_PROJECT);
         }

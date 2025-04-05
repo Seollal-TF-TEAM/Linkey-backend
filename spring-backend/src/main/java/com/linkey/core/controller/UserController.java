@@ -1,6 +1,5 @@
 package com.linkey.core.controller;
 
-import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.repository.user.GitUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -67,25 +67,19 @@ public class Sprint {
     }
 
 
-    public Sprint updateFromDto(ReqUpdateSprintDto dto) {
+    public Sprint update(ReqUpdateSprintDto dto) {
         if (dto.getSprintName() != null) {
             this.sprintName = dto.getSprintName();
         }
-
         if (dto.getSprintContents() != null) {
             this.sprintContents = dto.getSprintContents();
         }
-
         if (dto.getSprintStartAt() != null) {
             this.sprintStartAt = dto.getSprintStartAt();
         }
-
         if (dto.getSprintEndAt() != null) {
             this.sprintEndAt = dto.getSprintEndAt();
         }
-
-        this.updatedAt = LocalDateTime.now(); // 수정 시점 갱신
-
         return this;
     }
 

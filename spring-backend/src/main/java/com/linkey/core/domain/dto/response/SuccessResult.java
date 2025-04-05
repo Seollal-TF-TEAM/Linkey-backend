@@ -1,14 +1,13 @@
 package com.linkey.core.domain.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@ToString
+@AllArgsConstructor
 public class SuccessResult {
-    private String status;
+    private int status;
     private Object data;
 }

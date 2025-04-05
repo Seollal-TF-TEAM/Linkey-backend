@@ -28,6 +28,7 @@ public class ReqUpdateTodoDto {
     public static class SingleUser {
         private Long githubUserId;
     }
+
     @Getter
     @Builder
     @ToString

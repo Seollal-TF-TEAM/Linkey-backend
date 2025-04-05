@@ -40,50 +40,52 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Boolean addTeam(ReqCreateTeamDto teamDto) {
-//        Team teamEntity = Team.toEntity(teamDto);
-//        TeamMember teamMemberEntity = TeamMember.toEntity(teamDto);
-//        Team saveTeam = Optional.of(teamRepo.save(teamEntity))
-//                .orElseThrow(() -> new IllegalArgumentException("save Fail"));
-
-        userResolver.getUserId()
-
-        return true;
+    public TeamDto addTeam(TeamDto team) {
+        Team teamEntity = Team.toEntity(team);
+        Team saveTeam = Optional.of(teamRepo.save(teamEntity))
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
+        return TeamDto.fromEntity(saveTeam);
     }
 
     @Override
     public Boolean deleteTeam(Integer id) {
-        Optional<Team> teamOptional = Optional.ofNullable(teamRepo.findByTeamId(id));
-
-        Team team = teamOptional.orElseThrow(() ->
-                new EntityNotFoundException("Team not found with id: " + id)
-        );
-
+        Team team = teamRepo.findByTeamId(id)
+                    .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
         teamRepo.deleteByTeamId(id);
         return true;
     }
 
     @Override
     @Transactional
-    public Boolean updateTeam(Integer id, TeamDto teamDto) {
+    public TeamDto updateTeam(Integer id, TeamDto teamDto) {
         Team existingTeam = teamRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
         existingTeam.updateFromDto(teamDto);
-
-        return true;
+        return teamDto;
     }
 
     @Override
-    public ResTeamListDto getTeamById(Integer id) {
-        Team team = teamRepo.findByTeamId(id);
+    public TeamDto getTeamById(Integer id) {
+        Team team = teamRepo.findByTeamId(id).orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND));
         return TeamDto.fromEntity(team);
     }
 
     @Override
-    public ResTeamListDto getTeamMembers(Integer teamId) {
-//        ResTeamListDto teamMembers = teamMemberRepo.findTeamMembersByTeam_TeamId(teamId);
-//        return teamMembers;
-        return null;
+    public List<TeamMemberDto> getTeamMembers() {
+        List<TeamMember> teamMembers = teamMemberRepo.findAll();
+        return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
+    }
+
+    @Override
+    public List<TeamMemberDto> getTeamMembersByTeamId(Integer teamId) {
+        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamId(teamId);
+        return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
+    }
+
+    @Override
+    public List<TeamMemberDto> getTeamMembersByUser(Long githubUserId) {
+        List<TeamMember> teamMembers = teamMemberRepo.findByUser_GithubUserId(githubUserId);
+        return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 
     @Override
@@ -95,17 +97,14 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean addTeamMember(Integer teamId, TeamMemberDto dto) {
         Team team = teamRepo.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + teamId));
-
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND, "Team not found with id: " + teamId));
         //이미 존재하는 팀원은 추가 못하게
         GitUser gitUser = gitUserRepository.findByGithubUserId(dto.getGithubUserId())
                 .orElseThrow(() -> new IllegalArgumentException("GitUser not found: id=" + dto.getGithubUserId()));
 
-        boolean isDuplicate = teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId());
-        if (isDuplicate) {
+        if (teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId())) {
             throw new CustomException(ErrorCode.DUPLICATE_TEAM_MEMBER);
         }
-
         TeamMember teamMember = TeamMember.builder()
                 .team(team)
                 .user(new GitUser(dto.getGithubUserId()))
@@ -113,13 +112,14 @@ public class TeamServiceImpl implements TeamService {
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
-
         teamMemberRepo.save(teamMember);
         return true;
     }
 
     @Override
     public Boolean deleteTeamMember(Integer teamMemberId) {
+        TeamMember teamMember = teamMemberRepo.findByMemberId(teamMemberId)
+                .orElseThrow(() -> new EntityNotFoundException("TeamMember not found: id=" + teamMemberId));
         teamMemberRepo.deleteById(teamMemberId);
         return true;
     }

@@ -6,7 +6,6 @@ import com.linkey.core.domain.dto.request.ReqUpdateTodoDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.global.exception.CustomException;
 import com.linkey.core.service.todo.TodoService;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

@@ -3,7 +3,6 @@ package com.linkey.core.auth;
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.repository.user.GitUserRepository;
 import com.linkey.core.security.CustomAuthentication;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth/github")
-//@CrossOrigin(origins = "http://localhost:3000")
 public class GitAuthController {
 
     //Redis 추가

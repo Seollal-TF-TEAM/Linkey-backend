@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
 @Getter
 @Setter
 @Builder
@@ -17,7 +15,7 @@ public class ResWrapper<T> {
 
         return ResWrapper.<SuccessResult>builder()
                 .result(SuccessResult.builder()
-                        .status("Success")
+                        .status(200)
                         .data(o)
                         .build()
                 ).build();

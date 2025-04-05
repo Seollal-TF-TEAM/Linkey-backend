@@ -23,9 +23,10 @@ public class TodoServiceImpl implements TodoService{
     private final TodoRepository todoRepository;
     private final GitUserRepository gitUserRepository;
 
-    public TodoServiceImpl(TodoRepository todoRepository, GitUserRepository gitUserRepository, GitUserRepository gitUserRepository1){
+    public TodoServiceImpl(TodoRepository todoRepository,
+                           GitUserRepository gitUserRepository){
         this.todoRepository = todoRepository;
-        this.gitUserRepository = gitUserRepository1;
+        this.gitUserRepository = gitUserRepository;
     }
 
     @Override
@@ -33,15 +34,13 @@ public class TodoServiceImpl implements TodoService{
         Sprint sprint = Sprint.builder()
                 .sprintId((long) request.getSprint().getSprintId())
                 .build();
-
         GitUser user = gitUserRepository.findByGithubUserId(request.getGithubUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.TODO_INVALID_USER));
-
         Todo todo = Todo.toEntity(request, sprint, user);
         todoRepository.save(todo);
-
         return true;
     }
+
     @Override
     public List<TodoDto> getTodos(Long sprintId) {
         return todoRepository.findBySprint_SprintId(sprintId).stream()
@@ -54,12 +53,9 @@ public class TodoServiceImpl implements TodoService{
     public Boolean updateTodo(Long sprintId, Long todoId, ReqUpdateTodoDto request) {
         Todo todo = todoRepository.findByTodoId(todoId)
                 .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
-
         GitUser user = gitUserRepository.findByGithubUserId(request.getGithubUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.TODO_INVALID_USER));
-
         todo.updateFromDto(request, user);
-
         return true;
     }
 
@@ -67,9 +63,7 @@ public class TodoServiceImpl implements TodoService{
     public Boolean deleteTodo(Long todoId) {
         Todo todo = todoRepository.findByTodoId(todoId)
                 .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
-
         todoRepository.delete(todo);
         return true;
     }
-
 }
