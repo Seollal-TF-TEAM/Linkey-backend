@@ -1,6 +1,6 @@
 package com.linkey.core.domain.dto.request;
 
-import com.linkey.core.domain.entity.Todo;
+import com.linkey.core.domain.dto.TodoDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ public class ReqCreateCommitDto {
     private String githubCommitMessage;
     private Long githubCommitUserId; // FK 아님
     private LocalDateTime githubCommitDate;
-    private Todo todo; // FK (todos.todo_id)
+    private TodoDto todo; // FK (todos.todo_id)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

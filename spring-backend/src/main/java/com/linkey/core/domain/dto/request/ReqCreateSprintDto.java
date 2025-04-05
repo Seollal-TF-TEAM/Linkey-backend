@@ -18,10 +18,6 @@ public class ReqCreateSprintDto {
     private LocalDate sprintEndAt;
     private SingleProject project;
 
-    @Getter
-    @Builder
-    @ToString
-    @AllArgsConstructor
     public static class SingleProject {
         int projectId;
     }

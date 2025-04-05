@@ -8,6 +8,7 @@ import com.linkey.core.domain.dto.response.ResProjectListDto;
 public interface ProjectService {
     ResProjectListDto getProjectsByGithubUserId(Long githubUserId);
     ResProjectDetailDto getProjectByProjectId(Integer projectId);
+    public ResProjectListDto getProjectsByTeamId(Integer teamId);
     Integer createProject(ReqCreateProjectDto projectDTO);
     Integer updateProject(ReqUpdateProjectDto projectDTO);
     Integer deleteProject(int projectId);
