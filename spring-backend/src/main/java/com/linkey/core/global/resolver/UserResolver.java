@@ -20,7 +20,7 @@ public class UserResolver {
     }
 
     public GitUser getUserId(Long githubUserId){
-        String redisKey = "githubUser: " + githubUserId;
+        String redisKey = "githubUser:" + githubUserId;
         GitUser gitUser = redisTemplate.opsForValue().get(redisKey);
 
         if(gitUser != null){
