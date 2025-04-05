@@ -31,13 +31,11 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepo;
     private final TeamMemberRepository teamMemberRepo;
     private final GitUserRepository gitUserRepository;
-    private final UserResolver userResolver;
 
     public TeamServiceImpl(TeamRepository teamRepo, TeamMemberRepository teamMemberRepo, GitUserRepository gitUserRepository, UserResolver userResolver) {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
         this.gitUserRepository = gitUserRepository;
-        this.userResolver = userResolver;
     }
 
     @Transactional
@@ -56,18 +54,18 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDto addTeam(@Valid TeamDto team) {
+    public TeamDto addTeam(@Valid ReqCreateTeamDto reqCreateTeamDto) {
         // 팀 생성
         TeamDto teamDto = TeamDto.builder()
-                .teamName(team.getTeamName())
-                .teamDesc(team.getTeamDesc())
+                .teamName(reqCreateTeamDto.getTeamName())
+                .teamDesc(reqCreateTeamDto.getTeamDesc())
                 .build();
         Team teamEntity = Team.toEntity(teamDto);
         Team saveTeam = Optional.of(teamRepo.save(teamEntity))
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_INPUT_VALUE));
 
         // 팀 멤버 추가
-        for (ReqCreateTeamDto.SingleTeamMember member : team.getTeamMembers()) {
+        for (ReqCreateTeamDto.SingleTeamMember member : reqCreateTeamDto.getTeamMembers()) {
             GitUser gitUser = gitUserRepository.findByGithubUserId(member.getGithubUserId())
                     .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 

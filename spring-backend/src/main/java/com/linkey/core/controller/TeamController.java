@@ -2,6 +2,7 @@ package com.linkey.core.controller;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.request.ReqCreateTeamDto;
 import com.linkey.core.domain.dto.response.ResWrapper;
 import com.linkey.core.service.team.TeamService;
 import jakarta.validation.Valid;
@@ -44,8 +45,8 @@ public class TeamController {
     // 팀 추가
     @PostMapping("createTeam")
     @ResponseBody
-    public ResWrapper createTeam(@Valid @RequestBody TeamDto teamDto) {
-        return ResWrapper.resSuccess(teamService.addTeam(teamDto));
+    public ResWrapper createTeam(@Valid @RequestBody ReqCreateTeamDto reqCreateTeamDto) {
+        return ResWrapper.resSuccess(teamService.addTeam(reqCreateTeamDto));
     }
 
     // 팀 수정

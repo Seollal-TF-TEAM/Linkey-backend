@@ -18,7 +18,6 @@ public class ReqCreateTeamDto {
     @Getter
     @Builder
     @ToString
-    @Getter
     @Setter
     @AllArgsConstructor
     public static class SingleTeamMember {
