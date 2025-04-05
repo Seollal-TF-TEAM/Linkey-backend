@@ -65,7 +65,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamMemberDto> getTeamMembers(Integer teamId) {
+    public List<TeamMemberDto> getTeamMembers() {
+        List<TeamMember> teamMembers = teamMemberRepo.findAll();
+        return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
+    }
+
+    @Override
+    public List<TeamMemberDto> getTeamMembersByTeamId(Integer teamId) {
         List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamId(teamId);
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
@@ -80,12 +86,12 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public Boolean addTeamMember(Integer teamId, TeamMemberDto dto) {
         Team team = teamRepo.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("Team not found: id=" + teamId));
+                .orElseThrow(() -> new CustomException(ErrorCode.TEAM_NOT_FOUND, "Team not found with id: " + teamId));
         //이미 존재하는 팀원은 추가 못하게
         GitUser gitUser = gitUserRepository.findByGithubUserId(dto.getGithubUserId())
                 .orElseThrow(() -> new IllegalArgumentException("GitUser not found: id=" + dto.getGithubUserId()));
-        boolean isDuplicate = teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId());
-        if (isDuplicate) {
+
+        if (teamMemberRepo.existsByTeam_TeamIdAndUser_GithubUserId(teamId, dto.getGithubUserId())) {
             throw new CustomException(ErrorCode.DUPLICATE_TEAM_MEMBER);
         }
         TeamMember teamMember = TeamMember.builder()
@@ -101,6 +107,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Boolean deleteTeamMember(Integer teamMemberId) {
+        TeamMember teamMember = teamMemberRepo.findByMemberId(teamMemberId)
+                .orElseThrow(() -> new EntityNotFoundException("TeamMember not found: id=" + teamMemberId));
         teamMemberRepo.deleteById(teamMemberId);
         return true;
     }
