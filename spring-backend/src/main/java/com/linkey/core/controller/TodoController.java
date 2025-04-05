@@ -24,24 +24,14 @@ public class TodoController {
     @GetMapping("todoList")
     @ResponseBody
     public ResWrapper getTodos(@RequestParam("sprintId") Long sprintId) {
-        try {
-            List<TodoDto> todoDtoList = todoService.getTodos(sprintId);
-            return ResWrapper.resSuccess(todoDtoList);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(todoService.getTodos(sprintId));
     }
 
     @PostMapping("createTodo")
     @ResponseBody
     public ResWrapper createTodo(@RequestParam("sprintId") Long sprintId,
                               @RequestBody ReqCreateTodoDto todoDto) {
-        try {
-            boolean result = todoService.createTodo(sprintId, todoDto);
-            return ResWrapper.resSuccess(result);
-        } catch (CustomException e) {
-            return ResWrapper.resCustomException(e);
-        }
+        return ResWrapper.resSuccess(todoService.createTodo(sprintId, todoDto));
     }
 
     @PatchMapping("updateTodo")

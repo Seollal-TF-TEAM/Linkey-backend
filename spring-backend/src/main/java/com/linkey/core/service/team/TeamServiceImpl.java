@@ -2,6 +2,7 @@ package com.linkey.core.service.team;
 
 import com.linkey.core.domain.dto.TeamDto;
 import com.linkey.core.domain.dto.TeamMemberDto;
+import com.linkey.core.domain.dto.response.ResTeamListDto;
 import com.linkey.core.domain.entity.GitUser;
 import com.linkey.core.domain.entity.Team;
 import com.linkey.core.domain.entity.TeamMember;
@@ -31,6 +32,20 @@ public class TeamServiceImpl implements TeamService {
         this.teamRepo = teamRepo;
         this.teamMemberRepo = teamMemberRepo;
         this.gitUserRepository = gitUserRepository;
+    }
+
+    @Override
+    public ResTeamListDto findAll() {
+        List<Team> teamList = teamRepo.findAllOrderByTeamIdDesc();
+        ResTeamListDto teamListDto = ResTeamListDto.fromEntity(teamList);
+        return teamListDto;
+    }
+
+    @Override
+    public ResTeamListDto findAllTeamsByTeamId(Integer teamId) {
+        List<Team> teamList = teamRepo.findTeamsByTeamId(teamId);
+        ResTeamListDto teamListDto = ResTeamListDto.fromEntity(teamList);
+        return teamListDto;
     }
 
     @Override
@@ -72,7 +87,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamMemberDto> getTeamMembersByTeamId(Integer teamId) {
-        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamId(teamId);
+        List<TeamMember> teamMembers = teamMemberRepo.findByTeam_TeamIdOrderByCreatedAtDesc(teamId);
         return teamMembers.stream().map(TeamMemberDto::fromEntity).toList();
     }
 
